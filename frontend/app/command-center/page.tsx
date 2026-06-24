@@ -177,27 +177,6 @@ export default function CommandCenterPage() {
               </div>
             </BentoWrapper>
 
-            {/* Card 2: AI Copilot Preview (colspan-2) */}
-            <BentoWrapper href="/ai-copilot" className="lg:col-span-2 flex flex-col justify-between">
-              <div className="flex items-start justify-between">
-                <div>
-                  <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest font-mono-tech">Assistant Terminal</span>
-                  <h3 className="text-base font-bold text-slate-800 mt-1">Factory Copilot Summary</h3>
-                </div>
-                <Bot className="h-5 w-5 text-[#0EA5E9]" />
-              </div>
-              <div className="my-3 bg-[#EAF6FF]/30 border border-slate-100 p-4 rounded-xl">
-                <span className="text-[8px] font-bold uppercase tracking-wider text-slate-400 font-mono-tech">Copilot diagnostics:</span>
-                <p className="text-xs text-slate-650 mt-1 leading-relaxed">
-                  Overall plant health index is at <span className="text-[#0EA5E9] font-bold">{plantOee}%</span>. {criticalCount > 0 ? "Critical anomaly active on plant conveyor. Inspect assembly joint." : "All monitored nodes are performing within parameters."}
-                </p>
-              </div>
-              <div className="text-[9px] font-bold text-slate-500 uppercase tracking-wider border-t border-slate-100 pt-3 flex justify-between">
-                <span>Assistant streaming online</span>
-                <span className="text-[#0EA5E9] font-mono-tech">Chat Console →</span>
-              </div>
-            </BentoWrapper>
-
             {/* Card 3: Machines Digital Assets */}
             <BentoWrapper href="/machines" className="flex flex-col justify-between">
               <div className="flex items-start justify-between">

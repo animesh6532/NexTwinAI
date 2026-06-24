@@ -357,27 +357,6 @@ export default function FactoryHealthPage() {
             </div>
           </BentoWrapper>
 
-          {/* Card 14: AI Copilot (colspan-2) */}
-          <BentoWrapper href="/ai-copilot" className="lg:col-span-2 flex flex-col justify-between">
-            <div className="flex items-start justify-between">
-              <div>
-                <span className="metric-label">INTELLIGENCE TERMINAL</span>
-                <h3 className="text-sm font-extrabold text-slate-800 uppercase tracking-wider mt-1">AI Copilot Chat Summary</h3>
-              </div>
-              <Bot className="h-5 w-5 text-blue-600" />
-            </div>
-            <div className="my-3.5 bg-slate-50 border border-slate-100 p-3 rounded-xl">
-              <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono-tech">Copilot summary:</div>
-              <div className="text-xs text-slate-600 mt-1.5 font-medium leading-relaxed">
-                Overall plant OEE is at <span className="font-bold text-slate-800">{overallOee}%</span>. {criticalStates.length > 0 ? "Inspect critical assembly joints." : "All systems nominal."}
-              </div>
-            </div>
-            <div className="text-[10px] font-bold text-slate-400 uppercase border-t border-slate-100 pt-3 flex justify-between">
-              <span>AI assistant floating:</span>
-              <span className="text-blue-600 font-mono-tech font-bold hover:underline">Launch copilot →</span>
-            </div>
-          </BentoWrapper>
-
         </div>
       )}
     </PageFrame>

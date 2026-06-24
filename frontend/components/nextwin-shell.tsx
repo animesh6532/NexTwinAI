@@ -49,7 +49,6 @@ export type NavItem = {
   description: string;
 };
 
-// Re-structured items mapping to the requested floating dock layout
 export const navItems: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: Home, description: "Live platform, machine, and alert status" },
   { label: "Digital Twin", href: "/digital-twin", icon: Factory, description: "Factory layout and machine state layer" },
@@ -234,36 +233,69 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
       {/* Light mesh gradient background */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none light-industrial-mesh" />
 
-      <div className="relative z-10 w-full min-h-screen flex flex-col pt-6">
+      <div className="relative z-10 w-full min-h-screen flex flex-col">
         
-        {/* Minimal Top Header - branding & actions */}
+        {/* ONE SINGLE FLOATING NAVIGATION DOCK - Positioned at top: 20px, left: 50% */}
         {!hideHeader && (
-          <div className="sticky top-4 z-40 w-full max-w-[1200px] mx-auto px-4">
-            <header className="flex h-[56px] w-full items-center justify-between rounded-full border border-white/60 bg-white/40 px-6 shadow-lg backdrop-blur-2xl transition-all duration-300">
+          <div className="fixed top-5 left-1/2 -translate-x-1/2 z-[9999] max-w-[95vw] w-fit">
+            
+            {/* Desktop Dock View */}
+            <div className="hidden lg:flex h-[58px] items-center gap-1.5 rounded-full border border-white/60 bg-white/40 px-5 shadow-2xl backdrop-blur-2xl glass-nav-container">
               
-              {/* Left Logo Section: Small Icon only, No Subtitle, No Extra Text */}
-              <Link href="/" className="flex items-center gap-2.5 shrink-0" aria-label="NexTwin AI home">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-[#00AEEF] to-[#38BDF8] text-white shadow-md">
-                  <Factory className="h-4 w-4" />
-                </div>
-                <span className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-900 font-mono-tech">
-                  NEXTWIN AI
-                </span>
-              </Link>
+              {/* Navigation Items (Single horizontal line, mixed case, no wrapping) */}
+              <div className="flex items-center gap-1">
+                {navItems.map((item) => {
+                  const active = pathname === item.href;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={cx(
+                        "relative rounded-full px-3.5 py-1.5 text-[10.5px] font-bold tracking-tight transition-all duration-250 flex items-center gap-1.5 select-none",
+                        active 
+                          ? "text-[#00AEEF] font-black scale-105 shadow-[0_0_16px_rgba(0,174,239,0.18)]" 
+                          : "text-slate-600 hover:text-slate-950 hover:-translate-y-0.5 hover:scale-102 hover:shadow-[0_0_12px_rgba(56,189,248,0.15)] hover:border-[#38BDF8]/20"
+                      )}
+                    >
+                      {active && (
+                        <>
+                          {/* Glow background */}
+                          <motion.div
+                            layoutId="active-pill-glow"
+                            className="absolute inset-0 rounded-full bg-gradient-to-r from-[#00AEEF]/10 to-[#38BDF8]/10 border border-[#00AEEF]/20 shadow-[0_0_12px_rgba(0,174,239,0.15)] pointer-events-none"
+                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                          />
+                          {/* Underline */}
+                          <motion.div
+                            layoutId="active-pill-line"
+                            className="absolute bottom-0.5 left-1/2 -translate-x-1/2 h-[2px] w-4 rounded-full bg-gradient-to-r from-[#00AEEF] to-[#38BDF8]"
+                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                          />
+                        </>
+                      )}
+                      <item.icon className={cx("h-3.5 w-3.5 relative z-10", active ? "text-[#00AEEF]" : "text-slate-500")} />
+                      <span className="relative z-10">{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
 
-              {/* Right Controls Section */}
-              <div className="flex items-center gap-2">
-                {/* Universal Search Trigger */}
+              {/* Vertical Glass Divider */}
+              <div className="h-6 w-[1.5px] bg-slate-900/10 mx-1.5" />
+
+              {/* Action items inside same container */}
+              <div className="flex items-center gap-2 relative">
+                
+                {/* Universal Search Button */}
                 <button
-                  className="flex h-8 items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-3.5 text-[9px] font-bold text-slate-500 shadow-sm hover:border-[#00AEEF]/20 hover:text-slate-800 transition-colors"
                   onClick={() => setCommandOpen(true)}
-                  aria-label="Open command palette"
+                  className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-slate-900/5 hover:-translate-y-0.5 hover:scale-105 text-slate-500 hover:text-[#00AEEF] transition duration-200"
+                  aria-label="Universal Search"
                 >
-                  <Search className="h-3.5 w-3.5 text-[#00AEEF]" />
-                  <span className="hidden md:inline font-mono-tech">Ctrl K</span>
+                  <Search className="h-4.5 w-4.5 text-[#00AEEF]" />
                 </button>
 
-                {/* Notification Center */}
+                {/* Notifications Bell */}
                 <div className="relative">
                   <button
                     onClick={() => {
@@ -274,12 +306,12 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
                       }
                     }}
                     className={cx(
-                      "flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white/70 text-slate-500 hover:text-[#00AEEF] hover:border-[#00AEEF]/20 transition-all",
-                      notificationPanelOpen && "border-[#00AEEF]/30 text-[#00AEEF] bg-[#00AEEF]/5"
+                      "flex h-8 w-8 items-center justify-center rounded-full hover:bg-slate-900/5 hover:-translate-y-0.5 hover:scale-105 text-slate-500 hover:text-[#00AEEF] transition duration-200",
+                      notificationPanelOpen && "text-[#00AEEF] bg-[#00AEEF]/5"
                     )}
-                    aria-label="Notifications Panel"
+                    aria-label="Notifications Dropdown"
                   >
-                    <Bell className="h-4 w-4" />
+                    <Bell className="h-4.5 w-4.5" />
                     {unreadCount > 0 && (
                       <span className="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[7px] font-black text-white ring-2 ring-white animate-pulse">
                         {unreadCount}
@@ -298,15 +330,15 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
                   </AnimatePresence>
                 </div>
 
-                {/* Profile Controls */}
+                {/* Profile Avatar */}
                 <div className="relative">
                   <button
                     onClick={() => {
                       setProfileMenuOpen(!profileMenuOpen);
                       setNotificationPanelOpen(false);
                     }}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white/70 overflow-hidden shadow-sm hover:border-[#00AEEF]/30 transition-all"
-                    aria-label="User profile menu"
+                    className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden border border-slate-200/60 bg-white/70 hover:border-[#00AEEF]/40 hover:-translate-y-0.5 hover:scale-105 transition duration-200 shadow-sm"
+                    aria-label="Profile Options"
                   >
                     <div className="h-full w-full bg-gradient-to-tr from-[#00AEEF] to-[#60A5FA] flex items-center justify-center text-white text-[9px] font-black uppercase tracking-wider font-mono-tech">
                       OP
@@ -320,29 +352,37 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
                   </AnimatePresence>
                 </div>
 
-                {/* Quick settings icon */}
-                <Link
-                  href="/settings"
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white/70 text-slate-500 hover:text-[#00AEEF] hover:border-[#00AEEF]/20 transition-colors shadow-sm"
-                  aria-label="Settings panel"
-                >
-                  <SettingsIcon className="h-4 w-4" />
-                </Link>
+              </div>
 
-                {/* Mobile Menu Toggle */}
+            </div>
+
+            {/* Compact Mobile Dock View */}
+            <div className="lg:hidden flex h-[48px] items-center justify-between gap-6 rounded-full border border-white/60 bg-white/40 px-4 shadow-xl backdrop-blur-2xl glass-nav-container w-[310px]">
+              <Link href="/" className="flex items-center gap-2 shrink-0">
+                <Factory className="h-4 w-4 text-[#00AEEF]" />
+                <span className="text-[9px] font-black uppercase tracking-wider font-mono-tech">NEXTWIN</span>
+              </Link>
+              <div className="flex items-center gap-2">
                 <button
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white/70 text-slate-500 hover:text-slate-850 lg:hidden"
+                  onClick={() => setCommandOpen(true)}
+                  className="h-7 w-7 flex items-center justify-center rounded-full hover:bg-slate-900/5 text-[#00AEEF]"
+                >
+                  <Search className="h-4 w-4" />
+                </button>
+                <button
                   onClick={() => setMobileOpen(true)}
+                  className="h-7 w-7 flex items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 hover:text-slate-850"
                   aria-label="Open mobile navigation"
                 >
                   <Menu className="h-4 w-4" />
                 </button>
               </div>
-            </header>
+            </div>
+
           </div>
         )}
 
-        {/* Global Components */}
+        {/* Global Overlays */}
         <CommandPalette />
         <MobileNavigation open={mobileOpen} onClose={() => setMobileOpen(false)} />
         <ToastOverlay toasts={toasts} removeToast={removeToast} />
@@ -352,114 +392,8 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
           {children}
         </div>
 
-        {/* Center Navigation: Futuristic 2-Row Floating Dock centered at the bottom of the screen */}
-        {!hideHeader && (
-          <NavigationDock />
-        )}
-
         {/* Floating AI Copilot Assistant */}
         <FloatingCopilot />
-      </div>
-    </div>
-  );
-}
-
-/* ========================================================
-   FUTURISTIC 2-ROW FLOATING DOCK COMPONENT (Vision Pro UI)
-   ======================================================== */
-function NavigationDock() {
-  const pathname = usePathname();
-
-  // Split into the 2 requested rows
-  const row1 = [
-    { label: "Dashboard", href: "/dashboard", icon: Home },
-    { label: "Digital Twin", href: "/digital-twin", icon: Factory },
-    { label: "Machines", href: "/machines", icon: Boxes },
-    { label: "Sensors", href: "/sensors", icon: Radio },
-  ];
-
-  const row2 = [
-    { label: "Maintenance", href: "/predictive-maintenance", icon: BrainCircuit },
-    { label: "Anomaly", href: "/anomaly-center", icon: AlertTriangle },
-    { label: "Simulation", href: "/simulation-center", icon: Play },
-    { label: "Reports", href: "/reports", icon: FileText },
-  ];
-
-  return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 max-w-[95vw] w-fit hidden lg:block">
-      <div className="flex flex-col gap-1.5 p-2 rounded-[28px] border border-white/60 bg-white/40 shadow-2xl backdrop-blur-2xl glass-nav-container items-center">
-        {/* Row 1 */}
-        <div className="flex items-center gap-1">
-          {row1.map((item) => {
-            const active = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cx(
-                  "relative rounded-full px-4 py-2 text-[10px] font-bold uppercase tracking-wider transition-all duration-250 glass-nav-pill flex items-center gap-1.5",
-                  active ? "text-[#00AEEF] font-black" : "text-slate-600 hover:text-slate-950"
-                )}
-              >
-                {active && (
-                  <>
-                    {/* Active highlight pill background */}
-                    <motion.div
-                      layoutId="dock-active-pill"
-                      className="absolute inset-0 rounded-full bg-[#00AEEF]/5 border border-[#00AEEF]/10 shadow-[0_0_12px_rgba(0,174,239,0.15)] pointer-events-none"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                    {/* Active bottom line indicator */}
-                    <motion.div
-                      layoutId="dock-active-underline"
-                      className="absolute bottom-0.5 left-1/2 -translate-x-1/2 h-[2px] w-4 rounded-full bg-gradient-to-r from-[#00AEEF] to-[#38BDF8]"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  </>
-                )}
-                <item.icon className={cx("h-3.5 w-3.5 relative z-10", active ? "text-[#00AEEF]" : "text-slate-500")} />
-                <span className="relative z-10">{item.label}</span>
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* Subtle Horizontal Divider */}
-        <div className="h-[1px] w-[92%] bg-slate-900/5" />
-
-        {/* Row 2 */}
-        <div className="flex items-center gap-1">
-          {row2.map((item) => {
-            const active = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cx(
-                  "relative rounded-full px-4 py-2 text-[10px] font-bold uppercase tracking-wider transition-all duration-250 glass-nav-pill flex items-center gap-1.5",
-                  active ? "text-[#00AEEF] font-black" : "text-slate-600 hover:text-slate-950"
-                )}
-              >
-                {active && (
-                  <>
-                    <motion.div
-                      layoutId="dock-active-pill"
-                      className="absolute inset-0 rounded-full bg-[#00AEEF]/5 border border-[#00AEEF]/10 shadow-[0_0_12px_rgba(0,174,239,0.15)] pointer-events-none"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                    <motion.div
-                      layoutId="dock-active-underline"
-                      className="absolute bottom-0.5 left-1/2 -translate-x-1/2 h-[2px] w-4 rounded-full bg-gradient-to-r from-[#00AEEF] to-[#38BDF8]"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  </>
-                )}
-                <item.icon className={cx("h-3.5 w-3.5 relative z-10", active ? "text-[#00AEEF]" : "text-slate-500")} />
-                <span className="relative z-10">{item.label}</span>
-              </Link>
-            );
-          })}
-        </div>
       </div>
     </div>
   );
@@ -470,14 +404,14 @@ function NavigationDock() {
    ======================================================== */
 function ToastOverlay({ toasts, removeToast }: { toasts: any[]; removeToast: (id: string) => void }) {
   return (
-    <div className="fixed top-6 right-6 z-[100] flex flex-col gap-3 w-80 max-w-[calc(100vw-2rem)] pointer-events-none">
+    <div className="fixed top-24 right-6 z-[100] flex flex-col gap-3 w-80 max-w-[calc(100vw-2rem)] pointer-events-none">
       <AnimatePresence>
         {toasts.map((t) => {
           const typeColors = {
-            critical: "border-red-200 bg-red-50/95 text-red-800",
-            warning: "border-amber-200 bg-amber-50/95 text-amber-800",
-            success: "border-emerald-200 bg-emerald-50/95 text-emerald-800",
-            info: "border-blue-200 bg-blue-50/95 text-blue-800",
+            critical: "border-red-200 bg-red-50/95 text-red-805",
+            warning: "border-amber-200 bg-amber-50/95 text-amber-805",
+            success: "border-emerald-200 bg-emerald-50/95 text-emerald-805",
+            info: "border-blue-200 bg-blue-50/95 text-blue-805",
           };
           const emoji = {
             critical: "🚨",
@@ -545,10 +479,10 @@ function NotificationDropdown({
     return {
       critical: notifications.filter((n) => n.category === "critical"),
       warning: notifications.filter((n) => n.category === "warning"),
-      system: notifications.filter((n) => n.category === "system"),
-      prediction: notifications.filter((n) => n.category === "prediction"),
       maintenance: notifications.filter((n) => n.category === "maintenance"),
       simulation: notifications.filter((n) => n.category === "simulation"),
+      system: notifications.filter((n) => n.category === "system"),
+      prediction: notifications.filter((n) => n.category === "prediction"),
     };
   }, [notifications]);
 
@@ -560,7 +494,7 @@ function NotificationDropdown({
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
-      className="absolute right-0 mt-3 w-88 max-w-[calc(100vw-2rem)] rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl glass-dropdown-panel z-50 overflow-hidden"
+      className="absolute right-0 mt-5 w-88 max-w-[calc(100vw-2rem)] rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl glass-dropdown-panel z-50 overflow-hidden"
     >
       <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
         <h4 className="text-xs font-black uppercase tracking-wider text-slate-800">Notification Feed</h4>
@@ -574,7 +508,7 @@ function NotificationDropdown({
         )}
       </div>
 
-      <div className="space-y-4 max-h-[360px] overflow-y-auto pr-1">
+      <div className="space-y-4 max-h-[350px] overflow-y-auto pr-1">
         {hasAny ? (
           Object.keys(grouped).map((cat) => {
             const list = grouped[cat as keyof typeof grouped] || [];
@@ -583,10 +517,10 @@ function NotificationDropdown({
             const categoryHeaders = {
               critical: "🚨 Critical Alerts",
               warning: "⚠️ Warnings",
-              system: "⚙️ System Events",
-              prediction: "🧠 Predictions",
               maintenance: "🔧 Maintenance Events",
               simulation: "📊 Simulation Results",
+              system: "⚙️ System Events",
+              prediction: "🧠 Prediction Events",
             };
 
             return (
@@ -601,7 +535,7 @@ function NotificationDropdown({
                       className="rounded-xl border border-slate-100 bg-slate-50/50 p-2.5 text-xs text-slate-700 hover:bg-slate-50 transition"
                     >
                       <div className="font-extrabold text-slate-900">{item.title}</div>
-                      <div className="text-[10px] text-slate-500 mt-0.5 leading-normal">{item.description}</div>
+                      <div className="text-[10px] text-slate-505 mt-0.5 leading-normal">{item.description}</div>
                     </div>
                   ))}
                 </div>
@@ -619,10 +553,11 @@ function NotificationDropdown({
 }
 
 /* ========================================================
-   PROFILE MINIMAL SLIDE-DOWN DROPDOWN MENU
+   PROFILE DROPDOWN MENU
    ======================================================== */
 function ProfileDropdown({ onClose }: { onClose: () => void }) {
   const menuRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -640,28 +575,46 @@ function ProfileDropdown({ onClose }: { onClose: () => void }) {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
-      className="absolute right-0 mt-3 w-48 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl glass-dropdown-panel z-50 text-xs font-semibold text-slate-700"
+      className="absolute right-0 mt-5 w-48 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl glass-dropdown-panel z-50 text-xs font-semibold text-slate-700"
     >
       <div className="px-2 py-1.5 border-b border-slate-100 mb-1.5">
         <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Operator Profile</span>
         <span className="block font-extrabold text-slate-800 mt-0.5 truncate">sys_operator_1</span>
       </div>
-      <Link
-        href="/settings"
-        onClick={onClose}
+      
+      <button
+        onClick={() => { router.push("/profile"); onClose(); }}
         className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 hover:bg-slate-50 text-left transition"
       >
-        <SettingsIcon className="h-3.5 w-3.5 text-[#00AEEF]" />
-        <span>OS Settings</span>
-      </Link>
-      <Link
-        href="/"
-        onClick={onClose}
+        <span>Profile</span>
+      </button>
+      <button
+        onClick={() => { router.push("/settings"); onClose(); }}
+        className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 hover:bg-slate-50 text-left transition"
+      >
+        <span>Preferences</span>
+      </button>
+      <button
+        onClick={() => { router.push("/settings"); onClose(); }}
+        className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 hover:bg-slate-50 text-left transition"
+      >
+        <span>Theme (Light)</span>
+      </button>
+      <button
+        onClick={() => { router.push("/settings"); onClose(); }}
+        className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 hover:bg-slate-50 text-left transition"
+      >
+        <span>Settings</span>
+      </button>
+      
+      <div className="h-[1px] bg-slate-100 my-1" />
+
+      <button
+        onClick={() => { router.push("/"); onClose(); }}
         className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 hover:bg-slate-50 text-left text-red-500 transition"
       >
-        <VolumeX className="h-3.5 w-3.5" />
-        <span>Mute Interface</span>
-      </Link>
+        <span>Logout</span>
+      </button>
     </motion.div>
   );
 }
@@ -1302,7 +1255,7 @@ function FloatingCopilot() {
 }
 
 /* ========================================================
-   PAGE FRAME WRAPPER (Includes bottom padding for Dock)
+   PAGE FRAME WRAPPER
    ======================================================== */
 export function PageFrame({
   title,
@@ -1317,7 +1270,7 @@ export function PageFrame({
 }) {
   return (
     <AppShell>
-      <main className="mx-auto w-full max-w-[1200px] px-4 pt-8 pb-32 sm:px-6 relative z-10">
+      <main className="mx-auto w-full max-w-[1200px] px-4 pt-28 pb-12 sm:px-6 relative z-10">
         <div className="mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
             <div className="metric-label text-[#00AEEF] font-bold">{kicker}</div>
