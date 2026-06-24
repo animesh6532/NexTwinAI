@@ -235,9 +235,14 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
 
       <div className="relative z-10 w-full min-h-screen flex flex-col">
         
-        {/* ONE SINGLE FLOATING NAVIGATION DOCK - Positioned at top: 20px, left: 50% */}
+        {/* Main Content Body (No top header, content fills space, with bottom dock space padding) */}
+        <div className="w-full flex-1">
+          {children}
+        </div>
+
+        {/* ONE SINGLE FLOATING BOTTOM NAVIGATION DOCK - Positioned at bottom: 24px, left: 50% */}
         {!hideHeader && (
-          <div className="fixed top-5 left-1/2 -translate-x-1/2 z-[9999] max-w-[95vw] w-fit">
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] max-w-[95vw] w-fit">
             
             {/* Desktop Dock View */}
             <div className="hidden lg:flex h-[58px] items-center gap-1.5 rounded-full border border-white/60 bg-white/40 px-5 shadow-2xl backdrop-blur-2xl glass-nav-container">
@@ -254,7 +259,7 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
                         "relative rounded-full px-3.5 py-1.5 text-[10.5px] font-bold tracking-tight transition-all duration-250 flex items-center gap-1.5 select-none",
                         active 
                           ? "text-[#00AEEF] font-black scale-105 shadow-[0_0_16px_rgba(0,174,239,0.18)]" 
-                          : "text-slate-600 hover:text-slate-950 hover:-translate-y-0.5 hover:scale-102 hover:shadow-[0_0_12px_rgba(56,189,248,0.15)] hover:border-[#38BDF8]/20"
+                          : "text-slate-655 hover:text-slate-950 hover:-translate-y-0.5 hover:scale-102 hover:shadow-[0_0_12px_rgba(56,189,248,0.15)] hover:border-[#38BDF8]/20"
                       )}
                     >
                       {active && (
@@ -295,7 +300,7 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
                   <Search className="h-4.5 w-4.5 text-[#00AEEF]" />
                 </button>
 
-                {/* Notifications Bell */}
+                {/* Notifications Bell (Pops UP directly above the dock) */}
                 <div className="relative">
                   <button
                     onClick={() => {
@@ -330,7 +335,7 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
                   </AnimatePresence>
                 </div>
 
-                {/* Profile Avatar */}
+                {/* Profile Avatar (Pops UP directly above the dock) */}
                 <div className="relative">
                   <button
                     onClick={() => {
@@ -371,7 +376,7 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
                 </button>
                 <button
                   onClick={() => setMobileOpen(true)}
-                  className="h-7 w-7 flex items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 hover:text-slate-850"
+                  className="h-7 w-7 flex items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 hover:text-slate-855"
                   aria-label="Open mobile navigation"
                 >
                   <Menu className="h-4 w-4" />
@@ -387,11 +392,6 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
         <MobileNavigation open={mobileOpen} onClose={() => setMobileOpen(false)} />
         <ToastOverlay toasts={toasts} removeToast={removeToast} />
 
-        {/* Main Content Body */}
-        <div className="w-full flex-1">
-          {children}
-        </div>
-
         {/* Floating AI Copilot Assistant */}
         <FloatingCopilot />
       </div>
@@ -404,7 +404,7 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
    ======================================================== */
 function ToastOverlay({ toasts, removeToast }: { toasts: any[]; removeToast: (id: string) => void }) {
   return (
-    <div className="fixed top-24 right-6 z-[100] flex flex-col gap-3 w-80 max-w-[calc(100vw-2rem)] pointer-events-none">
+    <div className="fixed top-6 right-6 z-[100] flex flex-col gap-3 w-80 max-w-[calc(100vw-2rem)] pointer-events-none">
       <AnimatePresence>
         {toasts.map((t) => {
           const typeColors = {
@@ -451,7 +451,7 @@ function ToastOverlay({ toasts, removeToast }: { toasts: any[]; removeToast: (id
 }
 
 /* ========================================================
-   SLIDE-DOWN NOTIFICATIONS DROPDOWN PANEL
+   SLIDE-UP NOTIFICATIONS DROPDOWN PANEL (Pops UP above bottom dock)
    ======================================================== */
 function NotificationDropdown({
   notifications,
@@ -491,10 +491,10 @@ function NotificationDropdown({
   return (
     <motion.div
       ref={dropdownRef}
-      initial={{ opacity: 0, y: 15 }}
+      initial={{ opacity: 0, y: -15 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 10 }}
-      className="absolute right-0 mt-5 w-88 max-w-[calc(100vw-2rem)] rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl glass-dropdown-panel z-50 overflow-hidden"
+      exit={{ opacity: 0, y: -10 }}
+      className="absolute right-0 bottom-full mb-4 w-88 max-w-[calc(100vw-2rem)] rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl glass-dropdown-panel z-50 overflow-hidden"
     >
       <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
         <h4 className="text-xs font-black uppercase tracking-wider text-slate-800">Notification Feed</h4>
@@ -553,7 +553,7 @@ function NotificationDropdown({
 }
 
 /* ========================================================
-   PROFILE DROPDOWN MENU
+   PROFILE DROPDOWN MENU (Pops UP above bottom dock)
    ======================================================== */
 function ProfileDropdown({ onClose }: { onClose: () => void }) {
   const menuRef = useRef<HTMLDivElement>(null);
@@ -572,10 +572,10 @@ function ProfileDropdown({ onClose }: { onClose: () => void }) {
   return (
     <motion.div
       ref={menuRef}
-      initial={{ opacity: 0, y: 15 }}
+      initial={{ opacity: 0, y: -15 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 10 }}
-      className="absolute right-0 mt-5 w-48 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl glass-dropdown-panel z-50 text-xs font-semibold text-slate-700"
+      exit={{ opacity: 0, y: -10 }}
+      className="absolute right-0 bottom-full mb-4 w-48 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl glass-dropdown-panel z-50 text-xs font-semibold text-slate-700"
     >
       <div className="px-2 py-1.5 border-b border-slate-100 mb-1.5">
         <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Operator Profile</span>
@@ -873,7 +873,7 @@ function CommandPalette() {
                           {item.category}
                         </span>
                       </span>
-                      <span className="block truncate text-xs text-slate-500 mt-1 leading-none">
+                      <span className="block truncate text-xs text-slate-505 mt-1 leading-none">
                         {item.description}
                       </span>
                     </span>
@@ -1083,7 +1083,7 @@ function FloatingCopilot() {
   }, [open, history.data]);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div className="fixed bottom-24 right-6 z-50 flex flex-col items-end">
       <AnimatePresence>
         {open && (
           <motion.div
@@ -1124,7 +1124,7 @@ function FloatingCopilot() {
               </div>
               <div className="border-x border-slate-150">
                 <span>Active Alerts: </span>
-                <strong className={summary.alerts > 0 ? "text-red-500 font-black animate-pulse" : "text-slate-850"}>
+                <strong className={summary.alerts > 0 ? "text-red-500 font-black animate-pulse" : "text-slate-855"}>
                   {summary.alerts}
                 </strong>
               </div>
@@ -1145,7 +1145,7 @@ function FloatingCopilot() {
                     <h5 className="text-[11px] font-black text-slate-900 uppercase tracking-wider mt-3">
                       Industrial Copilot
                     </h5>
-                    <p className="text-[10px] text-slate-500 mt-2 leading-relaxed">
+                    <p className="text-[10px] text-slate-505 mt-2 leading-relaxed">
                       Aware of the active page <strong>{pathname}</strong>, active alerts, and factory inventory nodes.
                     </p>
                   </div>
@@ -1255,7 +1255,7 @@ function FloatingCopilot() {
 }
 
 /* ========================================================
-   PAGE FRAME WRAPPER
+   PAGE FRAME WRAPPER (pt-8 top, pb-32 bottom to avoid Dock)
    ======================================================== */
 export function PageFrame({
   title,
@@ -1270,7 +1270,7 @@ export function PageFrame({
 }) {
   return (
     <AppShell>
-      <main className="mx-auto w-full max-w-[1200px] px-4 pt-28 pb-12 sm:px-6 relative z-10">
+      <main className="mx-auto w-full max-w-[1200px] px-4 pt-8 pb-32 sm:px-6 relative z-10">
         <div className="mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
             <div className="metric-label text-[#00AEEF] font-bold">{kicker}</div>
