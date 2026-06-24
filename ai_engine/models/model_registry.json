@@ -1,0 +1,65 @@
+{
+  "models": [
+    {
+      "model_name": "anomaly_model",
+      "version": "1.0.0",
+      "training_date": "2026-06-23T15:14:18.579655+00:00",
+      "dataset": "datasets/processed/cleaned_synthetic_factory_data.csv",
+      "artifact_path": "ai_engine/models/anomaly/anomaly_model.pkl",
+      "metrics": {
+        "isolation_forest_f1": 0.576923,
+        "ocsvm_f1": 0.434783,
+        "autoencoder_f1": 0.625,
+        "autoencoder_threshold": 1.620247
+      }
+    },
+    {
+      "model_name": "bottleneck_model",
+      "version": "1.0.0",
+      "training_date": "2026-06-23T17:19:34.081048+00:00",
+      "dataset": "datasets/processed/engineered_mfg_bottleneck.csv",
+      "artifact_path": "ai_engine/models/bottleneck/bottleneck_model.pkl",
+      "metrics": {
+        "bottleneck_r2": 0.996926,
+        "delay_r2": 0.999765,
+        "congestion_roc_auc": 1.0
+      }
+    },
+    {
+      "model_name": "energy_model",
+      "version": "1.0.0",
+      "training_date": "2026-06-23T15:14:11.947303+00:00",
+      "dataset": "datasets/processed/engineered_energy.csv",
+      "artifact_path": "ai_engine/models/energy/energy_model.pkl",
+      "metrics": {
+        "heating_load_r2": 0.922468,
+        "cooling_load_r2": 0.937615,
+        "waste_r2": 0.961997,
+        "optimization_score_r2": 0.969383
+      }
+    },
+    {
+      "model_name": "forecasting_model",
+      "version": "1.0.0",
+      "training_date": "2026-06-23T15:14:20.387646+00:00",
+      "dataset": "datasets/processed/engineered_mfg_bottleneck.csv; datasets/processed/engineered_energy.csv",
+      "artifact_path": "ai_engine/models/forecasting/forecasting_model.pkl",
+      "metrics": {
+        "prophet_fitted": true,
+        "xgb_lag_model_trained": true,
+        "lstm_final_mse": 0.053334
+      }
+    },
+    {
+      "model_name": "health_model",
+      "version": "1.0.0",
+      "training_date": "2026-06-23T15:14:04.177646+00:00",
+      "dataset": "datasets/processed/engineered_machine_health.csv",
+      "artifact_path": "ai_engine/models/health/health_model.pkl",
+      "metrics": {
+        "best_model": "Random Forest",
+        "f1_score": 0.998058
+      }
+    }
+  ]
+}

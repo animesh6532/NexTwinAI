@@ -1,0 +1,140 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Python Build Files
+build/
+dist/
+*.egg-info/
+
+# Database
+*.sqlite3
+*.db
+
+# Logs
+*.log
+logs/
+
+# Model Files (Optional)
+*.joblib
+*.h5
+*.pt
+*.pth
+
+# =========================
+# Node.js / Next.js
+# =========================
+node_modules/
+
+.next/
+out/
+
+# Package Managers
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build Outputs
+dist/
+build/
+
+# =========================
+# Dataset Files
+# =========================
+
+# Raw Datasets
+datasets/raw/
+
+# Processed Datasets
+datasets/processed/
+
+# Feature Engineered Data
+datasets/features/
+
+# Large Data Files
+*.csv
+*.xlsx
+*.xls
+*.parquet
+*.feather
+*.zip
+*.7z
+*.tar.gz
+
+# Keep folder structure
+!datasets/raw/.gitkeep
+!datasets/processed/.gitkeep
+!datasets/features/.gitkeep
+
+# =========================
+# AI Models
+# =========================
+models/
+ai-engine/**/model.joblib
+!ai_engine/models/
+!ai_engine/models/**
+
+# =========================
+# Deployment
+# =========================
+.vercel/
+.railway/
+.aws/
+
+# Docker
+docker-compose.override.yml
+
+# =========================
+# IDE
+# =========================
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Temporary Files
+# =========================
+tmp/
+temp/
+.cache/
+
+# =========================
+# Coverage Reports
+# =========================
+htmlcov/
+.coverage
+.pytest_cache/
+
+# =========================
+# Misc
+# =========================
+*.bak
+*.swp
+*.swo

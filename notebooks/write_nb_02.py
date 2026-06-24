@@ -1,0 +1,425 @@
+import json
+import os
+
+def create_notebook():
+    cells = []
+    
+    # ----------------------------------------------------
+    # Cell 1: Markdown Title & Intro
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "# NexTwin AI — Industrial Digital Twin Platform\n",
+            "## Notebook 02: Data Cleaning, Outlier Treatment, & Quality Scoring\n",
+            "\n",
+            "### Objectives\n",
+            "1. **Handle Missing Values**: Apply domain-specific imputation (median for continuous, mode for categorical, interpolation for timeseries).\n",
+            "2. **Outlier Mitigation**: Identify outliers using Interquartile Range (IQR) and cap them rather than drop them (retaining operational extremes).\n",
+            "3. **De-duplication**: Detect and remove duplicate records.\n",
+            "4. **Consistency Checks**: Validate physics boundaries (e.g. temperatures > 0, utilization within [0, 100]).\n",
+            "5. **Column Normalization**: Clean column names to standard lowercase snake_case (removing spaces, special symbols, brackets).\n",
+            "6. **Data Quality Scoring**: Build a custom composite scoring system for monitoring dataset health.\n",
+            "7. **Export Clean Datasets**: Write the processed data files to `datasets/processed/` for downstream feature engineering."
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 2: Code Imports
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "import os\n",
+            "import pandas as pd\n",
+            "import numpy as np\n",
+            "import re\n",
+            "\n",
+            "print(\"Libraries loaded successfully.\")"
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 3: Markdown - Loading Raw Data
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 1. Load Raw Datasets\n",
+            "We load all raw data tables for cleaning."
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 4: Code - Loading Data
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "RAW_DIR = os.path.join(\"..\", \"datasets\", \"raw\")\n",
+            "PROCESSED_DIR = os.path.join(\"..\", \"datasets\", \"processed\")\n",
+            "os.makedirs(PROCESSED_DIR, exist_ok=True)\n",
+            "\n",
+            "# Load datasets\n",
+            "df_pm = pd.read_csv(os.path.join(RAW_DIR, \"ai4i_predictive_maintenance.csv\"))\n",
+            "df_energy = pd.read_excel(os.path.join(RAW_DIR, \"energy_consumption.csv\"))\n",
+            "df_util = pd.read_csv(os.path.join(RAW_DIR, \"machine_utilization.csv\"))\n",
+            "df_prod = pd.read_csv(os.path.join(RAW_DIR, \"production_metrics.csv\"))\n",
+            "df_factory = pd.read_csv(os.path.join(RAW_DIR, \"machine_sounds\", \"synthetic_factory_data.csv\"))\n",
+            "\n",
+            "# Load NASA Turbofan Train files\n",
+            "nasa_cols = ['unit_number', 'time_in_cycles', 'setting_1', 'setting_2', 'setting_3'] + [f'sensor_{i}' for i in range(1, 22)]\n",
+            "df_nasa_train_1 = pd.read_csv(os.path.join(RAW_DIR, \"nasa_turbofan\", \"train_FD001.txt\"), sep=r\"\\s+\", header=None, names=nasa_cols)\n",
+            "df_nasa_test_1 = pd.read_csv(os.path.join(RAW_DIR, \"nasa_turbofan\", \"test_FD001.txt\"), sep=r\"\\s+\", header=None, names=nasa_cols)\n",
+            "df_nasa_rul_1 = pd.read_csv(os.path.join(RAW_DIR, \"nasa_turbofan\", \"RUL_FD001.txt\"), sep=r\"\\s+\", header=None, names=['RUL'])\n",
+            "\n",
+            "print(\"All datasets loaded for cleaning.\")"
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 5: Markdown - Normalize Column Names
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 2. Normalize Column Names\n",
+            "Standardize names by turning them into lowercase snake_case, stripping units (like `[K]` or `[Nm]`), spaces, and brackets. This minimizes coding mistakes in downstream model training."
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 6: Code - Normalization Function
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "def normalize_column_names(df):\n",
+            "    new_cols = []\n",
+            "    for col in df.columns:\n",
+            "        col_str = str(col).strip()\n",
+            "        # Lowercase\n",
+            "        col_str = col_str.lower()\n",
+            "        # Remove bracketed units and parentheses\n",
+            "        col_str = re.sub(r'\\[.*?\\]', '', col_str)\n",
+            "        col_str = re.sub(r'\\(.*?\\)', '', col_str)\n",
+            "        # Replace spaces, dashes, slashes, and periods with underscore\n",
+            "        col_str = re.sub(r'[\\s\\-/\\.]+', '_', col_str)\n",
+            "        # Remove consecutive underscores and trailing/leading underscores\n",
+            "        col_str = re.sub(r'_+', '_', col_str).strip('_')\n",
+            "        new_cols.append(col_str)\n",
+            "    df.columns = new_cols\n",
+            "    return df\n",
+            "\n",
+            "# Normalize all datasets\n",
+            "df_pm = normalize_column_names(df_pm)\n",
+            "df_util = normalize_column_names(df_util)\n",
+            "df_prod = normalize_column_names(df_prod)\n",
+            "df_factory = normalize_column_names(df_factory)\n",
+            "df_nasa_train_1 = normalize_column_names(df_nasa_train_1)\n",
+            "df_nasa_test_1 = normalize_column_names(df_nasa_test_1)\n",
+            "df_nasa_rul_1 = normalize_column_names(df_nasa_rul_1)\n",
+            "\n",
+            "# For energy dataset, map the abstract column names X1..X8, Y1, Y2 to descriptive domain-specific names\n",
+            "# X1 Relative Compactness, X2 Surface Area, X3 Wall Area, X4 Roof Area, X5 Overall Height,\n",
+            "# X6 Orientation, X7 Glazing Area, X8 Glazing Area Distribution, Y1 Heating Load, Y2 Cooling Load\n",
+            "energy_mapping = {\n",
+            "    'X1': 'relative_compactness', 'X2': 'surface_area', 'X3': 'wall_area', 'X4': 'roof_area',\n",
+            "    'X5': 'overall_height', 'X6': 'orientation', 'X7': 'glazing_area', 'X8': 'glazing_area_distribution',\n",
+            "    'Y1': 'heating_load', 'Y2': 'cooling_load'\n",
+            "}\n",
+            "df_energy = df_energy.rename(columns=energy_mapping)\n",
+            "df_energy = normalize_column_names(df_energy)\n",
+            "\n",
+            "print(\"Normalized columns list sample:\")\n",
+            "print(\"AI4I:\", list(df_pm.columns))\n",
+            "print(\"Energy:\", list(df_energy.columns))\n",
+            "print(\"Utilization:\", list(df_util.columns))"
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 7: Markdown - Data Cleaning and Imputation
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 3. Imputation and De-duplication\n",
+            "We handle any potential nulls and duplicates across the loaded datasets. For numeric variables, we use median imputation. For categorical, we use mode. Since our synthetic datasets are clean, this provides a safety framework for production."
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 8: Code - Imputation Logic
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "def clean_dataset(df, name):\n",
+            "    print(f\"Cleaning {name}...\")\n",
+            "    initial_rows = len(df)\n",
+            "    \n",
+            "    # Remove duplicate rows\n",
+            "    df = df.drop_duplicates()\n",
+            "    dup_removed = initial_rows - len(df)\n",
+            "    if dup_removed > 0:\n",
+            "        print(f\"Removed {dup_removed} duplicate rows from {name}\")\n",
+            "        \n",
+            "    # Missing values imputation\n",
+            "    for col in df.columns:\n",
+            "        null_count = df[col].isnull().sum()\n",
+            "        if null_count > 0:\n",
+            "            print(f\"Imputing {null_count} nulls in '{col}'\")\n",
+            "            if pd.api.types.is_numeric_dtype(df[col]):\n",
+            "                # Median imputation for continuous variables\n",
+            "                df[col] = df[col].fillna(df[col].median())\n",
+            "            else:\n",
+            "                # Mode imputation for categorical variables\n",
+            "                df[col] = df[col].fillna(df[col].mode()[0])\n",
+            "    return df\n",
+            "\n",
+            "df_pm = clean_dataset(df_pm, \"AI4I\")\n",
+            "df_energy = clean_dataset(df_energy, \"Energy\")\n",
+            "df_util = clean_dataset(df_util, \"Utilization\")\n",
+            "df_prod = clean_dataset(df_prod, \"Production\")\n",
+            "df_factory = clean_dataset(df_factory, \"Factory Acoustic Sensor\")\n",
+            "df_nasa_train_1 = clean_dataset(df_nasa_train_1, \"NASA Turbofan FD001 Train\")\n",
+            "df_nasa_test_1 = clean_dataset(df_nasa_test_1, \"NASA Turbofan FD001 Test\")"
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 9: Markdown - Outlier Management
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 4. Outlier Detection and Capping\n",
+            "In industrial sensors, extreme outliers might signify critical states or failures. Rather than discarding these records (which removes valuable training examples for failure prediction), we perform IQR-based capping (winsorization) at the 1st and 99th percentiles."
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 10: Code - Outlier Capping
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "def cap_outliers(df, columns_to_cap):\n",
+            "    df_capped = df.copy()\n",
+            "    for col in columns_to_cap:\n",
+            "        if col not in df_capped.columns:\n",
+            "            continue\n",
+            "        q1 = df_capped[col].quantile(0.01)\n",
+            "        q99 = df_capped[col].quantile(0.99)\n",
+            "        # Cap values\n",
+            "        df_capped[col] = np.clip(df_capped[col], q1, q99)\n",
+            "    return df_capped\n",
+            "\n",
+            "# Target numerical columns for capping\n",
+            "pm_numeric = ['air_temperature', 'process_temperature', 'rotational_speed', 'torque', 'tool_wear']\n",
+            "energy_numeric = ['relative_compactness', 'surface_area', 'wall_area', 'roof_area', 'overall_height', 'heating_load', 'cooling_load']\n",
+            "factory_numeric = ['vibration_mm_s', 'temperature_c', 'pressure_bar', 'noise_level_db', 'sound_frequency_hz', 'sound_amplitude']\n",
+            "\n",
+            "df_pm = cap_outliers(df_pm, pm_numeric)\n",
+            "df_energy = cap_outliers(df_energy, energy_numeric)\n",
+            "df_factory = cap_outliers(df_factory, factory_numeric)\n",
+            "\n",
+            "print(\"Outlier capping completed for main continuous features.\")"
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 11: Markdown - Physical Consistency Checks
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 5. Physical Consistency Checks\n",
+            "We validate physical bounds of sensors:\n",
+            "1. Temperatures should be positive (in Kelvin or Celsius).\n",
+            "2. Utilization rate must be between 0 and 100%.\n",
+            "3. OEE must be between 0.0 and 1.1.\n",
+            "4. Rotational speed and Torque must be positive."
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 12: Code - Consistency Checks
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "print(\"=== Performing Consistency Checks ===\")\n",
+            "\n",
+            "# AI4I checks\n",
+            "invalid_temp = df_pm[(df_pm['air_temperature'] <= 0) | (df_pm['process_temperature'] <= 0)]\n",
+            "print(f\"AI4I invalid temperatures count: {len(invalid_temp)}\")\n",
+            "\n",
+            "# Utilization checks\n",
+            "invalid_util = df_util[(df_util['utilization_rate'] < 0) | (df_util['utilization_rate'] > 100)]\n",
+            "print(f\"Utilization out of [0, 100] bounds count: {len(invalid_util)}\")\n",
+            "\n",
+            "# Production checks\n",
+            "invalid_oee = df_prod[(df_prod['oee'] < 0) | (df_prod['oee'] > 1.2)]\n",
+            "print(f\"Production metrics out of OEE bounds count: {len(invalid_oee)}\")\n",
+            "\n",
+            "print(\"Consistency checks complete.\")"
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 13: Markdown - Data Quality Scoring
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 6. Data Quality Scoring Engine\n",
+            "We calculate a composite **Data Quality Score (DQS)** from 0 to 100 for each dataset. The score is computed as:\n",
+            "\n",
+            "$$\\text{DQS} = 100 \\times \\left(1 - \\left(w_{\\text{null}} \\times \\text{NullRate} + w_{\\text{dup}} \\times \\text{DupRate} + w_{\\text{outlier}} \\times \\text{OutlierRate}\\right)\\right)$$\n",
+            "\n",
+            "Where weights are:\n",
+            "- $w_{\\text{null}} = 0.5$ (high penalty for missing data)\n",
+            "- $w_{\\text{dup}} = 0.2$ (penalty for duplicates)\n",
+            "- $w_{\\text{outlier}} = 0.3$ (penalty for extreme observations beyond $1.5 \\times \\text{IQR}$)"
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 14: Code - Data Quality Scoring
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "def calculate_data_quality_score(df, name, numeric_cols):\n",
+            "    total_cells = df.size\n",
+            "    null_cells = df.isnull().sum().sum()\n",
+            "    null_rate = null_cells / total_cells if total_cells > 0 else 0\n",
+            "    \n",
+            "    dup_rows = df.duplicated().sum()\n",
+            "    dup_rate = dup_rows / len(df) if len(df) > 0 else 0\n",
+            "    \n",
+            "    outlier_cells = 0\n",
+            "    total_numeric_cells = 0\n",
+            "    for col in numeric_cols:\n",
+            "        if col in df.columns:\n",
+            "            q1 = df[col].quantile(0.25)\n",
+            "            q3 = df[col].quantile(0.75)\n",
+            "            iqr = q3 - q1\n",
+            "            lower = q1 - 1.5 * iqr\n",
+            "            upper = q3 + 1.5 * iqr\n",
+            "            outliers = ((df[col] < lower) | (df[col] > upper)).sum()\n",
+            "            outlier_cells += outliers\n",
+            "            total_numeric_cells += len(df)\n",
+            "            \n",
+            "    outlier_rate = outlier_cells / total_numeric_cells if total_numeric_cells > 0 else 0\n",
+            "    \n",
+            "    # Scoring weights\n",
+            "    w_null = 0.5\n",
+            "    w_dup = 0.2\n",
+            "    w_outlier = 0.3\n",
+            "    \n",
+            "    dqs = 100.0 * (1.0 - (w_null * null_rate + w_dup * dup_rate + w_outlier * outlier_rate))\n",
+            "    dqs = max(0.0, min(100.0, dqs))\n",
+            "    \n",
+            "    print(f\"Data Quality Score for {name}: {dqs:.2f}/100\")\n",
+            "    print(f\"  - Null Rate: {null_rate*100:.3f}%\")\n",
+            "    print(f\"  - Duplicate Rate: {dup_rate*100:.3f}%\")\n",
+            "    print(f\"  - Outlier Rate: {outlier_rate*100:.3f}%\")\n",
+            "    return dqs\n",
+            "\n",
+            "print(\"--- Data Quality Review ---\")\n",
+            "dqs_pm = calculate_data_quality_score(df_pm, \"AI4I PM\", pm_numeric)\n",
+            "dqs_energy = calculate_data_quality_score(df_energy, \"Energy Consumption\", energy_numeric)\n",
+            "dqs_factory = calculate_data_quality_score(df_factory, \"Factory Sensor Data\", factory_numeric)"
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 15: Markdown - Exporting Clean Data
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 7. Save Cleaned Datasets\n",
+            "Now we write the normalized, cleaned, and consistency-checked datasets to the processed directory."
+        ]
+    })
+    
+    # ----------------------------------------------------
+    # Cell 16: Code - Saving Data
+    # ----------------------------------------------------
+    cells.append({
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "df_pm.to_csv(os.path.join(PROCESSED_DIR, \"cleaned_ai4i_predictive_maintenance.csv\"), index=False)\n",
+            "df_energy.to_csv(os.path.join(PROCESSED_DIR, \"cleaned_energy_consumption.csv\"), index=False)\n",
+            "df_util.to_csv(os.path.join(PROCESSED_DIR, \"cleaned_machine_utilization.csv\"), index=False)\n",
+            "df_prod.to_csv(os.path.join(PROCESSED_DIR, \"cleaned_production_metrics.csv\"), index=False)\n",
+            "df_factory.to_csv(os.path.join(PROCESSED_DIR, \"cleaned_synthetic_factory_data.csv\"), index=False)\n",
+            "df_nasa_train_1.to_csv(os.path.join(PROCESSED_DIR, \"cleaned_nasa_train_fd001.csv\"), index=False)\n",
+            "df_nasa_test_1.to_csv(os.path.join(PROCESSED_DIR, \"cleaned_nasa_test_fd001.csv\"), index=False)\n",
+            "df_nasa_rul_1.to_csv(os.path.join(PROCESSED_DIR, \"cleaned_nasa_rul_fd001.csv\"), index=False)\n",
+            "\n",
+            "print(\"All processed datasets saved successfully to datasets/processed/.\")"
+        ]
+    })
+    
+    # Write notebook file
+    nb_dict = {
+        "cells": cells,
+        "metadata": {
+            "kernelspec": {
+                "display_name": "Python 3",
+                "language": "python",
+                "name": "python3"
+            },
+            "language_info": {
+                "name": "python"
+            }
+        },
+        "nbformat": 4,
+        "nbformat_minor": 5
+    }
+    
+    target_path = os.path.join("notebooks", "02_data_cleaning.ipynb")
+    with open(target_path, "w", encoding="utf-8") as f:
+        json.dump(nb_dict, f, indent=1)
+        
+    print(f"Generated {target_path} successfully!")
+
+if __name__ == "__main__":
+    create_notebook()
