@@ -76,20 +76,72 @@ class MachineService:
         return query.order_by(Alert.created_at.desc()).limit(limit).all()
 
     def create_alert(self, db: Session, alert_data: Dict[str, Any]) -> Alert:
-        """Record and dispatch an active operational alert."""
-        db_alert = Alert(**alert_data)
+        """Record and dispatch an active operational alert. Auto-populates smart diagnostics if missing."""
+        data = alert_data.copy()
+        title = data.get("title", "").lower()
+        msg = data.get("message", "").lower()
+        m_id = data.get("machine_id", "M_001")
+        
+        # Smart Alert Engine: Auto-generate metadata if not supplied
+        if "cause" not in data or not data["cause"]:
+            if "thermal" in title or "temperature" in title or "overheat" in title or "hot" in msg:
+                data["cause"] = "Insufficient coolant circulation, thermal friction in spindle spindle bearing, or extreme ambient temperature."
+                data["impact"] = "Potential thermal head warping, weld seam degradation, and safety trip of drive motors."
+                data["recommendation"] = "Perform immediate heat exchanger fluid flush and decrease work cycle speeds."
+                data["suggested_actions"] = ["Flush heat exchanger", "Check coolant pump pressure", "Decelerate drive RPM"]
+            elif "vibration" in title or "rattle" in title or "acoustic" in title or "noise" in msg:
+                data["cause"] = "Degradation of spindle bearing lubrication, loose belt pulleys, or component structural misalignment."
+                data["impact"] = "Accelerated mechanical fatigue, rattle distortion, defect rate spikes, and conveyor line slip."
+                data["recommendation"] = "Schedule spindle alignment correction and belt re-tensioning, apply high-speed grease."
+                data["suggested_actions"] = ["Lubricate spindle bearings", "Tighten belt pulley bolts", "Run acoustic signature check"]
+            elif "pressure" in title or "hydraulic" in title or "leak" in msg:
+                data["cause"] = "Hydraulic valve seal wear, low fluid levels, or air lock in main hydraulic lines."
+                data["impact"] = "Severe mechanical stroke latency, downstream starvation, and high pressure safety valve release."
+                data["recommendation"] = "Change valve seals immediately, purge air locks, and top-up fluids."
+                data["suggested_actions"] = ["Replace valve seals", "Check fluid levels", "Bleed hydraulic lines"]
+            elif "energy" in title or "waste" in title or "power" in title:
+                data["cause"] = "Simultaneous peak operations, structural thermal envelope insulation loss, or sub-optimal idle draw."
+                data["impact"] = "Peak power demand tariff surcharges and thermal motor cooling loads overloading local grid."
+                data["recommendation"] = "Stagger machine startup schedules and optimize conveyor standby cycles."
+                data["suggested_actions"] = ["Stagger machine startups", "Optimize conveyor standby", "Review insulation layout"]
+            else:
+                data["cause"] = "Asset sensor metric deviation from nominal operating baseline distributions."
+                data["impact"] = "Minor reduction in stage OEE efficiency and potential component stress."
+                data["recommendation"] = "Schedule supervisor walkthrough inspection and log sensor feed values."
+                data["suggested_actions"] = ["Perform walkthrough inspection", "Log sensor calibration data"]
+                
+        if "affected_machines" not in data or not data["affected_machines"]:
+            # Default to the machine itself and downstream dependencies
+            from app.services.relationship_engine import relationship_engine
+            deps = relationship_engine.get_dependencies(m_id)
+            data["affected_machines"] = [m_id] + deps.get("downstream", [])
+
+        db_alert = Alert(**data)
         db.add(db_alert)
         db.commit()
         db.refresh(db_alert)
-        logger.warning(f"Raised Alert [{db_alert.severity}]: {db_alert.title} on machine {db_alert.machine_id}")
+        logger.warning(f"Raised Smart Alert [{db_alert.severity}]: {db_alert.title} on machine {db_alert.machine_id}")
         
-        # If alert is critical, update the corresponding machine status to 'Maintenance'
-        if db_alert.severity.lower() == "critical":
+        # If alert is critical/emergency, update corresponding machine status to 'Maintenance'
+        severity_norm = db_alert.severity.lower()
+        if severity_norm in ["critical", "emergency"]:
             machine = self.get_machine_by_id(db, db_alert.machine_id)
             if machine and machine.operational_status != "Maintenance":
                 machine.operational_status = "Maintenance"
                 db.commit()
-                logger.info(f"Machine {machine.id} status auto-set to Maintenance due to critical alert.")
+                
+                # Log a factory event for this safety state change
+                from app.database.models import FactoryEvent
+                event = FactoryEvent(
+                    event_type="Failure" if severity_norm == "emergency" else "Maintenance",
+                    severity=db_alert.severity,
+                    title=f"Machine {m_id} Forced Offline",
+                    message=f"Machine operational status set to Maintenance due to {db_alert.severity} alert: {db_alert.title}.",
+                    machine_id=m_id
+                )
+                db.add(event)
+                db.commit()
+                logger.info(f"Machine {machine.id} status auto-set to Maintenance due to critical/emergency alert.")
                 
         return db_alert
 

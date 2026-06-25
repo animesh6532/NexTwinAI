@@ -1,0 +1,4673 @@
+[
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.838,
+      "temperature_c": 79.96,
+      "pressure_bar": 5.07,
+      "noise_level_db": 85.7,
+      "sound_frequency_hz": 596.8,
+      "sound_amplitude": 0.067,
+      "energy_draw_kw": 55.46,
+      "timestamp": 1782360396.6642058
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0919,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0684,
+      "health_score": 93.16,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360396.6642058
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.501,
+      "temperature_c": 67.36,
+      "pressure_bar": 4.88,
+      "noise_level_db": 79.6,
+      "sound_frequency_hz": 628.5,
+      "sound_amplitude": 0.0543,
+      "energy_draw_kw": 56.12,
+      "timestamp": 1782360402.706157
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.125,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0687,
+      "health_score": 93.13,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360402.706157
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 5.562,
+      "temperature_c": 92.15,
+      "pressure_bar": 6.21,
+      "noise_level_db": 99.9,
+      "sound_frequency_hz": 584.9,
+      "sound_amplitude": 0.237,
+      "energy_draw_kw": 136.4,
+      "timestamp": 1782360408.7295473
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 1.4781,
+      "anomaly_severity": "Emergency",
+      "anomaly_type": "Multimodal breakdown",
+      "cause": "Lubrication starvation and spindle bearing alignment failure",
+      "confidence_score": 0.98,
+      "impact_estimation": "High downtime hazard, catastrophic mechanical seizure imminent",
+      "suggested_action": "TRIGGER EMERGENCY MANUAL OVERRIDE SHUTDOWN",
+      "failure_probability": 0.92,
+      "health_score": 8.0,
+      "maintenance_priority": "Critical"
+    },
+    "timestamp": 1782360408.7295473
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.192,
+      "temperature_c": 67.33,
+      "pressure_bar": 4.96,
+      "noise_level_db": 91.0,
+      "sound_frequency_hz": 550.5,
+      "sound_amplitude": 0.0782,
+      "energy_draw_kw": 91.82,
+      "timestamp": 1782360414.7619555
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1096,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0656,
+      "health_score": 93.44,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360414.7619555
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.79,
+      "temperature_c": 64.07,
+      "pressure_bar": 5.33,
+      "noise_level_db": 84.9,
+      "sound_frequency_hz": 685.3,
+      "sound_amplitude": 0.0594,
+      "energy_draw_kw": 51.94,
+      "timestamp": 1782360420.793893
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1395,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0699,
+      "health_score": 93.01,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360420.793893
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.615,
+      "temperature_c": 64.16,
+      "pressure_bar": 4.85,
+      "noise_level_db": 81.4,
+      "sound_frequency_hz": 627.8,
+      "sound_amplitude": 0.0837,
+      "energy_draw_kw": 77.24,
+      "timestamp": 1782360426.8210607
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0808,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0582,
+      "health_score": 94.18,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360426.8210607
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.344,
+      "temperature_c": 71.73,
+      "pressure_bar": 5.23,
+      "noise_level_db": 86.8,
+      "sound_frequency_hz": 673.7,
+      "sound_amplitude": 0.08,
+      "energy_draw_kw": 86.99,
+      "timestamp": 1782360432.850007
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1172,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0693,
+      "health_score": 93.07,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360432.850007
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.354,
+      "temperature_c": 75.72,
+      "pressure_bar": 5.19,
+      "noise_level_db": 82.8,
+      "sound_frequency_hz": 620.7,
+      "sound_amplitude": 0.046,
+      "energy_draw_kw": 62.74,
+      "timestamp": 1782360438.879352
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1177,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0714,
+      "health_score": 92.86,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360438.879352
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.675,
+      "temperature_c": 71.78,
+      "pressure_bar": 5.1,
+      "noise_level_db": 85.1,
+      "sound_frequency_hz": 655.5,
+      "sound_amplitude": 0.0877,
+      "energy_draw_kw": 87.78,
+      "timestamp": 1782360444.9043224
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0838,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0626,
+      "health_score": 93.74,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360444.9043224
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.503,
+      "temperature_c": 63.5,
+      "pressure_bar": 4.99,
+      "noise_level_db": 84.2,
+      "sound_frequency_hz": 510.1,
+      "sound_amplitude": 0.0621,
+      "energy_draw_kw": 47.9,
+      "timestamp": 1782360450.942895
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0751,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0568,
+      "health_score": 94.32,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360450.942895
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.123,
+      "temperature_c": 67.73,
+      "pressure_bar": 4.98,
+      "noise_level_db": 83.3,
+      "sound_frequency_hz": 595.1,
+      "sound_amplitude": 0.0842,
+      "energy_draw_kw": 75.32,
+      "timestamp": 1782360456.9761617
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1062,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0651,
+      "health_score": 93.49,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360456.9761617
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.351,
+      "temperature_c": 69.98,
+      "pressure_bar": 4.95,
+      "noise_level_db": 77.2,
+      "sound_frequency_hz": 610.0,
+      "sound_amplitude": 0.0683,
+      "energy_draw_kw": 47.22,
+      "timestamp": 1782360463.0001779
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1176,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0685,
+      "health_score": 93.15,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360463.0001779
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 3.213,
+      "temperature_c": 83.09,
+      "pressure_bar": 4.32,
+      "noise_level_db": 87.1,
+      "sound_frequency_hz": 599.2,
+      "sound_amplitude": 0.1792,
+      "energy_draw_kw": 114.86,
+      "timestamp": 1782360469.0180206
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1607,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0837,
+      "health_score": 91.63,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360469.0180206
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.629,
+      "temperature_c": 69.74,
+      "pressure_bar": 4.32,
+      "noise_level_db": 79.0,
+      "sound_frequency_hz": 484.9,
+      "sound_amplitude": 0.0427,
+      "energy_draw_kw": 45.28,
+      "timestamp": 1782360475.0320697
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0815,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0612,
+      "health_score": 93.88,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360475.0320697
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.361,
+      "temperature_c": 67.01,
+      "pressure_bar": 4.36,
+      "noise_level_db": 74.5,
+      "sound_frequency_hz": 490.9,
+      "sound_amplitude": 0.0533,
+      "energy_draw_kw": 65.32,
+      "timestamp": 1782360481.0505397
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1181,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0671,
+      "health_score": 93.29,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360481.0505397
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.036,
+      "temperature_c": 58.97,
+      "pressure_bar": 4.89,
+      "noise_level_db": 78.0,
+      "sound_frequency_hz": 568.6,
+      "sound_amplitude": 0.0644,
+      "energy_draw_kw": 46.97,
+      "timestamp": 1782360487.0582695
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1018,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0598,
+      "health_score": 94.02,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360487.0582695
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.011,
+      "temperature_c": 67.04,
+      "pressure_bar": 4.59,
+      "noise_level_db": 78.0,
+      "sound_frequency_hz": 514.5,
+      "sound_amplitude": 0.0462,
+      "energy_draw_kw": 60.19,
+      "timestamp": 1782360493.0815785
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1006,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0636,
+      "health_score": 93.64,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360493.0815785
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.002,
+      "temperature_c": 63.08,
+      "pressure_bar": 3.84,
+      "noise_level_db": 78.4,
+      "sound_frequency_hz": 471.2,
+      "sound_amplitude": 0.0714,
+      "energy_draw_kw": 80.61,
+      "timestamp": 1782360499.0935419
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1001,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0616,
+      "health_score": 93.84,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360499.0935419
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.436,
+      "temperature_c": 61.8,
+      "pressure_bar": 4.6,
+      "noise_level_db": 77.3,
+      "sound_frequency_hz": 591.4,
+      "sound_amplitude": 0.0644,
+      "energy_draw_kw": 56.62,
+      "timestamp": 1782360505.1182911
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1218,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0653,
+      "health_score": 93.47,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360505.1182911
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.76,
+      "temperature_c": 68.06,
+      "pressure_bar": 4.06,
+      "noise_level_db": 73.7,
+      "sound_frequency_hz": 446.0,
+      "sound_amplitude": 0.0406,
+      "energy_draw_kw": 52.15,
+      "timestamp": 1782360511.1538267
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.088,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0616,
+      "health_score": 93.84,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360511.1538267
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.298,
+      "temperature_c": 56.11,
+      "pressure_bar": 4.54,
+      "noise_level_db": 71.4,
+      "sound_frequency_hz": 453.2,
+      "sound_amplitude": 0.0474,
+      "energy_draw_kw": 70.05,
+      "timestamp": 1782360517.1748123
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0649,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.051,
+      "health_score": 94.9,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360517.1748123
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.14,
+      "temperature_c": 64.42,
+      "pressure_bar": 4.47,
+      "noise_level_db": 73.5,
+      "sound_frequency_hz": 445.0,
+      "sound_amplitude": 0.0728,
+      "energy_draw_kw": 77.57,
+      "timestamp": 1782360523.211125
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.057,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0536,
+      "health_score": 94.64,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360523.211125
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.939,
+      "temperature_c": 58.22,
+      "pressure_bar": 4.47,
+      "noise_level_db": 69.2,
+      "sound_frequency_hz": 504.0,
+      "sound_amplitude": 0.0586,
+      "energy_draw_kw": 50.91,
+      "timestamp": 1782360529.2575548
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.097,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0585,
+      "health_score": 94.15,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360529.2575548
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.452,
+      "temperature_c": 63.9,
+      "pressure_bar": 3.66,
+      "noise_level_db": 62.8,
+      "sound_frequency_hz": 469.1,
+      "sound_amplitude": 0.0466,
+      "energy_draw_kw": 41.46,
+      "timestamp": 1782360535.2776086
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0726,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0565,
+      "health_score": 94.35,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360535.2776086
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.738,
+      "temperature_c": 55.68,
+      "pressure_bar": 3.66,
+      "noise_level_db": 71.5,
+      "sound_frequency_hz": 475.4,
+      "sound_amplitude": 0.0485,
+      "energy_draw_kw": 36.73,
+      "timestamp": 1782360541.3130171
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0869,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0552,
+      "health_score": 94.48,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360541.3130171
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.134,
+      "temperature_c": 61.51,
+      "pressure_bar": 3.61,
+      "noise_level_db": 68.9,
+      "sound_frequency_hz": 486.7,
+      "sound_amplitude": 0.0622,
+      "energy_draw_kw": 49.81,
+      "timestamp": 1782360547.3361578
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0567,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0521,
+      "health_score": 94.79,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360547.3361578
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.158,
+      "temperature_c": 54.81,
+      "pressure_bar": 4.18,
+      "noise_level_db": 66.7,
+      "sound_frequency_hz": 524.5,
+      "sound_amplitude": 0.0547,
+      "energy_draw_kw": 35.48,
+      "timestamp": 1782360553.3627064
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1079,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.059,
+      "health_score": 94.1,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360553.3627064
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 3.393,
+      "temperature_c": 83.73,
+      "pressure_bar": 4.21,
+      "noise_level_db": 90.9,
+      "sound_frequency_hz": 482.4,
+      "sound_amplitude": 0.1492,
+      "energy_draw_kw": 99.36,
+      "timestamp": 1782360559.3795655
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1696,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0858,
+      "health_score": 91.42,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360559.3795655
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.958,
+      "temperature_c": 59.83,
+      "pressure_bar": 3.93,
+      "noise_level_db": 67.7,
+      "sound_frequency_hz": 467.2,
+      "sound_amplitude": 0.0366,
+      "energy_draw_kw": 55.74,
+      "timestamp": 1782360565.3924737
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0979,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0595,
+      "health_score": 94.05,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360565.3924737
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.519,
+      "temperature_c": 54.77,
+      "pressure_bar": 3.5,
+      "noise_level_db": 62.3,
+      "sound_frequency_hz": 424.2,
+      "sound_amplitude": 0.0522,
+      "energy_draw_kw": 60.93,
+      "timestamp": 1782360571.4236383
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.076,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0526,
+      "health_score": 94.74,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360571.4236383
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.796,
+      "temperature_c": 51.43,
+      "pressure_bar": 3.4,
+      "noise_level_db": 63.9,
+      "sound_frequency_hz": 391.0,
+      "sound_amplitude": 0.0433,
+      "energy_draw_kw": 38.03,
+      "timestamp": 1782360577.4559722
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 0.3898,
+      "anomaly_severity": "Warning",
+      "anomaly_type": "Hydraulic pressure delta",
+      "cause": "Hydraulic valve leakage or air lock in lines",
+      "confidence_score": 0.88,
+      "impact_estimation": "Marginal drop in mechanical stroke efficiency, slight sound amplification",
+      "suggested_action": "Perform fluid top-up and check hydraulic seals",
+      "failure_probability": 0.45,
+      "health_score": 55.0,
+      "maintenance_priority": "Medium"
+    },
+    "timestamp": 1782360577.4559722
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.826,
+      "temperature_c": 51.06,
+      "pressure_bar": 3.75,
+      "noise_level_db": 68.2,
+      "sound_frequency_hz": 458.6,
+      "sound_amplitude": 0.04,
+      "energy_draw_kw": 68.69,
+      "timestamp": 1782360583.4818876
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0913,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0538,
+      "health_score": 94.62,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360583.4818876
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.143,
+      "temperature_c": 52.8,
+      "pressure_bar": 4.03,
+      "noise_level_db": 61.3,
+      "sound_frequency_hz": 449.6,
+      "sound_amplitude": 0.0635,
+      "energy_draw_kw": 50.75,
+      "timestamp": 1782360589.5027213
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0572,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0478,
+      "health_score": 95.22,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360589.5027213
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.09,
+      "temperature_c": 53.49,
+      "pressure_bar": 3.98,
+      "noise_level_db": 58.0,
+      "sound_frequency_hz": 446.8,
+      "sound_amplitude": 0.0528,
+      "energy_draw_kw": 34.17,
+      "timestamp": 1782360595.5365415
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1045,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0576,
+      "health_score": 94.24,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360595.5365415
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.943,
+      "temperature_c": 48.57,
+      "pressure_bar": 3.93,
+      "noise_level_db": 65.3,
+      "sound_frequency_hz": 479.8,
+      "sound_amplitude": 0.0545,
+      "energy_draw_kw": 54.98,
+      "timestamp": 1782360601.5598888
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0972,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0537,
+      "health_score": 94.63,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360601.5598888
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.889,
+      "temperature_c": 52.38,
+      "pressure_bar": 3.33,
+      "noise_level_db": 60.1,
+      "sound_frequency_hz": 441.1,
+      "sound_amplitude": 0.0513,
+      "energy_draw_kw": 51.91,
+      "timestamp": 1782360607.588403
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 0.3944,
+      "anomaly_severity": "Warning",
+      "anomaly_type": "Hydraulic pressure delta",
+      "cause": "Hydraulic valve leakage or air lock in lines",
+      "confidence_score": 0.88,
+      "impact_estimation": "Marginal drop in mechanical stroke efficiency, slight sound amplification",
+      "suggested_action": "Perform fluid top-up and check hydraulic seals",
+      "failure_probability": 0.45,
+      "health_score": 55.0,
+      "maintenance_priority": "Medium"
+    },
+    "timestamp": 1782360607.588403
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.729,
+      "temperature_c": 48.53,
+      "pressure_bar": 3.48,
+      "noise_level_db": 58.6,
+      "sound_frequency_hz": 422.6,
+      "sound_amplitude": 0.0684,
+      "energy_draw_kw": 45.68,
+      "timestamp": 1782360613.6131377
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 0.3865,
+      "anomaly_severity": "Warning",
+      "anomaly_type": "Hydraulic pressure delta",
+      "cause": "Hydraulic valve leakage or air lock in lines",
+      "confidence_score": 0.88,
+      "impact_estimation": "Marginal drop in mechanical stroke efficiency, slight sound amplification",
+      "suggested_action": "Perform fluid top-up and check hydraulic seals",
+      "failure_probability": 0.45,
+      "health_score": 55.0,
+      "maintenance_priority": "Medium"
+    },
+    "timestamp": 1782360613.6131377
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 5.691,
+      "temperature_c": 87.7,
+      "pressure_bar": 5.6,
+      "noise_level_db": 93.4,
+      "sound_frequency_hz": 497.6,
+      "sound_amplitude": 0.2799,
+      "energy_draw_kw": 131.73,
+      "timestamp": 1782360619.6262438
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 1.1845,
+      "anomaly_severity": "Emergency",
+      "anomaly_type": "Multimodal breakdown",
+      "cause": "Lubrication starvation and spindle bearing alignment failure",
+      "confidence_score": 0.98,
+      "impact_estimation": "High downtime hazard, catastrophic mechanical seizure imminent",
+      "suggested_action": "TRIGGER EMERGENCY MANUAL OVERRIDE SHUTDOWN",
+      "failure_probability": 0.92,
+      "health_score": 8.0,
+      "maintenance_priority": "Critical"
+    },
+    "timestamp": 1782360619.6262438
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.15,
+      "temperature_c": 53.14,
+      "pressure_bar": 4.06,
+      "noise_level_db": 62.4,
+      "sound_frequency_hz": 461.8,
+      "sound_amplitude": 0.0543,
+      "energy_draw_kw": 65.52,
+      "timestamp": 1782360625.6558342
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1075,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0581,
+      "health_score": 94.19,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360625.6558342
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.716,
+      "temperature_c": 58.78,
+      "pressure_bar": 3.36,
+      "noise_level_db": 67.5,
+      "sound_frequency_hz": 411.3,
+      "sound_amplitude": 0.0548,
+      "energy_draw_kw": 51.65,
+      "timestamp": 1782360631.6884193
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 0.3858,
+      "anomaly_severity": "Warning",
+      "anomaly_type": "Hydraulic pressure delta",
+      "cause": "Hydraulic valve leakage or air lock in lines",
+      "confidence_score": 0.88,
+      "impact_estimation": "Marginal drop in mechanical stroke efficiency, slight sound amplification",
+      "suggested_action": "Perform fluid top-up and check hydraulic seals",
+      "failure_probability": 0.45,
+      "health_score": 55.0,
+      "maintenance_priority": "Medium"
+    },
+    "timestamp": 1782360631.6884193
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.546,
+      "temperature_c": 58.59,
+      "pressure_bar": 3.91,
+      "noise_level_db": 66.0,
+      "sound_frequency_hz": 448.4,
+      "sound_amplitude": 0.0565,
+      "energy_draw_kw": 56.74,
+      "timestamp": 1782360637.7214336
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0773,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0548,
+      "health_score": 94.52,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360637.7214336
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.295,
+      "temperature_c": 55.0,
+      "pressure_bar": 3.77,
+      "noise_level_db": 62.6,
+      "sound_frequency_hz": 487.7,
+      "sound_amplitude": 0.0591,
+      "energy_draw_kw": 74.62,
+      "timestamp": 1782360643.7368817
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0648,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0504,
+      "health_score": 94.96,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360643.7368817
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 3.829,
+      "temperature_c": 77.42,
+      "pressure_bar": 4.2,
+      "noise_level_db": 91.8,
+      "sound_frequency_hz": 470.2,
+      "sound_amplitude": 0.142,
+      "energy_draw_kw": 95.77,
+      "timestamp": 1782360649.748698
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1915,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.087,
+      "health_score": 91.3,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360649.748698
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.496,
+      "temperature_c": 63.53,
+      "pressure_bar": 3.92,
+      "noise_level_db": 72.6,
+      "sound_frequency_hz": 425.6,
+      "sound_amplitude": 0.0672,
+      "energy_draw_kw": 76.84,
+      "timestamp": 1782360655.7689476
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0748,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0567,
+      "health_score": 94.33,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360655.7689476
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.566,
+      "temperature_c": 64.65,
+      "pressure_bar": 4.26,
+      "noise_level_db": 71.8,
+      "sound_frequency_hz": 518.9,
+      "sound_amplitude": 0.0743,
+      "energy_draw_kw": 76.44,
+      "timestamp": 1782360661.788114
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0783,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.058,
+      "health_score": 94.2,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360661.788114
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.472,
+      "temperature_c": 61.94,
+      "pressure_bar": 4.26,
+      "noise_level_db": 65.0,
+      "sound_frequency_hz": 458.4,
+      "sound_amplitude": 0.0418,
+      "energy_draw_kw": 44.7,
+      "timestamp": 1782360667.810326
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0736,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0557,
+      "health_score": 94.43,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360667.810326
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.463,
+      "temperature_c": 65.81,
+      "pressure_bar": 4.23,
+      "noise_level_db": 66.2,
+      "sound_frequency_hz": 538.5,
+      "sound_amplitude": 0.0636,
+      "energy_draw_kw": 45.84,
+      "timestamp": 1782360673.843943
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0732,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0575,
+      "health_score": 94.25,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360673.843943
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.368,
+      "temperature_c": 61.0,
+      "pressure_bar": 4.35,
+      "noise_level_db": 70.2,
+      "sound_frequency_hz": 562.7,
+      "sound_amplitude": 0.0672,
+      "energy_draw_kw": 56.08,
+      "timestamp": 1782360679.867227
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0684,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0542,
+      "health_score": 94.58,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360679.867227
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.452,
+      "temperature_c": 60.4,
+      "pressure_bar": 4.34,
+      "noise_level_db": 70.0,
+      "sound_frequency_hz": 516.3,
+      "sound_amplitude": 0.0782,
+      "energy_draw_kw": 80.29,
+      "timestamp": 1782360685.89499
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1226,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0647,
+      "health_score": 93.53,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360685.89499
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.694,
+      "temperature_c": 57.96,
+      "pressure_bar": 4.12,
+      "noise_level_db": 76.8,
+      "sound_frequency_hz": 486.2,
+      "sound_amplitude": 0.0447,
+      "energy_draw_kw": 64.95,
+      "timestamp": 1782360691.9137614
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0847,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0559,
+      "health_score": 94.41,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360691.9137614
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.597,
+      "temperature_c": 59.71,
+      "pressure_bar": 4.36,
+      "noise_level_db": 72.2,
+      "sound_frequency_hz": 467.9,
+      "sound_amplitude": 0.0552,
+      "energy_draw_kw": 77.74,
+      "timestamp": 1782360697.943716
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0799,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0558,
+      "health_score": 94.42,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360697.943716
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.088,
+      "temperature_c": 58.64,
+      "pressure_bar": 4.1,
+      "noise_level_db": 74.5,
+      "sound_frequency_hz": 555.7,
+      "sound_amplitude": 0.0463,
+      "energy_draw_kw": 72.87,
+      "timestamp": 1782360703.971511
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1044,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0602,
+      "health_score": 93.98,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360703.971511
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.984,
+      "temperature_c": 71.43,
+      "pressure_bar": 4.38,
+      "noise_level_db": 77.5,
+      "sound_frequency_hz": 472.5,
+      "sound_amplitude": 0.0706,
+      "energy_draw_kw": 55.7,
+      "timestamp": 1782360709.996017
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0992,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0656,
+      "health_score": 93.44,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360709.996017
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.492,
+      "temperature_c": 60.03,
+      "pressure_bar": 4.16,
+      "noise_level_db": 83.1,
+      "sound_frequency_hz": 580.4,
+      "sound_amplitude": 0.0485,
+      "energy_draw_kw": 78.39,
+      "timestamp": 1782360716.0099406
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1246,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0649,
+      "health_score": 93.51,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360716.0099406
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.47,
+      "temperature_c": 70.51,
+      "pressure_bar": 4.37,
+      "noise_level_db": 76.5,
+      "sound_frequency_hz": 542.3,
+      "sound_amplitude": 0.0479,
+      "energy_draw_kw": 53.39,
+      "timestamp": 1782360722.0438323
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0735,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.06,
+      "health_score": 94.0,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360722.0438323
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.325,
+      "temperature_c": 72.0,
+      "pressure_bar": 4.31,
+      "noise_level_db": 80.7,
+      "sound_frequency_hz": 587.1,
+      "sound_amplitude": 0.052,
+      "energy_draw_kw": 70.73,
+      "timestamp": 1782360728.0746818
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0663,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0593,
+      "health_score": 94.07,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360728.0746818
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.925,
+      "temperature_c": 72.88,
+      "pressure_bar": 5.23,
+      "noise_level_db": 79.1,
+      "sound_frequency_hz": 503.4,
+      "sound_amplitude": 0.0552,
+      "energy_draw_kw": 79.14,
+      "timestamp": 1782360734.09375
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0963,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0657,
+      "health_score": 93.43,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360734.09375
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 3.653,
+      "temperature_c": 78.83,
+      "pressure_bar": 4.55,
+      "noise_level_db": 88.3,
+      "sound_frequency_hz": 549.9,
+      "sound_amplitude": 0.1629,
+      "energy_draw_kw": 103.65,
+      "timestamp": 1782360740.1283746
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1827,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0859,
+      "health_score": 91.41,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360740.1283746
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.001,
+      "temperature_c": 76.68,
+      "pressure_bar": 4.7,
+      "noise_level_db": 88.1,
+      "sound_frequency_hz": 625.9,
+      "sound_amplitude": 0.0494,
+      "energy_draw_kw": 76.78,
+      "timestamp": 1782360746.1515312
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1001,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0684,
+      "health_score": 93.16,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360746.1515312
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.754,
+      "temperature_c": 78.91,
+      "pressure_bar": 4.76,
+      "noise_level_db": 87.3,
+      "sound_frequency_hz": 519.9,
+      "sound_amplitude": 0.063,
+      "energy_draw_kw": 83.5,
+      "timestamp": 1782360752.188641
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1377,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.077,
+      "health_score": 92.3,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360752.188641
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.534,
+      "temperature_c": 68.08,
+      "pressure_bar": 4.92,
+      "noise_level_db": 88.2,
+      "sound_frequency_hz": 564.1,
+      "sound_amplitude": 0.0631,
+      "energy_draw_kw": 65.85,
+      "timestamp": 1782360758.2213557
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1267,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0694,
+      "health_score": 93.06,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360758.2213557
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.772,
+      "temperature_c": 67.52,
+      "pressure_bar": 4.84,
+      "noise_level_db": 90.2,
+      "sound_frequency_hz": 547.2,
+      "sound_amplitude": 0.0698,
+      "energy_draw_kw": 66.62,
+      "timestamp": 1782360764.237493
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1386,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0715,
+      "health_score": 92.85,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360764.237493
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.929,
+      "temperature_c": 73.47,
+      "pressure_bar": 5.02,
+      "noise_level_db": 84.2,
+      "sound_frequency_hz": 567.3,
+      "sound_amplitude": 0.0874,
+      "energy_draw_kw": 53.35,
+      "timestamp": 1782360770.2650974
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0965,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.066,
+      "health_score": 93.4,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360770.2650974
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.643,
+      "temperature_c": 76.18,
+      "pressure_bar": 4.96,
+      "noise_level_db": 87.5,
+      "sound_frequency_hz": 532.8,
+      "sound_amplitude": 0.085,
+      "energy_draw_kw": 91.78,
+      "timestamp": 1782360776.3017232
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1321,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0745,
+      "health_score": 92.55,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360776.3017232
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.211,
+      "temperature_c": 69.75,
+      "pressure_bar": 4.55,
+      "noise_level_db": 80.8,
+      "sound_frequency_hz": 602.7,
+      "sound_amplitude": 0.0573,
+      "energy_draw_kw": 49.23,
+      "timestamp": 1782360782.3307998
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1105,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.067,
+      "health_score": 93.3,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360782.3307998
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.544,
+      "temperature_c": 77.61,
+      "pressure_bar": 5.16,
+      "noise_level_db": 89.0,
+      "sound_frequency_hz": 576.2,
+      "sound_amplitude": 0.0695,
+      "energy_draw_kw": 75.36,
+      "timestamp": 1782360788.3569517
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0772,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0642,
+      "health_score": 93.58,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360788.3569517
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.422,
+      "temperature_c": 71.81,
+      "pressure_bar": 5.1,
+      "noise_level_db": 81.8,
+      "sound_frequency_hz": 604.4,
+      "sound_amplitude": 0.0915,
+      "energy_draw_kw": 73.47,
+      "timestamp": 1782360794.3822694
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0711,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0601,
+      "health_score": 93.99,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360794.3822694
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.848,
+      "temperature_c": 66.43,
+      "pressure_bar": 4.89,
+      "noise_level_db": 85.4,
+      "sound_frequency_hz": 530.8,
+      "sound_amplitude": 0.079,
+      "energy_draw_kw": 47.2,
+      "timestamp": 1782360800.4195921
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1424,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0717,
+      "health_score": 92.83,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360800.4195921
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.033,
+      "temperature_c": 68.47,
+      "pressure_bar": 4.49,
+      "noise_level_db": 79.7,
+      "sound_frequency_hz": 539.1,
+      "sound_amplitude": 0.0647,
+      "energy_draw_kw": 60.39,
+      "timestamp": 1782360806.4345372
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1017,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0646,
+      "health_score": 93.54,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360806.4345372
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.669,
+      "temperature_c": 67.51,
+      "pressure_bar": 4.42,
+      "noise_level_db": 83.0,
+      "sound_frequency_hz": 590.2,
+      "sound_amplitude": 0.0862,
+      "energy_draw_kw": 63.38,
+      "timestamp": 1782360812.4853513
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0835,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0604,
+      "health_score": 93.96,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360812.4853513
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.744,
+      "temperature_c": 63.67,
+      "pressure_bar": 4.32,
+      "noise_level_db": 78.9,
+      "sound_frequency_hz": 662.0,
+      "sound_amplitude": 0.0832,
+      "energy_draw_kw": 57.54,
+      "timestamp": 1782360818.502664
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0872,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0593,
+      "health_score": 94.07,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360818.502664
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.115,
+      "temperature_c": 63.17,
+      "pressure_bar": 4.61,
+      "noise_level_db": 85.3,
+      "sound_frequency_hz": 625.0,
+      "sound_amplitude": 0.0538,
+      "energy_draw_kw": 94.64,
+      "timestamp": 1782360824.5231042
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1058,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0627,
+      "health_score": 93.73,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360824.5231042
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 3.698,
+      "temperature_c": 81.52,
+      "pressure_bar": 4.57,
+      "noise_level_db": 88.8,
+      "sound_frequency_hz": 585.0,
+      "sound_amplitude": 0.1547,
+      "energy_draw_kw": 112.9,
+      "timestamp": 1782360830.5600932
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1849,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0877,
+      "health_score": 91.23,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360830.5600932
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.724,
+      "temperature_c": 72.25,
+      "pressure_bar": 4.48,
+      "noise_level_db": 80.8,
+      "sound_frequency_hz": 617.3,
+      "sound_amplitude": 0.045,
+      "energy_draw_kw": 62.13,
+      "timestamp": 1782360836.5858657
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0862,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0634,
+      "health_score": 93.66,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360836.5858657
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.081,
+      "temperature_c": 75.22,
+      "pressure_bar": 4.69,
+      "noise_level_db": 74.7,
+      "sound_frequency_hz": 571.9,
+      "sound_amplitude": 0.0488,
+      "energy_draw_kw": 53.37,
+      "timestamp": 1782360842.599652
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1041,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0684,
+      "health_score": 93.16,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360842.599652
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.714,
+      "temperature_c": 67.9,
+      "pressure_bar": 4.49,
+      "noise_level_db": 76.0,
+      "sound_frequency_hz": 557.2,
+      "sound_amplitude": 0.0562,
+      "energy_draw_kw": 59.06,
+      "timestamp": 1782360848.6313727
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0857,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0611,
+      "health_score": 93.89,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360848.6313727
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.645,
+      "temperature_c": 67.5,
+      "pressure_bar": 4.75,
+      "noise_level_db": 74.9,
+      "sound_frequency_hz": 582.1,
+      "sound_amplitude": 0.0656,
+      "energy_draw_kw": 64.09,
+      "timestamp": 1782360854.6493926
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0823,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0602,
+      "health_score": 93.98,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360854.6493926
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.564,
+      "temperature_c": 67.48,
+      "pressure_bar": 4.66,
+      "noise_level_db": 76.2,
+      "sound_frequency_hz": 517.2,
+      "sound_amplitude": 0.048,
+      "energy_draw_kw": 52.23,
+      "timestamp": 1782360860.6710708
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1282,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0694,
+      "health_score": 93.06,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360860.6710708
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.47,
+      "temperature_c": 62.56,
+      "pressure_bar": 3.95,
+      "noise_level_db": 81.3,
+      "sound_frequency_hz": 611.1,
+      "sound_amplitude": 0.0484,
+      "energy_draw_kw": 66.15,
+      "timestamp": 1782360866.7053533
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1235,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.066,
+      "health_score": 93.4,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360866.7053533
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.693,
+      "temperature_c": 57.84,
+      "pressure_bar": 3.91,
+      "noise_level_db": 79.4,
+      "sound_frequency_hz": 580.7,
+      "sound_amplitude": 0.0421,
+      "energy_draw_kw": 71.73,
+      "timestamp": 1782360872.7351086
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0847,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0559,
+      "health_score": 94.41,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360872.7351086
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.776,
+      "temperature_c": 64.5,
+      "pressure_bar": 3.9,
+      "noise_level_db": 74.1,
+      "sound_frequency_hz": 559.1,
+      "sound_amplitude": 0.0505,
+      "energy_draw_kw": 67.14,
+      "timestamp": 1782360878.7514865
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0888,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.06,
+      "health_score": 94.0,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360878.7514865
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.188,
+      "temperature_c": 61.87,
+      "pressure_bar": 4.3,
+      "noise_level_db": 69.4,
+      "sound_frequency_hz": 580.6,
+      "sound_amplitude": 0.0424,
+      "energy_draw_kw": 77.72,
+      "timestamp": 1782360884.77464
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0594,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0528,
+      "health_score": 94.72,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360884.77464
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.252,
+      "temperature_c": 56.52,
+      "pressure_bar": 4.02,
+      "noise_level_db": 70.4,
+      "sound_frequency_hz": 562.0,
+      "sound_amplitude": 0.055,
+      "energy_draw_kw": 79.51,
+      "timestamp": 1782360890.8066158
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0626,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0508,
+      "health_score": 94.92,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360890.8066158
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.741,
+      "temperature_c": 56.7,
+      "pressure_bar": 4.18,
+      "noise_level_db": 65.7,
+      "sound_frequency_hz": 504.8,
+      "sound_amplitude": 0.0623,
+      "energy_draw_kw": 75.37,
+      "timestamp": 1782360896.8367937
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0871,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0558,
+      "health_score": 94.42,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360896.8367937
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.896,
+      "temperature_c": 63.84,
+      "pressure_bar": 4.29,
+      "noise_level_db": 69.9,
+      "sound_frequency_hz": 520.7,
+      "sound_amplitude": 0.043,
+      "energy_draw_kw": 43.38,
+      "timestamp": 1782360902.8573563
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0948,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0609,
+      "health_score": 93.91,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360902.8573563
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.516,
+      "temperature_c": 64.22,
+      "pressure_bar": 4.27,
+      "noise_level_db": 67.2,
+      "sound_frequency_hz": 514.8,
+      "sound_amplitude": 0.062,
+      "energy_draw_kw": 76.0,
+      "timestamp": 1782360908.8881638
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0758,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0573,
+      "health_score": 94.27,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360908.8881638
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.744,
+      "temperature_c": 59.14,
+      "pressure_bar": 3.72,
+      "noise_level_db": 65.0,
+      "sound_frequency_hz": 460.7,
+      "sound_amplitude": 0.0425,
+      "energy_draw_kw": 62.35,
+      "timestamp": 1782360914.9120345
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0872,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.057,
+      "health_score": 94.3,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360914.9120345
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 3.933,
+      "temperature_c": 82.07,
+      "pressure_bar": 3.99,
+      "noise_level_db": 90.0,
+      "sound_frequency_hz": 449.7,
+      "sound_amplitude": 0.1271,
+      "energy_draw_kw": 105.82,
+      "timestamp": 1782360920.933059
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1966,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0904,
+      "health_score": 90.96,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360920.933059
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.142,
+      "temperature_c": 53.72,
+      "pressure_bar": 3.61,
+      "noise_level_db": 68.8,
+      "sound_frequency_hz": 457.2,
+      "sound_amplitude": 0.0416,
+      "energy_draw_kw": 74.89,
+      "timestamp": 1782360926.9679286
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0571,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0483,
+      "health_score": 95.17,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360926.9679286
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.151,
+      "temperature_c": 61.86,
+      "pressure_bar": 4.23,
+      "noise_level_db": 67.1,
+      "sound_frequency_hz": 512.9,
+      "sound_amplitude": 0.0606,
+      "energy_draw_kw": 45.41,
+      "timestamp": 1782360932.9900794
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0576,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0524,
+      "health_score": 94.76,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360932.9900794
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.213,
+      "temperature_c": 60.0,
+      "pressure_bar": 4.19,
+      "noise_level_db": 65.9,
+      "sound_frequency_hz": 437.0,
+      "sound_amplitude": 0.0564,
+      "energy_draw_kw": 59.0,
+      "timestamp": 1782360939.0223753
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0607,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0521,
+      "health_score": 94.79,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360939.0223753
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.207,
+      "temperature_c": 55.3,
+      "pressure_bar": 3.68,
+      "noise_level_db": 65.7,
+      "sound_frequency_hz": 394.9,
+      "sound_amplitude": 0.0591,
+      "energy_draw_kw": 57.75,
+      "timestamp": 1782360945.0544558
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0604,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0497,
+      "health_score": 95.03,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360945.0544558
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.056,
+      "temperature_c": 48.28,
+      "pressure_bar": 3.37,
+      "noise_level_db": 67.9,
+      "sound_frequency_hz": 421.4,
+      "sound_amplitude": 0.0606,
+      "energy_draw_kw": 61.05,
+      "timestamp": 1782360951.0738618
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 0.4028,
+      "anomaly_severity": "Warning",
+      "anomaly_type": "Hydraulic pressure delta",
+      "cause": "Hydraulic valve leakage or air lock in lines",
+      "confidence_score": 0.88,
+      "impact_estimation": "Marginal drop in mechanical stroke efficiency, slight sound amplification",
+      "suggested_action": "Perform fluid top-up and check hydraulic seals",
+      "failure_probability": 0.45,
+      "health_score": 55.0,
+      "maintenance_priority": "Medium"
+    },
+    "timestamp": 1782360951.0738618
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.044,
+      "temperature_c": 50.7,
+      "pressure_bar": 4.04,
+      "noise_level_db": 67.7,
+      "sound_frequency_hz": 453.5,
+      "sound_amplitude": 0.0455,
+      "energy_draw_kw": 43.98,
+      "timestamp": 1782360957.097986
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1022,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0558,
+      "health_score": 94.42,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360957.097986
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.48,
+      "temperature_c": 53.75,
+      "pressure_bar": 3.37,
+      "noise_level_db": 65.9,
+      "sound_frequency_hz": 412.1,
+      "sound_amplitude": 0.0643,
+      "energy_draw_kw": 69.61,
+      "timestamp": 1782360963.1183329
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 0.374,
+      "anomaly_severity": "Warning",
+      "anomaly_type": "Hydraulic pressure delta",
+      "cause": "Hydraulic valve leakage or air lock in lines",
+      "confidence_score": 0.88,
+      "impact_estimation": "Marginal drop in mechanical stroke efficiency, slight sound amplification",
+      "suggested_action": "Perform fluid top-up and check hydraulic seals",
+      "failure_probability": 0.45,
+      "health_score": 55.0,
+      "maintenance_priority": "Medium"
+    },
+    "timestamp": 1782360963.1183329
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.939,
+      "temperature_c": 56.02,
+      "pressure_bar": 3.28,
+      "noise_level_db": 63.9,
+      "sound_frequency_hz": 432.7,
+      "sound_amplitude": 0.0559,
+      "energy_draw_kw": 52.04,
+      "timestamp": 1782360969.150254
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 0.397,
+      "anomaly_severity": "Warning",
+      "anomaly_type": "Hydraulic pressure delta",
+      "cause": "Hydraulic valve leakage or air lock in lines",
+      "confidence_score": 0.88,
+      "impact_estimation": "Marginal drop in mechanical stroke efficiency, slight sound amplification",
+      "suggested_action": "Perform fluid top-up and check hydraulic seals",
+      "failure_probability": 0.45,
+      "health_score": 55.0,
+      "maintenance_priority": "Medium"
+    },
+    "timestamp": 1782360969.150254
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.787,
+      "temperature_c": 52.08,
+      "pressure_bar": 3.63,
+      "noise_level_db": 62.5,
+      "sound_frequency_hz": 468.6,
+      "sound_amplitude": 0.0606,
+      "energy_draw_kw": 52.41,
+      "timestamp": 1782360975.180905
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0893,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0539,
+      "health_score": 94.61,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360975.180905
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.975,
+      "temperature_c": 51.22,
+      "pressure_bar": 3.3,
+      "noise_level_db": 58.8,
+      "sound_frequency_hz": 485.5,
+      "sound_amplitude": 0.0679,
+      "energy_draw_kw": 57.13,
+      "timestamp": 1782360981.2212653
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 0.3987,
+      "anomaly_severity": "Warning",
+      "anomaly_type": "Hydraulic pressure delta",
+      "cause": "Hydraulic valve leakage or air lock in lines",
+      "confidence_score": 0.88,
+      "impact_estimation": "Marginal drop in mechanical stroke efficiency, slight sound amplification",
+      "suggested_action": "Perform fluid top-up and check hydraulic seals",
+      "failure_probability": 0.45,
+      "health_score": 55.0,
+      "maintenance_priority": "Medium"
+    },
+    "timestamp": 1782360981.2212653
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.749,
+      "temperature_c": 57.57,
+      "pressure_bar": 4.08,
+      "noise_level_db": 59.8,
+      "sound_frequency_hz": 426.9,
+      "sound_amplitude": 0.0475,
+      "energy_draw_kw": 44.51,
+      "timestamp": 1782360987.2489507
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0875,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0563,
+      "health_score": 94.37,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360987.2489507
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.893,
+      "temperature_c": 56.84,
+      "pressure_bar": 3.52,
+      "noise_level_db": 59.1,
+      "sound_frequency_hz": 440.6,
+      "sound_amplitude": 0.0508,
+      "energy_draw_kw": 65.64,
+      "timestamp": 1782360993.2686129
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0947,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0573,
+      "health_score": 94.27,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360993.2686129
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.47,
+      "temperature_c": 48.49,
+      "pressure_bar": 3.77,
+      "noise_level_db": 64.9,
+      "sound_frequency_hz": 503.6,
+      "sound_amplitude": 0.0679,
+      "energy_draw_kw": 47.52,
+      "timestamp": 1782360999.290028
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0735,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0489,
+      "health_score": 95.11,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782360999.290028
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.968,
+      "temperature_c": 53.85,
+      "pressure_bar": 3.74,
+      "noise_level_db": 65.2,
+      "sound_frequency_hz": 493.3,
+      "sound_amplitude": 0.0605,
+      "energy_draw_kw": 65.19,
+      "timestamp": 1782361005.3184605
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0984,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0566,
+      "health_score": 94.34,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361005.3184605
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 3.777,
+      "temperature_c": 77.2,
+      "pressure_bar": 3.57,
+      "noise_level_db": 87.3,
+      "sound_frequency_hz": 515.9,
+      "sound_amplitude": 0.1772,
+      "energy_draw_kw": 113.35,
+      "timestamp": 1782361011.349982
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1889,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0864,
+      "health_score": 91.36,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361011.349982
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.259,
+      "temperature_c": 53.95,
+      "pressure_bar": 3.6,
+      "noise_level_db": 65.3,
+      "sound_frequency_hz": 530.1,
+      "sound_amplitude": 0.0624,
+      "energy_draw_kw": 66.69,
+      "timestamp": 1782361017.3832903
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0629,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0496,
+      "health_score": 95.04,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361017.3832903
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.403,
+      "temperature_c": 62.71,
+      "pressure_bar": 4.0,
+      "noise_level_db": 64.4,
+      "sound_frequency_hz": 469.4,
+      "sound_amplitude": 0.0704,
+      "energy_draw_kw": 65.01,
+      "timestamp": 1782361023.4050698
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0702,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0554,
+      "health_score": 94.46,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361023.4050698
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.574,
+      "temperature_c": 55.76,
+      "pressure_bar": 3.66,
+      "noise_level_db": 65.3,
+      "sound_frequency_hz": 446.6,
+      "sound_amplitude": 0.0539,
+      "energy_draw_kw": 46.42,
+      "timestamp": 1782361029.4356952
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0787,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0536,
+      "health_score": 94.64,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361029.4356952
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.774,
+      "temperature_c": 52.65,
+      "pressure_bar": 4.12,
+      "noise_level_db": 71.4,
+      "sound_frequency_hz": 450.8,
+      "sound_amplitude": 0.0568,
+      "energy_draw_kw": 57.27,
+      "timestamp": 1782361035.4771247
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0887,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0541,
+      "health_score": 94.59,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361035.4771247
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 5.184,
+      "temperature_c": 91.03,
+      "pressure_bar": 6.32,
+      "noise_level_db": 95.7,
+      "sound_frequency_hz": 549.6,
+      "sound_amplitude": 0.221,
+      "energy_draw_kw": 125.39,
+      "timestamp": 1782361041.5119286
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 1.4592,
+      "anomaly_severity": "Emergency",
+      "anomaly_type": "Multimodal breakdown",
+      "cause": "Lubrication starvation and spindle bearing alignment failure",
+      "confidence_score": 0.98,
+      "impact_estimation": "High downtime hazard, catastrophic mechanical seizure imminent",
+      "suggested_action": "TRIGGER EMERGENCY MANUAL OVERRIDE SHUTDOWN",
+      "failure_probability": 0.92,
+      "health_score": 8.0,
+      "maintenance_priority": "Critical"
+    },
+    "timestamp": 1782361041.5119286
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.684,
+      "temperature_c": 63.45,
+      "pressure_bar": 4.44,
+      "noise_level_db": 71.0,
+      "sound_frequency_hz": 566.8,
+      "sound_amplitude": 0.0416,
+      "energy_draw_kw": 74.83,
+      "timestamp": 1782361047.5470114
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0842,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0586,
+      "health_score": 94.14,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361047.5470114
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.659,
+      "temperature_c": 60.21,
+      "pressure_bar": 4.32,
+      "noise_level_db": 76.2,
+      "sound_frequency_hz": 445.0,
+      "sound_amplitude": 0.0401,
+      "energy_draw_kw": 67.58,
+      "timestamp": 1782361053.5809987
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.083,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0567,
+      "health_score": 94.33,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361053.5809987
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.357,
+      "temperature_c": 62.96,
+      "pressure_bar": 4.19,
+      "noise_level_db": 67.4,
+      "sound_frequency_hz": 484.6,
+      "sound_amplitude": 0.0399,
+      "energy_draw_kw": 61.89,
+      "timestamp": 1782361059.616264
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0679,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0551,
+      "health_score": 94.49,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361059.616264
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.541,
+      "temperature_c": 64.51,
+      "pressure_bar": 4.72,
+      "noise_level_db": 69.9,
+      "sound_frequency_hz": 506.5,
+      "sound_amplitude": 0.0788,
+      "energy_draw_kw": 71.8,
+      "timestamp": 1782361065.6497908
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0771,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0577,
+      "health_score": 94.23,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361065.6497908
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.963,
+      "temperature_c": 57.68,
+      "pressure_bar": 4.64,
+      "noise_level_db": 75.0,
+      "sound_frequency_hz": 494.6,
+      "sound_amplitude": 0.0536,
+      "energy_draw_kw": 70.99,
+      "timestamp": 1782361071.6701937
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0982,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0585,
+      "health_score": 94.15,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361071.6701937
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.911,
+      "temperature_c": 67.52,
+      "pressure_bar": 4.19,
+      "noise_level_db": 75.0,
+      "sound_frequency_hz": 463.9,
+      "sound_amplitude": 0.049,
+      "energy_draw_kw": 66.97,
+      "timestamp": 1782361077.6982
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0956,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0629,
+      "health_score": 93.71,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361077.6982
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.512,
+      "temperature_c": 67.32,
+      "pressure_bar": 4.72,
+      "noise_level_db": 74.0,
+      "sound_frequency_hz": 559.0,
+      "sound_amplitude": 0.0471,
+      "energy_draw_kw": 84.79,
+      "timestamp": 1782361083.7228892
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0756,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0588,
+      "health_score": 94.12,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361083.7228892
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.987,
+      "temperature_c": 72.34,
+      "pressure_bar": 4.77,
+      "noise_level_db": 83.3,
+      "sound_frequency_hz": 622.2,
+      "sound_amplitude": 0.058,
+      "energy_draw_kw": 61.52,
+      "timestamp": 1782361089.7593691
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0994,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.066,
+      "health_score": 93.4,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361089.7593691
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.544,
+      "temperature_c": 67.12,
+      "pressure_bar": 4.79,
+      "noise_level_db": 74.1,
+      "sound_frequency_hz": 574.3,
+      "sound_amplitude": 0.053,
+      "energy_draw_kw": 70.3,
+      "timestamp": 1782361095.7818048
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1272,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.069,
+      "health_score": 93.1,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361095.7818048
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 4.081,
+      "temperature_c": 81.16,
+      "pressure_bar": 4.97,
+      "noise_level_db": 91.1,
+      "sound_frequency_hz": 581.5,
+      "sound_amplitude": 0.1791,
+      "energy_draw_kw": 111.74,
+      "timestamp": 1782361101.8172808
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.2041,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0914,
+      "health_score": 90.86,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361101.8172808
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.107,
+      "temperature_c": 64.93,
+      "pressure_bar": 4.35,
+      "noise_level_db": 76.2,
+      "sound_frequency_hz": 556.0,
+      "sound_amplitude": 0.0579,
+      "energy_draw_kw": 58.12,
+      "timestamp": 1782361107.8392072
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1054,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0635,
+      "health_score": 93.65,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361107.8392072
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.47,
+      "temperature_c": 73.77,
+      "pressure_bar": 5.15,
+      "noise_level_db": 79.8,
+      "sound_frequency_hz": 607.5,
+      "sound_amplitude": 0.0458,
+      "energy_draw_kw": 85.79,
+      "timestamp": 1782361113.8683546
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1235,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0716,
+      "health_score": 92.84,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361113.8683546
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.825,
+      "temperature_c": 70.64,
+      "pressure_bar": 4.79,
+      "noise_level_db": 81.5,
+      "sound_frequency_hz": 658.1,
+      "sound_amplitude": 0.0812,
+      "energy_draw_kw": 79.14,
+      "timestamp": 1782361119.897586
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0912,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0636,
+      "health_score": 93.64,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361119.897586
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.464,
+      "temperature_c": 76.83,
+      "pressure_bar": 4.61,
+      "noise_level_db": 83.4,
+      "sound_frequency_hz": 670.7,
+      "sound_amplitude": 0.0637,
+      "energy_draw_kw": 49.82,
+      "timestamp": 1782361125.9170356
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0732,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0631,
+      "health_score": 93.69,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361125.9170356
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.495,
+      "temperature_c": 70.64,
+      "pressure_bar": 4.61,
+      "noise_level_db": 85.1,
+      "sound_frequency_hz": 643.1,
+      "sound_amplitude": 0.0726,
+      "energy_draw_kw": 95.52,
+      "timestamp": 1782361131.9493265
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0748,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0603,
+      "health_score": 93.97,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361131.9493265
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.868,
+      "temperature_c": 66.89,
+      "pressure_bar": 5.11,
+      "noise_level_db": 86.0,
+      "sound_frequency_hz": 665.4,
+      "sound_amplitude": 0.0484,
+      "energy_draw_kw": 71.38,
+      "timestamp": 1782361137.987419
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0934,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0621,
+      "health_score": 93.79,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361137.987419
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.37,
+      "temperature_c": 78.21,
+      "pressure_bar": 4.4,
+      "noise_level_db": 83.7,
+      "sound_frequency_hz": 647.3,
+      "sound_amplitude": 0.0756,
+      "energy_draw_kw": 50.15,
+      "timestamp": 1782361144.0097308
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1185,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0728,
+      "health_score": 92.72,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361144.0097308
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.481,
+      "temperature_c": 72.84,
+      "pressure_bar": 5.12,
+      "noise_level_db": 84.6,
+      "sound_frequency_hz": 654.0,
+      "sound_amplitude": 0.0697,
+      "energy_draw_kw": 77.39,
+      "timestamp": 1782361150.0370047
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.124,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0712,
+      "health_score": 92.88,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361150.0370047
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.558,
+      "temperature_c": 77.16,
+      "pressure_bar": 5.38,
+      "noise_level_db": 88.5,
+      "sound_frequency_hz": 627.6,
+      "sound_amplitude": 0.0727,
+      "energy_draw_kw": 97.43,
+      "timestamp": 1782361156.069775
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1279,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0742,
+      "health_score": 92.58,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361156.069775
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.927,
+      "temperature_c": 66.53,
+      "pressure_bar": 5.43,
+      "noise_level_db": 80.6,
+      "sound_frequency_hz": 580.1,
+      "sound_amplitude": 0.0876,
+      "energy_draw_kw": 60.17,
+      "timestamp": 1782361162.1094508
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0964,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0625,
+      "health_score": 93.75,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361162.1094508
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.446,
+      "temperature_c": 73.08,
+      "pressure_bar": 4.4,
+      "noise_level_db": 88.6,
+      "sound_frequency_hz": 613.0,
+      "sound_amplitude": 0.0574,
+      "energy_draw_kw": 60.4,
+      "timestamp": 1782361168.129802
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1223,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.071,
+      "health_score": 92.9,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361168.129802
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.438,
+      "temperature_c": 77.53,
+      "pressure_bar": 5.49,
+      "noise_level_db": 81.2,
+      "sound_frequency_hz": 627.3,
+      "sound_amplitude": 0.0556,
+      "energy_draw_kw": 89.09,
+      "timestamp": 1782361174.1559246
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0719,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0631,
+      "health_score": 93.69,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361174.1559246
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.598,
+      "temperature_c": 78.25,
+      "pressure_bar": 4.85,
+      "noise_level_db": 90.0,
+      "sound_frequency_hz": 568.2,
+      "sound_amplitude": 0.0809,
+      "energy_draw_kw": 81.57,
+      "timestamp": 1782361180.1871305
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1299,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0751,
+      "health_score": 92.49,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361180.1871305
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.27,
+      "temperature_c": 75.26,
+      "pressure_bar": 4.95,
+      "noise_level_db": 86.0,
+      "sound_frequency_hz": 609.7,
+      "sound_amplitude": 0.0599,
+      "energy_draw_kw": 70.52,
+      "timestamp": 1782361186.2254019
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1135,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0703,
+      "health_score": 92.97,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361186.2254019
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 3.852,
+      "temperature_c": 78.74,
+      "pressure_bar": 5.32,
+      "noise_level_db": 91.8,
+      "sound_frequency_hz": 654.4,
+      "sound_amplitude": 0.142,
+      "energy_draw_kw": 90.99,
+      "timestamp": 1782361192.2613814
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1926,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0879,
+      "health_score": 91.21,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361192.2613814
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.416,
+      "temperature_c": 69.63,
+      "pressure_bar": 5.38,
+      "noise_level_db": 84.8,
+      "sound_frequency_hz": 556.2,
+      "sound_amplitude": 0.0588,
+      "energy_draw_kw": 62.3,
+      "timestamp": 1782361198.2822723
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1208,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.069,
+      "health_score": 93.1,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361198.2822723
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.639,
+      "temperature_c": 64.16,
+      "pressure_bar": 4.72,
+      "noise_level_db": 83.9,
+      "sound_frequency_hz": 579.5,
+      "sound_amplitude": 0.0543,
+      "energy_draw_kw": 61.76,
+      "timestamp": 1782361204.3157532
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1319,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0685,
+      "health_score": 93.15,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361204.3157532
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.982,
+      "temperature_c": 74.17,
+      "pressure_bar": 4.71,
+      "noise_level_db": 81.1,
+      "sound_frequency_hz": 567.4,
+      "sound_amplitude": 0.0782,
+      "energy_draw_kw": 88.88,
+      "timestamp": 1782361210.3434684
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0991,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0669,
+      "health_score": 93.31,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361210.3434684
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.664,
+      "temperature_c": 66.93,
+      "pressure_bar": 4.86,
+      "noise_level_db": 85.9,
+      "sound_frequency_hz": 581.1,
+      "sound_amplitude": 0.0495,
+      "energy_draw_kw": 46.3,
+      "timestamp": 1782361216.37603
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1332,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0701,
+      "health_score": 92.99,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361216.37603
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.189,
+      "temperature_c": 61.39,
+      "pressure_bar": 4.33,
+      "noise_level_db": 75.9,
+      "sound_frequency_hz": 549.4,
+      "sound_amplitude": 0.0812,
+      "energy_draw_kw": 53.5,
+      "timestamp": 1782361222.404863
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1095,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0626,
+      "health_score": 93.74,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361222.404863
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.667,
+      "temperature_c": 65.07,
+      "pressure_bar": 4.14,
+      "noise_level_db": 84.5,
+      "sound_frequency_hz": 611.2,
+      "sound_amplitude": 0.0442,
+      "energy_draw_kw": 46.97,
+      "timestamp": 1782361228.4539948
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0834,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0592,
+      "health_score": 94.08,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361228.4539948
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.435,
+      "temperature_c": 70.25,
+      "pressure_bar": 4.74,
+      "noise_level_db": 80.2,
+      "sound_frequency_hz": 553.9,
+      "sound_amplitude": 0.0759,
+      "energy_draw_kw": 72.12,
+      "timestamp": 1782361234.4866152
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0718,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0595,
+      "health_score": 94.05,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361234.4866152
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.409,
+      "temperature_c": 62.89,
+      "pressure_bar": 4.8,
+      "noise_level_db": 72.1,
+      "sound_frequency_hz": 548.2,
+      "sound_amplitude": 0.0432,
+      "energy_draw_kw": 82.4,
+      "timestamp": 1782361240.5177054
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0704,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0555,
+      "health_score": 94.45,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361240.5177054
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.283,
+      "temperature_c": 61.25,
+      "pressure_bar": 4.23,
+      "noise_level_db": 82.0,
+      "sound_frequency_hz": 586.6,
+      "sound_amplitude": 0.0763,
+      "energy_draw_kw": 87.13,
+      "timestamp": 1782361246.545036
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1142,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0635,
+      "health_score": 93.65,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361246.545036
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 4.923,
+      "temperature_c": 86.77,
+      "pressure_bar": 5.72,
+      "noise_level_db": 101.9,
+      "sound_frequency_hz": 566.0,
+      "sound_amplitude": 0.2591,
+      "energy_draw_kw": 139.38,
+      "timestamp": 1782361252.5831037
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 1.1462,
+      "anomaly_severity": "Emergency",
+      "anomaly_type": "Multimodal breakdown",
+      "cause": "Lubrication starvation and spindle bearing alignment failure",
+      "confidence_score": 0.98,
+      "impact_estimation": "High downtime hazard, catastrophic mechanical seizure imminent",
+      "suggested_action": "TRIGGER EMERGENCY MANUAL OVERRIDE SHUTDOWN",
+      "failure_probability": 0.92,
+      "health_score": 8.0,
+      "maintenance_priority": "Critical"
+    },
+    "timestamp": 1782361252.5831037
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.036,
+      "temperature_c": 57.46,
+      "pressure_bar": 4.18,
+      "noise_level_db": 71.5,
+      "sound_frequency_hz": 587.9,
+      "sound_amplitude": 0.0466,
+      "energy_draw_kw": 56.03,
+      "timestamp": 1782361258.6032493
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1018,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0591,
+      "health_score": 94.09,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361258.6032493
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.2,
+      "temperature_c": 64.48,
+      "pressure_bar": 4.2,
+      "noise_level_db": 69.1,
+      "sound_frequency_hz": 534.6,
+      "sound_amplitude": 0.0528,
+      "energy_draw_kw": 83.22,
+      "timestamp": 1782361264.6325839
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.11,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0642,
+      "health_score": 93.58,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361264.6325839
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.852,
+      "temperature_c": 54.05,
+      "pressure_bar": 4.42,
+      "noise_level_db": 68.7,
+      "sound_frequency_hz": 547.7,
+      "sound_amplitude": 0.0618,
+      "energy_draw_kw": 65.7,
+      "timestamp": 1782361270.6631498
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0926,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0555,
+      "health_score": 94.45,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361270.6631498
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.267,
+      "temperature_c": 59.78,
+      "pressure_bar": 3.81,
+      "noise_level_db": 73.5,
+      "sound_frequency_hz": 543.8,
+      "sound_amplitude": 0.0631,
+      "energy_draw_kw": 44.13,
+      "timestamp": 1782361276.7008433
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1134,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0626,
+      "health_score": 93.74,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361276.7008433
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 4.159,
+      "temperature_c": 82.56,
+      "pressure_bar": 4.21,
+      "noise_level_db": 91.7,
+      "sound_frequency_hz": 456.2,
+      "sound_amplitude": 0.1713,
+      "energy_draw_kw": 100.34,
+      "timestamp": 1782361282.741359
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.2079,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0929,
+      "health_score": 90.71,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361282.741359
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.94,
+      "temperature_c": 55.72,
+      "pressure_bar": 4.08,
+      "noise_level_db": 66.7,
+      "sound_frequency_hz": 464.4,
+      "sound_amplitude": 0.0554,
+      "energy_draw_kw": 46.35,
+      "timestamp": 1782361288.7694907
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.097,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0573,
+      "health_score": 94.27,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361288.7694907
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.351,
+      "temperature_c": 58.95,
+      "pressure_bar": 3.88,
+      "noise_level_db": 68.6,
+      "sound_frequency_hz": 478.0,
+      "sound_amplitude": 0.0458,
+      "energy_draw_kw": 48.06,
+      "timestamp": 1782361294.7967286
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0675,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.053,
+      "health_score": 94.7,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361294.7967286
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.689,
+      "temperature_c": 55.99,
+      "pressure_bar": 3.96,
+      "noise_level_db": 70.6,
+      "sound_frequency_hz": 484.5,
+      "sound_amplitude": 0.0646,
+      "energy_draw_kw": 40.93,
+      "timestamp": 1782361636.8973224
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0845,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0549,
+      "health_score": 94.51,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361636.8973224
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.156,
+      "temperature_c": 55.38,
+      "pressure_bar": 3.59,
+      "noise_level_db": 66.2,
+      "sound_frequency_hz": 527.7,
+      "sound_amplitude": 0.0517,
+      "energy_draw_kw": 51.39,
+      "timestamp": 1782361642.9257293
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0578,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0493,
+      "health_score": 95.07,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361642.9257293
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.984,
+      "temperature_c": 61.25,
+      "pressure_bar": 4.19,
+      "noise_level_db": 61.1,
+      "sound_frequency_hz": 525.9,
+      "sound_amplitude": 0.0591,
+      "energy_draw_kw": 74.94,
+      "timestamp": 1782361648.9747195
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0992,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0605,
+      "health_score": 93.95,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361648.9747195
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.663,
+      "temperature_c": 50.88,
+      "pressure_bar": 4.14,
+      "noise_level_db": 68.4,
+      "sound_frequency_hz": 428.2,
+      "sound_amplitude": 0.0428,
+      "energy_draw_kw": 52.74,
+      "timestamp": 1782361655.0063615
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0832,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0521,
+      "health_score": 94.79,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361655.0063615
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.71,
+      "temperature_c": 59.06,
+      "pressure_bar": 3.72,
+      "noise_level_db": 61.0,
+      "sound_frequency_hz": 416.4,
+      "sound_amplitude": 0.0386,
+      "energy_draw_kw": 63.98,
+      "timestamp": 1782361661.037763
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0855,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0566,
+      "health_score": 94.34,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361661.037763
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.999,
+      "temperature_c": 47.61,
+      "pressure_bar": 3.88,
+      "noise_level_db": 60.7,
+      "sound_frequency_hz": 483.8,
+      "sound_amplitude": 0.0669,
+      "energy_draw_kw": 63.47,
+      "timestamp": 1782361667.076307
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0538,
+      "health_score": 94.62,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361667.076307
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.034,
+      "temperature_c": 56.46,
+      "pressure_bar": 4.02,
+      "noise_level_db": 66.8,
+      "sound_frequency_hz": 460.6,
+      "sound_amplitude": 0.0524,
+      "energy_draw_kw": 47.67,
+      "timestamp": 1782361673.1222076
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1017,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0586,
+      "health_score": 94.14,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361673.1222076
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.939,
+      "temperature_c": 52.28,
+      "pressure_bar": 3.94,
+      "noise_level_db": 61.3,
+      "sound_frequency_hz": 479.7,
+      "sound_amplitude": 0.0453,
+      "energy_draw_kw": 55.97,
+      "timestamp": 1782361679.1599739
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.097,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0555,
+      "health_score": 94.45,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361679.1599739
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.394,
+      "temperature_c": 47.69,
+      "pressure_bar": 3.54,
+      "noise_level_db": 65.6,
+      "sound_frequency_hz": 484.8,
+      "sound_amplitude": 0.0506,
+      "energy_draw_kw": 41.25,
+      "timestamp": 1782361685.2134137
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0697,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0478,
+      "health_score": 95.22,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361685.2134137
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.052,
+      "temperature_c": 53.64,
+      "pressure_bar": 3.41,
+      "noise_level_db": 60.5,
+      "sound_frequency_hz": 473.6,
+      "sound_amplitude": 0.0621,
+      "energy_draw_kw": 36.93,
+      "timestamp": 1782361691.2804136
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 0.3526,
+      "anomaly_severity": "Warning",
+      "anomaly_type": "Hydraulic pressure delta",
+      "cause": "Hydraulic valve leakage or air lock in lines",
+      "confidence_score": 0.88,
+      "impact_estimation": "Marginal drop in mechanical stroke efficiency, slight sound amplification",
+      "suggested_action": "Perform fluid top-up and check hydraulic seals",
+      "failure_probability": 0.45,
+      "health_score": 55.0,
+      "maintenance_priority": "Medium"
+    },
+    "timestamp": 1782361691.2804136
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.901,
+      "temperature_c": 49.24,
+      "pressure_bar": 3.99,
+      "noise_level_db": 64.0,
+      "sound_frequency_hz": 462.3,
+      "sound_amplitude": 0.0447,
+      "energy_draw_kw": 60.99,
+      "timestamp": 1782361697.3079412
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0951,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0536,
+      "health_score": 94.64,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361697.3079412
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.263,
+      "temperature_c": 53.38,
+      "pressure_bar": 3.32,
+      "noise_level_db": 66.5,
+      "sound_frequency_hz": 466.5,
+      "sound_amplitude": 0.0418,
+      "energy_draw_kw": 41.48,
+      "timestamp": 1782361703.33586
+    },
+    "local_inference": {
+      "anomaly_detected": true,
+      "anomaly_score": 0.3631,
+      "anomaly_severity": "Warning",
+      "anomaly_type": "Hydraulic pressure delta",
+      "cause": "Hydraulic valve leakage or air lock in lines",
+      "confidence_score": 0.88,
+      "impact_estimation": "Marginal drop in mechanical stroke efficiency, slight sound amplification",
+      "suggested_action": "Perform fluid top-up and check hydraulic seals",
+      "failure_probability": 0.45,
+      "health_score": 55.0,
+      "maintenance_priority": "Medium"
+    },
+    "timestamp": 1782361703.33586
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 4.274,
+      "temperature_c": 81.94,
+      "pressure_bar": 4.01,
+      "noise_level_db": 85.7,
+      "sound_frequency_hz": 425.1,
+      "sound_amplitude": 0.1285,
+      "energy_draw_kw": 93.58,
+      "timestamp": 1782361709.374449
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.2137,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0937,
+      "health_score": 90.63,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361709.374449
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.023,
+      "temperature_c": 51.82,
+      "pressure_bar": 3.76,
+      "noise_level_db": 59.5,
+      "sound_frequency_hz": 445.3,
+      "sound_amplitude": 0.037,
+      "energy_draw_kw": 65.88,
+      "timestamp": 1782361715.4318538
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1012,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0561,
+      "health_score": 94.39,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782361715.4318538
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.025,
+      "temperature_c": 57.62,
+      "pressure_bar": 4.53,
+      "noise_level_db": 72.7,
+      "sound_frequency_hz": 485.1,
+      "sound_amplitude": 0.0598,
+      "energy_draw_kw": 42.29,
+      "timestamp": 1782364438.4978585
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1013,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0591,
+      "health_score": 94.09,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782364438.4978585
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 3.918,
+      "temperature_c": 78.97,
+      "pressure_bar": 4.3,
+      "noise_level_db": 89.4,
+      "sound_frequency_hz": 553.5,
+      "sound_amplitude": 0.1375,
+      "energy_draw_kw": 95.14,
+      "timestamp": 1782364444.562801
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1959,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0887,
+      "health_score": 91.13,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782364444.562801
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.767,
+      "temperature_c": 50.6,
+      "pressure_bar": 4.29,
+      "noise_level_db": 66.5,
+      "sound_frequency_hz": 492.7,
+      "sound_amplitude": 0.0412,
+      "energy_draw_kw": 70.21,
+      "timestamp": 1782364450.6536858
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0883,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.053,
+      "health_score": 94.7,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782364450.6536858
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.663,
+      "temperature_c": 62.62,
+      "pressure_bar": 3.87,
+      "noise_level_db": 63.0,
+      "sound_frequency_hz": 450.4,
+      "sound_amplitude": 0.0696,
+      "energy_draw_kw": 42.42,
+      "timestamp": 1782364456.7589939
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0832,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0579,
+      "health_score": 94.21,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782364456.7589939
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.923,
+      "temperature_c": 53.62,
+      "pressure_bar": 4.17,
+      "noise_level_db": 63.5,
+      "sound_frequency_hz": 424.8,
+      "sound_amplitude": 0.0362,
+      "energy_draw_kw": 46.59,
+      "timestamp": 1782364462.8316274
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0962,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.056,
+      "health_score": 94.4,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782364462.8316274
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.619,
+      "temperature_c": 63.26,
+      "pressure_bar": 4.91,
+      "noise_level_db": 86.0,
+      "sound_frequency_hz": 591.0,
+      "sound_amplitude": 0.065,
+      "energy_draw_kw": 84.67,
+      "timestamp": 1782364909.0347993
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.081,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0578,
+      "health_score": 94.22,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782364909.0347993
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.597,
+      "temperature_c": 71.31,
+      "pressure_bar": 4.9,
+      "noise_level_db": 81.4,
+      "sound_frequency_hz": 515.4,
+      "sound_amplitude": 0.0665,
+      "energy_draw_kw": 80.84,
+      "timestamp": 1782364915.0921416
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1298,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0716,
+      "health_score": 92.84,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782364915.0921416
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 1.538,
+      "temperature_c": 60.95,
+      "pressure_bar": 3.63,
+      "noise_level_db": 63.8,
+      "sound_frequency_hz": 441.3,
+      "sound_amplitude": 0.0423,
+      "energy_draw_kw": 40.78,
+      "timestamp": 1782366151.6164553
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.0769,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0559,
+      "health_score": 94.41,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782366151.6164553
+  },
+  {
+    "machine_id": "M_001",
+    "telemetry": {
+      "vibration_mm_s": 2.269,
+      "temperature_c": 63.43,
+      "pressure_bar": 4.12,
+      "noise_level_db": 63.2,
+      "sound_frequency_hz": 491.8,
+      "sound_amplitude": 0.0449,
+      "energy_draw_kw": 46.67,
+      "timestamp": 1782366157.6533825
+    },
+    "local_inference": {
+      "anomaly_detected": false,
+      "anomaly_score": 0.1135,
+      "anomaly_severity": "Info",
+      "anomaly_type": "Nominal",
+      "cause": null,
+      "confidence_score": 0.95,
+      "impact_estimation": null,
+      "suggested_action": "Continue standard operations check",
+      "failure_probability": 0.0644,
+      "health_score": 93.56,
+      "maintenance_priority": "Low"
+    },
+    "timestamp": 1782366157.6533825
+  }
+]

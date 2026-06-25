@@ -17,13 +17,21 @@ import random
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
 from app.database.db import SessionLocal, Base, engine
-from app.database.models import User, Machine, Sensor, SensorReading, Alert
+from app.database import models
+from app.database.models import (
+    User, Machine, Sensor, SensorReading, Alert, 
+    MaintenanceLog, FactoryEvent, CopilotConversation, CopilotLog
+)
 
 def hash_password(password: str) -> str:
     """Helper to hash passwords securely using hashlib (standard library)"""
     return hashlib.sha256(password.encode("utf-8")).hexdigest()
 
 def seed_database():
+    print("Dropping existing database tables (Base.metadata.drop_all)...")
+    Base.metadata.drop_all(bind=engine)
+    print("Recreating database schema (Base.metadata.create_all)...")
+    Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
         print("Checking/seeding NexTwin AI database tables...")
@@ -123,7 +131,7 @@ def seed_database():
             db.commit()
             print(f"  Generated {len(readings)} historical sensor data points.")
 
-        # 5. Seed Alerts
+        # 5. Seed Alerts with detailed industrial diagnostics
         if db.query(Alert).count() == 0:
             print("  Seeding default industrial alerts...")
             alerts = [
@@ -132,19 +140,101 @@ def seed_database():
                     title="Critical Thermal Overheat",
                     message="Welder temperature sensor breached threshold (92.4 C vs max 90.0 C). Machine forced into Maintenance.",
                     severity="Critical",
-                    is_resolved=False
+                    is_resolved=False,
+                    cause="Inadequate coolant circulation and extreme work cycle load",
+                    impact="Potential thermal welding head warping and weld seam deformation",
+                    recommendation="Perform immediate heat exchanger fluid flush and cycle pause",
+                    affected_machines=["M_003"],
+                    suggested_actions=["Flush heat exchanger", "Check coolant pump pressure", "Calibrate thermal sensor"]
                 ),
                 Alert(
                     machine_id="M_001",
                     title="Acoustic Anomaly Flagged",
                     message="Unsupervised Isolation Forest engine detected structural rattle noises (anomaly score: 0.88). Inspection suggested.",
                     severity="Warning",
-                    is_resolved=False
+                    is_resolved=False,
+                    cause="Spindle bearing lubrication degradation",
+                    impact="Accelerated component wear leading to structural rattle vibration",
+                    recommendation="Schedule bearing lubrication replenishment within next 24 operating hours",
+                    affected_machines=["M_001"],
+                    suggested_actions=["Apply high-speed spindle grease", "Run sound vibration check", "Inspect bearing seals"]
                 )
             ]
             db.add_all(alerts)
             db.commit()
             print("  Alerts seeded successfully.")
+
+        # 6. Seed Maintenance Logs
+        if db.query(MaintenanceLog).count() == 0:
+            print("  Seeding maintenance logs...")
+            logs = [
+                MaintenanceLog(
+                    machine_id="M_001",
+                    action_taken="Scheduled Spindle Alignment and Belt Re-tensioning",
+                    cost=450.0,
+                    downtime_minutes=90.0,
+                    scheduled_date=datetime.utcnow() + timedelta(days=2),
+                    status="Scheduled"
+                ),
+                MaintenanceLog(
+                    machine_id="M_002",
+                    action_taken="Hydraulic Seal Replacement and Fluid Top-up",
+                    cost=1200.0,
+                    downtime_minutes=180.0,
+                    scheduled_date=datetime.utcnow() - timedelta(days=5),
+                    completed_date=datetime.utcnow() - timedelta(days=5),
+                    status="Completed",
+                    details={"fluid_brand": "Mobil DTE 25", "seals_replaced": 2}
+                )
+            ]
+            db.add_all(logs)
+            db.commit()
+            print("  Maintenance logs seeded successfully.")
+
+        # 7. Seed Factory Events
+        if db.query(FactoryEvent).count() == 0:
+            print("  Seeding factory events...")
+            events = [
+                FactoryEvent(
+                    event_type="Maintenance",
+                    severity="Info",
+                    title="Hydraulic Press Preventive Maintenance Completed",
+                    message="Scheduled fluid change and seal check completed. Machine returned to nominal operations.",
+                    machine_id="M_002"
+                ),
+                FactoryEvent(
+                    event_type="Failure",
+                    severity="Emergency",
+                    title="Robotic Welder Thermal Safety Shutdown",
+                    message="Overtemp trigger activated thermal shutdown sequence. Operator alerted.",
+                    machine_id="M_003"
+                )
+            ]
+            db.add_all(events)
+            db.commit()
+            print("  Factory events seeded successfully.")
+
+        # 8. Seed Copilot Conversations
+        if db.query(CopilotConversation).count() == 0:
+            print("  Seeding default copilot conversation...")
+            conv = CopilotConversation(
+                user_id=1,
+                title="CNC Spindle Wear Diagnostic Session"
+            )
+            db.add(conv)
+            db.commit()
+            
+            # Add a log entry for it
+            log = CopilotLog(
+                user_id=1,
+                conversation_id=conv.id,
+                prompt="Show CNC Mill machine health diagnostics.",
+                response="Machine M_001 (CNC Mill) is currently operating at 88.0% health. Spindle lubrication levels are deteriorating slightly, causing minor vibration anomaly warning scores. Recommendations: schedule bearing greasing.",
+                sources=[{"type": "database_tool", "tool": "get_machine_telemetry_M_001"}]
+            )
+            db.add(log)
+            db.commit()
+            print("  Copilot conversations seeded successfully.")
 
         print("Database seeding completed successfully!")
     except Exception as e:

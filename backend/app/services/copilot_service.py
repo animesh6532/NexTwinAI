@@ -23,8 +23,9 @@ import numpy as np
 # Adjust path to enable importing from root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
 
-from app.database.models import CopilotLog, Machine, Alert, Report
+from app.database.models import CopilotLog, Machine, Alert, Report, CopilotConversation
 from app.services.db_helpers import ensure_user
+from app.services.relationship_engine import relationship_engine
 from app.utils.logger import logger
 
 class CopilotService:
@@ -55,65 +56,240 @@ class CopilotService:
         except Exception as e:
             logger.error(f"Failed to initialize knowledge base NLP vectorizer: {str(e)}")
 
-    def ask_copilot(self, db: Session, user_id: Optional[int], prompt: str, history: Optional[List[Dict[str, str]]] = None) -> Dict[str, Any]:
+    def ask_copilot(self, db: Session, user_id: Optional[int], prompt: str, history: Optional[List[Dict[str, str]]] = None, conversation_id: Optional[int] = None) -> Dict[str, Any]:
         """
-        Main query entrypoint. Matches prompt intents, performs database audits,
-        or queries the local Q&A Vector Space Model.
+        Main query entrypoint with intent classification, database integrations, and semantic Q&A.
         """
         response_text = ""
         sources = []
         p_low = prompt.strip().lower()
 
-        # Step 1: Greeting Intent Matching
-        greetings = ["hello", "hi", "good morning", "good afternoon", "good evening", "hey", "greetings"]
+        # Step 1: Intent Classification
+        greetings = ["hello", "hi", "good morning", "good afternoon", "good evening", "hey", "greetings", "whats up", "howdy", "welcome", "hola", "yo"]
         is_greeting = any(p_low == g or p_low.startswith(g + " ") or re.match(rf"^{g}[^a-zA-Z]", p_low) for g in greetings)
         
-        if is_greeting:
-            response_text = (
-                "Hello! Welcome to the NexTwin AI Operating System Copilot. I am your deterministic local factory assistant.\n\n"
-                "I can analyze telemetry status, diagnose failure causes, and explain technical manufacturing guidelines. "
-                "How can I assist you on the floor today?"
-            )
+        # Check machine list dynamically
+        machines_list = db.query(Machine).all()
+        has_machine_mention = any(m.id.lower() in p_low for m in machines_list)
+
+        # Keywords mapping for intents
+        is_health = any(w in p_low for w in ["machine health", "how is", "health score", "health status", "equipment condition", "oee", "factory health", "operational status"])
+        is_maint = any(w in p_low for w in ["maintenance", "repair", "service", "maintenance queue", "window", "preventive plan", "priority maintenance", "schedule", "lubricat", "replace"])
+        is_energy = any(w in p_low for w in ["energy", "power", "consume", "load", "electricity", "utility", "thermal load savings", "energy analytics", "watt", "kw", "heating", "cooling"])
+        is_anomaly = any(w in p_low for w in ["anomaly", "abnormal", "deviation", "outlier", "rattle", "noise", "vibration", "unusual", "fault"])
+        is_bottleneck = any(w in p_low for w in ["bottleneck", "delay", "congestion", "starvation", "backlog", "flow", "queue", "starv", "clog", "throughput"])
+        is_alerts = any(w in p_low for w in ["alert", "alarm", "active alert", "critical alert", "warning alert", "emergency", "incident", "warning"])
+        is_reports = any(w in p_low for w in ["report", "audit", "documentation", "generate report", "compile report", "registry", "history", "log"])
+        is_sim = any(w in p_low for w in ["simulation", "what-if", "simulated", "drill", "scenario", "sandbox"])
+
+        has_other_intent = is_health or is_maint or is_energy or is_anomaly or is_bottleneck or is_alerts or is_reports or is_sim or has_machine_mention
+
+        # Step 2: Route by Intent
+        if is_greeting and not has_other_intent:
+            response_text = "Hello, I am NexTwin Copilot. I can help with machine health, maintenance, anomalies, energy optimization, simulations, reports, and factory analytics."
             sources = [{"type": "greeting_intent"}]
 
-        # Step 2: Database-Aware Live Query Routing
-        else:
-            db_keywords = ["maintenance", "repair", "failing", "fail", "why", "cause", "reason", "anomaly", "abnormal", "deviat", "energy", "electricity", "power", "consume", "bottleneck", "delay", "congestion", "slow", "summarize", "summary", "overview", "factory", "shop", "floor", "oee", "downtime"]
-            has_db_keyword = any(w in p_low for w in db_keywords)
-            m_match = re.search(r'(m_\d+)', p_low)
+        elif is_maint:
+            # Query maintenance plans
+            from app.services.decision_engine import decision_engine
+            plans = decision_engine.generate_maintenance_plans(db)
+            if not plans:
+                response_text = "### Predictive Maintenance Audit\nAll registered machine nodes are operating inside nominal ranges. No immediate maintenance actions are scheduled."
+            else:
+                response_text = "### Recommended Maintenance Planner Actions\nBased on failure risk indices and OEE metrics, the following corrective jobs are recommended:\n\n"
+                for p in plans:
+                    response_text += (
+                        f"- **Machine {p['machine_id']}**: Priority **{p['priority']}**\n"
+                        f"  - **Current Health**: {p['current_health']:.1f}%\n"
+                        f"  - **Failure Prob**: {p['failure_probability']:.1%}\n"
+                        f"  - **Timeframe Window**: *{p['maintenance_window']}*\n"
+                        f"  - **Estimated Downtime / Cost**: {p['estimated_downtime_minutes']} mins / ${p['estimated_cost_usd']}\n"
+                        f"  - **Action Item**: {p['suggested_action']}\n\n"
+                    )
+            sources = [{"type": "agentic_tool", "tool": "maintenance_planner"}]
+
+        elif is_energy:
+            # Query energy insights
+            from app.services.decision_engine import decision_engine
+            energy_insights = decision_engine.generate_energy_optimization(db)
+            ranking = energy_insights["machines_ranking"]
             
-            if has_db_keyword or m_match:
-                # Query DB metrics
-                response_text, sources = self._query_database_state(db, prompt)
+            if not ranking:
+                response_text = "### Energy Audit\nNo active telemetry logs loaded in energy database."
+            else:
+                response_text = f"### Factory Energy Footprint & Optimization\n"
+                response_text += f"- **Potential Savings Available**: **${energy_insights['total_potential_savings_usd']:.2f}/year**\n"
+                response_text += f"- **Peak Load Machines**: {', '.join(energy_insights['peak_load_assets']) or 'None'}\n\n"
+                response_text += "**Asset Load Consumption Ranking:**\n"
+                for idx, r in enumerate(ranking):
+                    response_text += f"{idx+1}. Machine **{r['machine_id']}**: **{r['power_draw_kw']:.1f} kW** | Waste: {r['waste_pct']}% | Potential Savings: ${r['annual_cost_savings_usd']}/yr\n"
+                
+                response_text += "\n**Optimization Suggestions:**\n"
+                for sug in energy_insights["optimization_suggestions"]:
+                    response_text += f"- **[{sug['category']}]**: {sug['message']} (Savings: ${sug['estimated_savings_usd']}/yr)\n"
+            sources = [{"type": "agentic_tool", "tool": "energy_optimizer"}]
+
+        elif is_anomaly:
+            # Query active anomalies
+            from app.database.models import AnomalyPrediction
+            latest_anomaly = db.query(AnomalyPrediction).order_by(AnomalyPrediction.timestamp.desc()).first()
+            if latest_anomaly and latest_anomaly.anomaly_detected:
+                response_text = (
+                    f"### Sensor Anomaly Audit\n"
+                    f"An active anomaly was detected on machine **{latest_anomaly.machine_id}** "
+                    f"at {latest_anomaly.timestamp.strftime('%Y-%m-%d %H:%M:%S')} using the **{latest_anomaly.method}** engine.\n\n"
+                    f"- **Anomaly Severity**: **{latest_anomaly.severity}**\n"
+                    f"- **Anomaly Type**: {latest_anomaly.anomaly_type}\n"
+                    f"- **Estimated Cause**: {latest_anomaly.cause}\n"
+                    f"- **Failure Impact**: {latest_anomaly.impact_estimation}\n"
+                    f"- **Local Confidence Score**: {latest_anomaly.confidence_score:.1%}\n"
+                    f"- **Operator Recommendation**: *{latest_anomaly.suggested_action}*"
+                )
+            else:
+                response_text = "### Sensor Anomaly Audit\nNo active anomalies detected across the plant floor. All streams align with standard distributions."
+            sources = [{"type": "database_query", "table": "anomaly_predictions"}]
+
+        elif is_bottleneck:
+            # Query bottlenecks
+            bottlenecks = relationship_engine.analyze_bottlenecks(db)
+            ranking = bottlenecks["bottlenecks_ranking"]
             
-            # Step 3: Semantic QA Matching using TF-IDF Vector space
-            elif self.vectorizer is not None and self.tfidf_matrix is not None and len(self.kb_data) > 0:
-                try:
-                    query_vec = self.vectorizer.transform([prompt])
-                    similarities = cosine_similarity(query_vec, self.tfidf_matrix).flatten()
-                    best_match_idx = np.argmax(similarities)
-                    score = similarities[best_match_idx]
+            if not ranking:
+                response_text = "### Production Flow Audit\nNo bottleneck history logged."
+            else:
+                response_text = "### Production Flow & Bottleneck Diagnostics\n"
+                primary = bottlenecks["primary_bottleneck"]
+                if primary:
+                    response_text += f"**Primary Bottleneck Node**: Machine **{primary['machine_id']}** (Score: {primary['bottleneck_score']}/10 | Delay: {primary['predicted_delay_seconds']}s)\n\n"
+                
+                response_text += "**Flow Congestion Ranking:**\n"
+                for r in ranking:
+                    response_text += f"- **Machine {r['machine_id']}**: Score **{r['bottleneck_score']:.1f}** | Congestion Prob: {r['congestion_probability']:.1%} | Status: **{r['status']}**\n"
+                
+                if bottlenecks["propagation_impact"]:
+                    response_text += "\n**Downstream Starvation Impact:**\n"
+                    for imp in bottlenecks["propagation_impact"]:
+                        response_text += f"- Downstream machine **{imp['downstream_machine_id']}**: Risk increases by +{imp['risk_increase_pct']}% | Expected delay: {imp['expected_cycle_delay_seconds']}s\n"
+            sources = [{"type": "agentic_tool", "tool": "bottleneck_analyzer"}]
+
+        elif is_alerts:
+            # Query active alerts
+            active_alerts = db.query(Alert).filter(Alert.is_resolved == False).all()
+            if not active_alerts:
+                response_text = "### Alerts Status\nNo active unresolved alerts on the factory floor."
+            else:
+                response_text = "### Active Unresolved Alerts\n"
+                for idx, a in enumerate(active_alerts):
+                    response_text += (
+                        f"{idx+1}. **{a.title}** ({a.machine_id}) - Severity: **{a.severity}**\n"
+                        f"   - **Message**: {a.message}\n"
+                        f"   - **Cause**: {a.cause or 'Unknown'}\n"
+                        f"   - **Recommendation**: {a.recommendation or 'Inspect immediately'}\n\n"
+                    )
+            sources = [{"type": "database_query", "table": "alerts"}]
+
+        elif is_reports:
+            # Query reports list
+            reps = db.query(Report).order_by(Report.created_at.desc()).limit(5).all()
+            if not reps:
+                response_text = "### Intelligence Reports Registry\nNo performance reports have been compiled yet. Use the Reports panel to generate one."
+            else:
+                response_text = "### Compiled Plant Audit Reports (Latest 5)\n\n"
+                for r in reps:
+                    response_text += f"- **{r.title}** ({r.report_type}) - Generated on {r.created_at.strftime('%Y-%m-%d %H:%M:%S')}\n"
+            sources = [{"type": "database_query", "table": "reports"}]
+
+        elif is_sim:
+            # Query simulation runs and recommendations
+            from app.services.decision_engine import decision_engine
+            recs = decision_engine.recommend_simulations(db)
+            response_text = "### What-If Simulation Sandbox Status\n\n**Operator Recommendations:**\n"
+            for r in recs[:3]:
+                response_text += f"- **{r['scenario_type']} on {r['machine_id']}**: {r['reason']}\n"
+            sources = [{"type": "agentic_tool", "tool": "simulation_planner"}]
+
+        elif is_health or (any(m.id.lower() in p_low for m in db.query(Machine).all())):
+            # Root cause / Machine health details
+            from app.services.decision_engine import decision_engine
+            summary_info = decision_engine.summarize_factory_health(db)
+            response_text = summary_info["summary_markdown"]
+            
+            # Append recommended simulations
+            sim_recs = decision_engine.recommend_simulations(db)
+            if sim_recs:
+                response_text += "\n**Recommended Diagnostic Simulations:**\n"
+                for rec in sim_recs[:2]:
+                    response_text += f"- **{rec['scenario_type']} on {rec['machine_id']}**: {rec['reason']}\n"
+            sources = [{"type": "factory_summary", "overall_oee": summary_info["metrics"]["avg_oee"]}]
+
+        # Step 3: Semantic QA Matching using TF-IDF Vector space
+        elif self.vectorizer is not None and self.tfidf_matrix is not None and len(self.kb_data) > 0:
+            try:
+                query_vec = self.vectorizer.transform([prompt])
+                similarities = cosine_similarity(query_vec, self.tfidf_matrix).flatten()
+                best_match_idx = np.argmax(similarities)
+                score = similarities[best_match_idx]
+                
+                if score >= 0.15:  # threshold of similarity
+                    matched_qa = self.kb_data[best_match_idx]
+                    base_answer = matched_qa["answer"]
                     
-                    if score >= 0.15:  # threshold of similarity
-                        matched_qa = self.kb_data[best_match_idx]
-                        response_text = matched_qa["answer"]
-                        sources = [{"type": "knowledge_base", "category": matched_qa.get("category"), "confidence_score": round(float(score), 3)}]
-                    else:
-                        response_text = self._get_default_response()
-                        sources = []
-                except Exception as e:
-                    logger.error(f"Semantic match failed: {str(e)}")
+                    # Dynamically inject backend state variables based on QA category
+                    from app.services.decision_engine import decision_engine
+                    sum_metrics = decision_engine.summarize_factory_health(db)
+                    m_metrics = sum_metrics["metrics"]
+                    
+                    state_msg = ""
+                    cat_low = matched_qa.get("category", "").lower()
+                    
+                    if "health" in cat_low or "oee" in cat_low:
+                        state_msg = f"\n\n**Current Live Status**: Overall factory average OEE is currently **{m_metrics['avg_oee']:.1f}%**, with {m_metrics['healthy_count']} healthy machine cells, {m_metrics['warning_count']} warning states, and {m_metrics['critical_count']} critical alerts."
+                    elif "energy" in cat_low:
+                        e_opt = decision_engine.generate_energy_optimization(db)
+                        state_msg = f"\n\n**Current Live Status**: Total plant active energy draw is currently **{m_metrics['total_power_kw']:.1f} kW**. Dynamic calculations project potential annual savings of **${e_opt['total_potential_savings_usd']:.2f}** under shift staging rules."
+                    elif "anomaly" in cat_low:
+                        state_msg = f"\n\n**Current Live Status**: The platform registers {m_metrics['critical_count'] + m_metrics['warning_count']} active anomalies/alarms."
+                    elif "maintenance" in cat_low:
+                        plans = decision_engine.generate_maintenance_plans(db)
+                        state_msg = f"\n\n**Current Live Status**: There are currently **{len(plans)}** machinery nodes flagged for predictive service scheduler reviews."
+                    
+                    response_text = base_answer + state_msg
+                    sources = [{"type": "knowledge_base", "category": matched_qa.get("category"), "confidence_score": round(float(score), 3)}]
+                else:
                     response_text = self._get_default_response()
                     sources = []
-            else:
+            except Exception as e:
+                logger.error(f"Semantic match failed: {str(e)}")
                 response_text = self._get_default_response()
                 sources = []
+        else:
+            response_text = self._get_default_response()
+            sources = []
 
         # Log conversation to database
         user_id = user_id or 1
         ensure_user(db, user_id)
+        
+        # Ensure a conversation session exists
+        from app.database.models import CopilotConversation
+        if not conversation_id:
+            # Check if there is an active conversation or create one
+            existing_conv = db.query(CopilotConversation).filter(CopilotConversation.user_id == user_id).order_by(CopilotConversation.created_at.desc()).first()
+            if existing_conv:
+                conversation_id = existing_conv.id
+            else:
+                new_conv = CopilotConversation(
+                    user_id=user_id,
+                    title=f"Session: {prompt[:30]}..."
+                )
+                db.add(new_conv)
+                db.commit()
+                db.refresh(new_conv)
+                conversation_id = new_conv.id
+
         db_log = CopilotLog(
             user_id=user_id,
+            conversation_id=conversation_id,
             prompt=prompt,
             response=response_text,
             sources=sources,
@@ -121,11 +297,12 @@ class CopilotService:
         )
         db.add(db_log)
         db.commit()
-        logger.info(f"Conversational Copilot log saved for User {user_id}")
+        logger.info(f"Conversational Copilot log saved for User {user_id} in Conversation {conversation_id}")
 
         return {
             "response": response_text,
             "sources": sources,
+            "conversation_id": conversation_id,
             "timestamp": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
         }
 
@@ -135,6 +312,17 @@ class CopilotService:
         if user_id:
             query = query.filter(CopilotLog.user_id == user_id)
         return query.order_by(CopilotLog.created_at.desc()).limit(limit).all()
+
+    def get_conversations(self, db: Session, user_id: Optional[int] = None) -> List[CopilotConversation]:
+        """Fetch all conversation sessions for a user."""
+        query = db.query(CopilotConversation)
+        if user_id:
+            query = query.filter(CopilotConversation.user_id == user_id)
+        return query.order_by(CopilotConversation.created_at.desc()).all()
+
+    def get_conversation_logs(self, db: Session, conversation_id: int) -> List[CopilotLog]:
+        """Fetch all chat logs for a specific conversation session."""
+        return db.query(CopilotLog).filter(CopilotLog.conversation_id == conversation_id).order_by(CopilotLog.created_at.asc()).all()
 
     def _get_default_response(self) -> str:
         return (
@@ -150,69 +338,63 @@ class CopilotService:
 
     def _query_database_state(self, db: Session, prompt: str) -> tuple:
         """Database-aware conversational analyzer querying live operational parameters"""
-        import re
+        from app.services.decision_engine import decision_engine
         p_low = prompt.lower()
         
-        # 1. Maintenance needs query
+        # 1. Maintenance plans query
         if any(w in p_low for w in ["maintenance", "need", "repair", "failing", "fail"]):
-            from app.database.models import HealthPrediction
-            machines = db.query(Machine).all()
-            needs_maintenance = []
-            for m in machines:
-                last_health = db.query(HealthPrediction).filter(HealthPrediction.machine_id == m.id).order_by(HealthPrediction.timestamp.desc()).first()
-                if last_health and (last_health.maintenance_priority in ["Critical", "High"] or last_health.failure_risk > 0.5):
-                    needs_maintenance.append(
-                        f"- **{m.name} ({m.id})**: Priority **{last_health.maintenance_priority}** (Failure Risk: {last_health.failure_risk:.1%}, Health Index: {last_health.health_score}/100)"
-                    )
-            
-            if needs_maintenance:
-                res = "Based on predictive maintenance models, the following assets require immediate attention:\n\n" + "\n".join(needs_maintenance)
+            plans = decision_engine.generate_maintenance_plans(db)
+            if not plans:
+                res = "### Predictive Maintenance Audit\nAll registered machine nodes are operating inside nominal ranges. No immediate maintenance actions are scheduled."
             else:
-                res = "All machines are currently operating within safe parameters. No immediate maintenance is required."
-            sources = [{"type": "database_query", "table": "health_predictions"}]
+                res = "### Recommended Maintenance Planner Actions\nBased on failure risk indices and OEE metrics, the following corrective jobs are recommended:\n\n"
+                for p in plans:
+                    res += (
+                        f"- **Machine {p['machine_id']}**: Priority **{p['priority']}**\n"
+                        f"  - **Current Health**: {p['current_health']:.1f}%\n"
+                        f"  - **Failure Prob**: {p['failure_probability']:.1%}\n"
+                        f"  - **Timeframe Window**: *{p['maintenance_window']}*\n"
+                        f"  - **Estimated Downtime / Cost**: {p['estimated_downtime_minutes']} mins / ${p['estimated_cost_usd']}\n"
+                        f"  - **Action Item**: {p['suggested_action']}\n\n"
+                    )
+            sources = [{"type": "agentic_tool", "tool": "maintenance_planner"}]
             return res, sources
 
-        # 2. Specific machine failing root-cause analysis
+        # 2. Specific machine root-cause analysis
         m_match = re.search(r'(m_\d+)', p_low)
         if m_match or (any(w in p_low for w in ["why", "cause", "reason"]) and any(m.id.lower() in p_low for m in db.query(Machine).all())):
-            from app.database.models import HealthPrediction, Sensor, SensorReading
             m_id = m_match.group(1).upper() if m_match else "M_001"
             machine = db.query(Machine).filter(Machine.id == m_id).first()
             if not machine:
                 return f"Machine {m_id} is not registered in the system.", []
                 
+            from app.database.models import HealthPrediction, AnomalyPrediction
             last_health = db.query(HealthPrediction).filter(HealthPrediction.machine_id == m_id).order_by(HealthPrediction.timestamp.desc()).first()
-            latest_alerts = db.query(Alert).filter(Alert.machine_id == m_id, Alert.is_resolved == False).all()
+            last_anomaly = db.query(AnomalyPrediction).filter(AnomalyPrediction.machine_id == m_id).order_by(AnomalyPrediction.timestamp.desc()).first()
+            active_alerts = db.query(Alert).filter(Alert.machine_id == m_id, Alert.is_resolved == False).all()
             
-            reasons = []
-            if last_health and last_health.details:
-                details = last_health.details
-                wear = details.get("tool_wear", 0)
-                proc_temp = details.get("process_temperature", 310)
-                air_temp = details.get("air_temperature", 300)
-                torque = details.get("torque", 40)
+            res = f"### Root Cause & Diagnostics: Machine **{machine.name} ({m_id})**\n\n"
+            
+            if last_health:
+                res += f"- **OEE Health score**: {last_health.health_score:.1f}/100\n"
+                res += f"- **Catastrophic Failure Probability**: {last_health.failure_risk:.1%}\n"
+                res += f"- **Maintenance Priority**: **{last_health.maintenance_priority}**\n\n"
                 
-                if wear > 180:
-                    reasons.append(f"Tool wear limits are breached ({wear} mins / max 240 mins).")
-                if abs(proc_temp - air_temp) < 8.6:
-                    reasons.append(f"Process cooling system underperforming (temp difference of only {abs(proc_temp - air_temp):.2f} K).")
-                if proc_temp > 322.0:
-                    reasons.append(f"Thermal overload: Operating temperature high at {proc_temp:.1f} K.")
-                if torque > 65.0:
-                    reasons.append(f"High mechanical load: torque measured at {torque:.1f} Nm.")
-            
-            for a in latest_alerts:
-                reasons.append(f"Active alert raised: {a.title} ({a.message})")
+            reasons = []
+            if last_anomaly and last_anomaly.anomaly_detected:
+                reasons.append(
+                    f"**Sensor Anomaly Flagged** ({last_anomaly.anomaly_type}): "
+                    f"Cause: {last_anomaly.cause}. Impact: {last_anomaly.impact_estimation}. Suggested Action: {last_anomaly.suggested_action}."
+                )
+            for a in active_alerts:
+                reasons.append(
+                    f"**Active Alert**: {a.title} - Cause: {a.cause}. Impact: {a.impact}. Action: {a.recommendation}."
+                )
                 
             if not reasons:
-                reasons.append("No telemetry anomalies or threshold breaches are currently detected on this asset.")
+                reasons.append("No active alerts, threshold deviations, or telemetry anomalies registered.")
                 
-            res = f"### Root Cause Analysis for machine **{machine.name} ({m_id})**:\n\n"
-            if last_health:
-                res += f"- **Current Health score**: {last_health.health_score}/100\n"
-                res += f"- **Estimated Failure Probability**: {last_health.failure_risk:.1%}\n"
-                res += f"- **Maintenance Priority**: **{last_health.maintenance_priority}**\n\n"
-            res += "**Contributing Root Factors:**\n" + "\n".join([f"{idx+1}. {r}" for idx, r in enumerate(reasons)])
+            res += "**Contributing Risk Factors:**\n" + "\n".join([f"{idx+1}. {r}" for idx, r in enumerate(reasons)])
             sources = [{"type": "root_cause_analysis", "machine_id": m_id}]
             return res, sources
 
@@ -221,102 +403,80 @@ class CopilotService:
             from app.database.models import AnomalyPrediction
             latest_anomaly = db.query(AnomalyPrediction).order_by(AnomalyPrediction.timestamp.desc()).first()
             if latest_anomaly and latest_anomaly.anomaly_detected:
-                m_id = latest_anomaly.machine_id
-                m_info = db.query(Machine).filter(Machine.id == m_id).first()
-                det_str = ", ".join([f"{k}: {v}" for k, v in latest_anomaly.details.items()]) if latest_anomaly.details else "Vibration & acoustic signature breach"
                 res = (
-                    f"An active anomaly was detected on **{m_info.name if m_info else m_id} ({m_id})** "
-                    f"at {latest_anomaly.timestamp.strftime('%Y-%m-%d %H:%M:%S')} using the **{latest_anomaly.method}** model.\n\n"
-                    f"- **Anomaly Score**: {latest_anomaly.anomaly_score:.4f}\n"
-                    f"- **Trigger Signatures**: {det_str}\n"
-                    f"- **Explanation**: The sensor readings indicate a shift away from nominal factory distribution patterns, suggesting mechanical slippage or structural friction."
+                    f"### Sensor Anomaly Audit\n"
+                    f"An active anomaly was detected on machine **{latest_anomaly.machine_id}** "
+                    f"at {latest_anomaly.timestamp.strftime('%Y-%m-%d %H:%M:%S')} using the **{latest_anomaly.method}** engine.\n\n"
+                    f"- **Anomaly Severity**: **{latest_anomaly.severity}**\n"
+                    f"- **Anomaly Type**: {latest_anomaly.anomaly_type}\n"
+                    f"- **Estimated Cause**: {latest_anomaly.cause}\n"
+                    f"- **Failure Impact**: {latest_anomaly.impact_estimation}\n"
+                    f"- **Local Confidence Score**: {latest_anomaly.confidence_score:.1%}\n"
+                    f"- **Operator Recommendation**: *{latest_anomaly.suggested_action}*"
                 )
             else:
-                res = "No anomalous patterns are currently registered in the factory telemetry database. All sensors match nominal baseline operating distributions."
+                res = "### Sensor Anomaly Audit\nNo active anomalies detected across the plant floor. All streams align with standard distributions."
             sources = [{"type": "database_query", "table": "anomaly_predictions"}]
             return res, sources
 
         # 4. Energy footprint query
         if any(w in p_low for w in ["energy", "electricity", "power", "consume"]):
-            from app.database.models import EnergyPrediction
-            latest_preds = db.query(EnergyPrediction).order_by(EnergyPrediction.timestamp.desc()).all()
-            seen = set()
-            machine_energy = []
-            for ep in latest_preds:
-                if ep.machine_id and ep.machine_id not in seen:
-                    seen.add(ep.machine_id)
-                    tot_load = ep.predicted_heating_load + ep.predicted_cooling_load
-                    machine_energy.append((ep.machine_id, tot_load, ep.energy_optimization_score))
+            energy_insights = decision_engine.generate_energy_optimization(db)
+            ranking = energy_insights["machines_ranking"]
             
-            if machine_energy:
-                machine_energy.sort(key=lambda x: x[1], reverse=True)
-                top_m, top_load, top_score = machine_energy[0]
-                m_info = db.query(Machine).filter(Machine.id == top_m).first()
-                res = (
-                    f"The machine consuming the most energy is **{m_info.name if m_info else top_m} ({top_m})** with a total "
-                    f"predicted structural thermal load of **{top_load:.2f} kW**.\n\n"
-                    f"- **Energy Optimization Score**: {top_score:.1f}/100\n"
-                    f"- **Waste Percentage**: {100.0 - top_score:.1f}%\n"
-                    f"**Recommendations**: Lower the glazing area ratio in this zone to 10% to capture an estimated savings of **4.5 kW** in cooling load."
-                )
+            if not ranking:
+                res = "### Energy Audit\nNo active telemetry logs loaded in energy database."
             else:
-                res = "No energy optimization records are currently logged in the database."
-            sources = [{"type": "database_query", "table": "energy_predictions"}]
+                res = f"### Factory Energy Footprint & Optimization\n"
+                res += f"- **Potential Savings Available**: **${energy_insights['total_potential_savings_usd']:.2f}/year**\n"
+                res += f"- **Peak Load Machines**: {', '.join(energy_insights['peak_load_assets']) or 'None'}\n\n"
+                res += "**Asset Load Consumption Ranking:**\n"
+                for idx, r in enumerate(ranking):
+                    res += f"{idx+1}. Machine **{r['machine_id']}**: **{r['power_draw_kw']:.1f} kW** | Waste: {r['waste_pct']}% | Potential Savings: ${r['annual_cost_savings_usd']}/yr\n"
+                
+                res += "\n**Optimization Suggestions:**\n"
+                for sug in energy_insights["optimization_suggestions"]:
+                    res += f"- **[{sug['category']}]**: {sug['message']} (Savings: ${sug['estimated_savings_usd']}/yr)\n"
+            sources = [{"type": "agentic_tool", "tool": "energy_optimizer"}]
             return res, sources
 
         # 5. Bottleneck query
         if any(w in p_low for w in ["bottleneck", "delay", "congestion", "slow"]):
-            from app.database.models import BottleneckPrediction
-            latest_bottlenecks = db.query(BottleneckPrediction).order_by(BottleneckPrediction.timestamp.desc()).all()
-            seen = set()
-            b_list = []
-            for bp in latest_bottlenecks:
-                if bp.machine_id not in seen:
-                    seen.add(bp.machine_id)
-                    m_info = db.query(Machine).filter(Machine.id == bp.machine_id).first()
-                    b_list.append(
-                        f"- **{m_info.name if m_info else bp.machine_id} ({bp.machine_id})**: "
-                        f"Severity Index **{bp.bottleneck_risk_score}/10** | Congestion Prob: {bp.congestion_probability:.1%} | Est. Delay: {bp.predicted_production_delay} units"
-                    )
+            bottlenecks = relationship_engine.analyze_bottlenecks(db)
+            ranking = bottlenecks["bottlenecks_ranking"]
             
-            if b_list:
-                res = "Here are the current production bottlenecks identified on the line:\n\n" + "\n".join(b_list)
+            if not ranking:
+                res = "### Production Flow Audit\nNo bottleneck history logged."
             else:
-                res = "No line bottlenecks or cycle delays are currently predicted."
-            sources = [{"type": "database_query", "table": "bottleneck_predictions"}]
+                res = "### Production Flow & Bottleneck Diagnostics\n"
+                primary = bottlenecks["primary_bottleneck"]
+                if primary:
+                    res += f"**Primary Bottleneck Node**: Machine **{primary['machine_id']}** (Score: {primary['bottleneck_score']}/10 | Delay: {primary['predicted_delay_seconds']}s)\n\n"
+                
+                res += "**Flow Congestion Ranking:**\n"
+                for r in ranking:
+                    res += f"- **Machine {r['machine_id']}**: Score **{r['bottleneck_score']:.1f}** | Congestion Prob: {r['congestion_probability']:.1%} | Status: **{r['status']}**\n"
+                
+                if bottlenecks["propagation_impact"]:
+                    res += "\n**Downstream Starvation Impact:**\n"
+                    for imp in bottlenecks["propagation_impact"]:
+                        res += f"- Downstream machine **{imp['downstream_machine_id']}**: Risk increases by +{imp['risk_increase_pct']}% | Expected delay: {imp['expected_cycle_delay_seconds']}s\n"
+            sources = [{"type": "agentic_tool", "tool": "bottleneck_analyzer"}]
             return res, sources
 
         # 6. Factory health summary
         if any(w in p_low for w in ["summarize", "summary", "overview", "factory", "shop", "floor", "oee", "downtime"]):
-            from app.database.models import HealthPrediction, AnomalyPrediction
-            machines = db.query(Machine).all()
-            active_alerts = db.query(Alert).filter(Alert.is_resolved == False).count()
+            summary_info = decision_engine.summarize_factory_health(db)
+            res = summary_info["summary_markdown"]
             
-            healths = []
-            for m in machines:
-                lh = db.query(HealthPrediction).filter(HealthPrediction.machine_id == m.id).order_by(HealthPrediction.timestamp.desc()).first()
-                if lh:
-                    healths.append(lh.health_score)
-            
-            avg_health = sum(healths) / len(healths) if healths else 100.0
-            active_anomalies = db.query(AnomalyPrediction).filter(AnomalyPrediction.anomaly_detected == True).count()
-            
-            status_text = "HEALTHY"
-            if active_alerts > 0 or active_anomalies > 0:
-                status_text = "WARNING"
-            if active_alerts > 2:
-                status_text = "CRITICAL"
-                
-            res = (
-                f"### Factory Health & Operations Summary\n"
-                f"- **Overall Status**: **{status_text}**\n"
-                f"- **Assets Under Monitoring**: {len(machines)}\n"
-                f"- **Average Asset Health Index**: {avg_health:.1f}/100\n"
-                f"- **Active Unresolved Alerts**: {active_alerts}\n"
-                f"- **Unsupervised Telemetry Anomalies**: {active_anomalies}\n\n"
-                f"All predictive models are actively validating edge logs."
-            )
-            sources = [{"type": "factory_summary", "assets_monitored": len(machines)}]
+            # Append recommended simulations
+            sim_recs = decision_engine.recommend_simulations(db)
+            if sim_recs:
+                res += "\n**Recommended Diagnostic Simulations:**\n"
+                for rec in sim_recs[:2]:
+                    res += f"- **{rec['scenario_type']} on {rec['machine_id']}**: {rec['reason']}\n"
+                    
+            sources = [{"type": "factory_summary", "overall_oee": summary_info["metrics"]["avg_oee"]}]
             return res, sources
 
         return self._get_default_response(), []

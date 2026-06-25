@@ -300,7 +300,7 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
                   <Search className="h-4.5 w-4.5 text-[#00AEEF]" />
                 </button>
 
-                {/* Notifications Bell (Pops UP directly above the dock) */}
+                {/* Notifications Bell (Triggers slide-over notification center) */}
                 <div className="relative">
                   <button
                     onClick={() => {
@@ -314,25 +314,10 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
                       "flex h-8 w-8 items-center justify-center rounded-full hover:bg-slate-900/5 hover:-translate-y-0.5 hover:scale-105 text-slate-500 hover:text-[#00AEEF] transition duration-200",
                       notificationPanelOpen && "text-[#00AEEF] bg-[#00AEEF]/5"
                     )}
-                    aria-label="Notifications Dropdown"
+                    aria-label="Notifications Panel"
                   >
                     <Bell className="h-4.5 w-4.5" />
-                    {unreadCount > 0 && (
-                      <span className="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[7px] font-black text-white ring-2 ring-white animate-pulse">
-                        {unreadCount}
-                      </span>
-                    )}
                   </button>
-
-                  <AnimatePresence>
-                    {notificationPanelOpen && (
-                      <NotificationDropdown 
-                        notifications={notifications} 
-                        clear={clearNotifications}
-                        onClose={() => setNotificationPanelOpen(false)} 
-                      />
-                    )}
-                  </AnimatePresence>
                 </div>
 
                 {/* Profile Avatar (Pops UP directly above the dock) */}
@@ -391,6 +376,14 @@ export function AppShell({ children, hideHeader = false }: { children: React.Rea
         <CommandPalette />
         <MobileNavigation open={mobileOpen} onClose={() => setMobileOpen(false)} />
         <ToastOverlay toasts={toasts} removeToast={removeToast} />
+        
+        <AnimatePresence>
+          {notificationPanelOpen && (
+            <NotificationCenterDrawer 
+              onClose={() => setNotificationPanelOpen(false)} 
+            />
+          )}
+        </AnimatePresence>
 
         {/* Floating AI Copilot Assistant */}
         <FloatingCopilot />
@@ -450,23 +443,24 @@ function ToastOverlay({ toasts, removeToast }: { toasts: any[]; removeToast: (id
   );
 }
 
-/* ========================================================
-   SLIDE-UP NOTIFICATIONS DROPDOWN PANEL (Pops UP above bottom dock)
+    /* ========================================================
+   SLIDE-OVER NOTIFICATIONS DRAWER PANEL (Notification Center)
    ======================================================== */
-function NotificationDropdown({
-  notifications,
-  clear,
-  onClose,
-}: {
-  notifications: any[];
-  clear: () => void;
-  onClose: () => void;
-}) {
-  const dropdownRef = useRef<HTMLDivElement>(null);
+function NotificationCenterDrawer({ onClose }: { onClose: () => void }) {
+  const drawerRef = useRef<HTMLDivElement>(null);
+  
+  const {
+    notifications,
+    clearNotifications,
+    soundVolume,
+    soundMuted,
+    setSoundVolume,
+    setSoundMuted,
+  } = useNotificationStore();
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (drawerRef.current && !drawerRef.current.contains(e.target as Node)) {
         onClose();
       }
     }
@@ -474,7 +468,7 @@ function NotificationDropdown({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
-  // Group notifications into requested sections
+  // Group notifications into categories
   const grouped = useMemo(() => {
     return {
       critical: notifications.filter((n) => n.category === "critical"),
@@ -488,67 +482,153 @@ function NotificationDropdown({
 
   const hasAny = notifications.length > 0;
 
+  const handleTestChime = () => {
+    soundSynthesizer.play("success", soundVolume, soundMuted);
+  };
+
   return (
-    <motion.div
-      ref={dropdownRef}
-      initial={{ opacity: 0, y: -15 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className="absolute right-0 bottom-full mb-4 w-88 max-w-[calc(100vw-2rem)] rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl glass-dropdown-panel z-50 overflow-hidden"
-    >
-      <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
-        <h4 className="text-xs font-black uppercase tracking-wider text-slate-800">Notification Feed</h4>
-        {hasAny && (
-          <button
-            onClick={clear}
-            className="text-[9px] font-bold uppercase tracking-wider text-[#00AEEF] hover:text-[#38BDF8]"
-          >
-            Clear All
-          </button>
-        )}
-      </div>
+    <>
+      {/* Backdrop overlay */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-[9999]"
+        onClick={onClose}
+      />
 
-      <div className="space-y-4 max-h-[350px] overflow-y-auto pr-1">
-        {hasAny ? (
-          Object.keys(grouped).map((cat) => {
-            const list = grouped[cat as keyof typeof grouped] || [];
-            if (list.length === 0) return null;
-
-            const categoryHeaders = {
-              critical: "🚨 Critical Alerts",
-              warning: "⚠️ Warnings",
-              maintenance: "🔧 Maintenance Events",
-              simulation: "📊 Simulation Results",
-              system: "⚙️ System Events",
-              prediction: "🧠 Prediction Events",
-            };
-
-            return (
-              <div key={cat} className="space-y-2">
-                <span className="text-[9px] font-black uppercase tracking-wider text-slate-400 font-mono-tech block">
-                  {categoryHeaders[cat as keyof typeof categoryHeaders]}
-                </span>
-                <div className="space-y-1.5">
-                  {list.map((item) => (
-                    <div
-                      key={item.id}
-                      className="rounded-xl border border-slate-100 bg-slate-50/50 p-2.5 text-xs text-slate-700 hover:bg-slate-50 transition"
-                    >
-                      <div className="font-extrabold text-slate-900">{item.title}</div>
-                      <div className="text-[10px] text-slate-505 mt-0.5 leading-normal">{item.description}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          <div className="py-8 text-center text-slate-400 font-bold uppercase tracking-wider text-[10px] font-mono-tech">
-            🟢 No Active Notifications
+      {/* Drawer Container */}
+      <motion.div
+        ref={drawerRef}
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ type: "spring", damping: 26, stiffness: 220 }}
+        className="fixed top-0 right-0 h-full w-96 max-w-full bg-white border-l border-slate-200 shadow-2xl z-[10000] flex flex-col justify-between text-slate-800"
+      >
+        {/* Header */}
+        <div className="border-b border-slate-100 p-5 flex items-center justify-between">
+          <div>
+            <span className="font-mono-tech text-[10px] font-bold text-slate-400 block tracking-widest">NEXTWIN PLATFORM</span>
+            <h3 className="text-sm font-black text-slate-855 uppercase tracking-wider mt-1">Notification Center</h3>
           </div>
-        )}
-      </div>
-    </motion.div>
+          <button 
+            onClick={onClose}
+            className="h-7 w-7 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-505 hover:text-slate-900 transition-colors shadow-sm"
+            aria-label="Close panel"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        {/* Audio controls */}
+        <div className="bg-slate-50/65 border-b border-slate-100 p-5 space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold text-slate-455 uppercase tracking-widest font-mono-tech">Audio Settings</span>
+            <button 
+              onClick={handleTestChime}
+              className="text-[9px] font-bold uppercase tracking-wider text-[#00AEEF] hover:text-[#38BDF8]"
+            >
+              Test Audio Chime
+            </button>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSoundMuted(!soundMuted)}
+              className="h-8 w-8 rounded-lg border border-slate-200 bg-white flex items-center justify-center hover:bg-slate-50 transition"
+              aria-label={soundMuted ? "Unmute audio alerts" : "Mute audio alerts"}
+            >
+              {soundMuted ? <VolumeX className="h-4 w-4 text-red-505" /> : <Volume2 className="h-4 w-4 text-[#00AEEF]" />}
+            </button>
+            <input 
+              type="range"
+              min="0"
+              max="1"
+              step="0.1"
+              value={soundVolume}
+              onChange={(e) => setSoundVolume(parseFloat(e.target.value))}
+              disabled={soundMuted}
+              className="flex-1 accent-[#00AEEF] h-1.5 bg-slate-200 rounded-lg cursor-pointer"
+            />
+            <span className="text-[10px] font-mono font-bold text-slate-550 min-w-[24px] text-right">
+              {soundMuted ? "Muted" : `${Math.round(soundVolume * 100)}%`}
+            </span>
+          </div>
+        </div>
+
+        {/* Scrollable logs list (Alert History Panel) */}
+        <div className="flex-1 overflow-y-auto p-5 space-y-4">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-[9px] font-black uppercase tracking-wider text-slate-400 font-mono-tech">Incident Timeline</span>
+            {hasAny && (
+              <button
+                onClick={clearNotifications}
+                className="text-[9px] font-bold uppercase tracking-wider text-[#00AEEF] hover:text-[#38BDF8]"
+              >
+                Clear History
+              </button>
+            )}
+          </div>
+
+          <div className="space-y-4">
+            {hasAny ? (
+              Object.keys(grouped).map((cat) => {
+                const list = grouped[cat as keyof typeof grouped] || [];
+                if (list.length === 0) return null;
+
+                const categoryHeaders = {
+                  critical: "🚨 Critical Alerts",
+                  warning: "⚠️ Warnings",
+                  maintenance: "🔧 Maintenance Events",
+                  simulation: "📊 Simulation Results",
+                  system: "⚙️ System Events",
+                  prediction: "🧠 Prediction Events",
+                };
+
+                return (
+                  <div key={cat} className="space-y-2">
+                    <span className="text-[8.5px] font-bold uppercase tracking-wider text-slate-400 font-mono-tech block">
+                      {categoryHeaders[cat as keyof typeof categoryHeaders]} ({list.length})
+                    </span>
+                    <div className="space-y-1.5">
+                      {list.map((item) => (
+                        <div
+                          key={item.id}
+                          className="rounded-xl border border-slate-100 bg-slate-50/50 p-3 text-xs text-slate-700 hover:bg-slate-50 transition"
+                        >
+                          <div className="font-extrabold text-slate-900 flex justify-between items-start gap-2">
+                            <span>{item.title}</span>
+                            <span className="text-[7.5px] font-bold text-slate-400 font-mono-tech uppercase tracking-wide shrink-0">
+                              {new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </div>
+                          <div className="text-[10px] text-slate-500 mt-1 leading-normal">{item.description}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="py-12 text-center text-slate-400 font-bold uppercase tracking-wider text-[10px] font-mono-tech flex flex-col items-center gap-2">
+                <CheckCircle className="h-6 w-6 text-emerald-500" />
+                <span>🟢 No Active Notifications</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="border-t border-slate-100 p-5 bg-slate-50/50 flex gap-2">
+          <button 
+            onClick={onClose}
+            className="flex-1 inline-flex items-center justify-center rounded-xl bg-slate-900 py-3 text-xs font-bold text-white shadow-md hover:bg-slate-800 transition"
+          >
+            <span>Close Panel</span>
+          </button>
+        </div>
+      </motion.div>
+    </>
   );
 }
 

@@ -23,7 +23,7 @@ import {
 
 export const dynamic = "force-dynamic";
 
-type ScenarioType = "machinery" | "energy" | "production";
+type ScenarioType = "machinery" | "energy" | "production" | "failure" | "maintenance" | "capacity";
 
 export default function SimulationCenterPage() {
   const { machines } = useCoreFactoryData();
@@ -58,6 +58,10 @@ export default function SimulationCenterPage() {
   const [simGlazingRatio, setSimGlazingRatio] = useState(0.35);
   const [simHeight, setSimHeight] = useState(6.5);
   const [simRoofArea, setSimRoofArea] = useState(220.0);
+
+  // Capacity parameters
+  const [targetStage, setTargetStage] = useState("M_004");
+  const [expansionType, setExpansionType] = useState("CNC Mill parallel node");
 
   const defaultMachine = useMemo(() => {
     return machines.data?.[0]?.id || "";
@@ -99,6 +103,48 @@ export default function SimulationCenterPage() {
           adjust_cycle_time: Number(adjustCycleTime),
           adjust_queue_length: Number(adjustQueueLength),
           adjust_defect_count: Number(adjustDefectCount)
+        }
+      }, {
+        onSuccess: (data) => {
+          setSelectedSimId(data.id);
+        }
+      });
+    } else if (activeScenario === "failure") {
+      if (!activeMachineId) return;
+      runMutation.mutate({
+        name: `Machine Failure Cascade Simulation: ${activeMachineId}`,
+        description: `Cascade starvation, backlog propagation, and factory OEE impact projections.`,
+        parameters: {
+          machine_id: activeMachineId,
+          simulate_failure: true
+        }
+      }, {
+        onSuccess: (data) => {
+          setSelectedSimId(data.id);
+        }
+      });
+    } else if (activeScenario === "maintenance") {
+      if (!activeMachineId) return;
+      runMutation.mutate({
+        name: `Preventive Maintenance Scheduling Analysis: ${activeMachineId}`,
+        description: `Compare scheduled service downtime and cost against emergency breakdown risks.`,
+        parameters: {
+          machine_id: activeMachineId,
+          schedule_maintenance: true
+        }
+      }, {
+        onSuccess: (data) => {
+          setSelectedSimId(data.id);
+        }
+      });
+    } else if (activeScenario === "capacity") {
+      runMutation.mutate({
+        name: `Capacity Expansion Analysis: Stage ${targetStage}`,
+        description: `Project bottleneck relief, queue reduction, and weekly throughput gains with parallel assets.`,
+        parameters: {
+          capacity_expansion: true,
+          target_stage: targetStage,
+          expansion_type: expansionType
         }
       }, {
         onSuccess: (data) => {
@@ -183,6 +229,39 @@ export default function SimulationCenterPage() {
                   <Zap className="h-3 w-3 inline mr-1" />
                   Thermal Energy
                 </button>
+                <button
+                  onClick={() => { setActiveScenario("failure"); setSelectedSimId(null); }}
+                  className={`rounded-full px-3.5 py-2 text-[9px] font-bold uppercase tracking-wider border transition-all ${
+                    activeScenario === "failure"
+                      ? "bg-[#0EA5E9] border-[#0EA5E9] text-white font-extrabold shadow-sm"
+                      : "bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+                  }`}
+                >
+                  <AlertTriangle className="h-3 w-3 inline mr-1" />
+                  Machine Failure
+                </button>
+                <button
+                  onClick={() => { setActiveScenario("maintenance"); setSelectedSimId(null); }}
+                  className={`rounded-full px-3.5 py-2 text-[9px] font-bold uppercase tracking-wider border transition-all ${
+                    activeScenario === "maintenance"
+                      ? "bg-[#0EA5E9] border-[#0EA5E9] text-white font-extrabold shadow-sm"
+                      : "bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+                  }`}
+                >
+                  <Wrench className="h-3 w-3 inline mr-1" />
+                  Scheduled Maint.
+                </button>
+                <button
+                  onClick={() => { setActiveScenario("capacity"); setSelectedSimId(null); }}
+                  className={`rounded-full px-3.5 py-2 text-[9px] font-bold uppercase tracking-wider border transition-all ${
+                    activeScenario === "capacity"
+                      ? "bg-[#0EA5E9] border-[#0EA5E9] text-white font-extrabold shadow-sm"
+                      : "bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+                  }`}
+                >
+                  <ArrowUpRight className="h-3 w-3 inline mr-1" />
+                  Capacity Expansion
+                </button>
               </div>
             </div>
 
@@ -193,10 +272,13 @@ export default function SimulationCenterPage() {
                 {activeScenario === "machinery" && "Machinery Load & RPM Stress Test"}
                 {activeScenario === "production" && "Assembly Flow & Queue Bottleneck Adjustments"}
                 {activeScenario === "energy" && "Structural Building Envelope Parameters"}
+                {activeScenario === "failure" && "Catastrophic Machine Failure & Cascade Propagation"}
+                {activeScenario === "maintenance" && "Preventive Maintenance Scheduling Optimization"}
+                {activeScenario === "capacity" && "Assembly Line Capacity Expansion Projections"}
               </h2>
 
               <form onSubmit={handleRunSimulation} className="space-y-5">
-                {activeScenario !== "energy" && (
+                {activeScenario !== "energy" && activeScenario !== "capacity" && (
                   <div className="flex flex-col gap-2">
                     <label className="text-[9px] font-bold text-slate-500 uppercase tracking-widest font-mono-tech">Select Target Machinery Node</label>
                     <select
@@ -296,6 +378,79 @@ export default function SimulationCenterPage() {
                         required
                       />
                       <span className="text-[8px] text-slate-400 font-medium">Simulated rejected output items.</span>
+                    </div>
+                  </div>
+                )}
+
+                {activeScenario === "failure" && (
+                  /* Failure inputs */
+                  <div className="rounded-xl bg-red-50 border border-red-200/50 p-4 flex gap-3 items-start">
+                    <AlertTriangle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="text-xs font-black text-red-950 uppercase tracking-wide">Emergency Breakdown Drill</h4>
+                      <p className="text-[10px] text-red-700/90 mt-1 leading-relaxed">
+                        Simulating a failure on node <strong>{activeMachineId}</strong> will trigger real-time cascade bottleneck evaluations. 
+                        The relationship engine will trace downstream starvation backlogs, and project the overall drop in factory OEE.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {activeScenario === "maintenance" && (
+                  /* Maintenance inputs */
+                  <div className="rounded-xl bg-blue-50 border border-blue-200/50 p-4 flex gap-3 items-start">
+                    <Wrench className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="text-xs font-black text-blue-950 uppercase tracking-wide">Scheduled Preventive Maintenance Drill</h4>
+                      <p className="text-[10px] text-blue-700/90 mt-1 leading-relaxed">
+                        Evaluate scheduling service right now. This simulation compares standard service costs/downtime 
+                        against the financial risk of catastrophic secondary damage from an unmitigated run-to-failure breakdown.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {activeScenario === "capacity" && (
+                  /* Capacity inputs */
+                  <div className="space-y-4">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[9px] font-bold text-slate-500 uppercase tracking-widest font-mono-tech">Select Expansion Stage Node</label>
+                        <select
+                          value={targetStage}
+                          onChange={(e) => setTargetStage(e.target.value)}
+                          className="h-10 rounded-xl border border-slate-200 bg-white px-3.5 text-xs font-bold text-slate-800 focus:border-[#0EA5E9]/40"
+                          required
+                        >
+                          <option value="M_001">M_001 (CNC Mill stage)</option>
+                          <option value="M_002">M_002 (Hydraulic Press stage)</option>
+                          <option value="M_003">M_003 (Robotic Welder stage)</option>
+                          <option value="M_004">M_004 (Main Assembly Line stage)</option>
+                          <option value="M_005">M_005 (Conveyor Stage 2 stage)</option>
+                          <option value="M_006">M_006 (Packaging Inspection stage)</option>
+                        </select>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[9px] font-bold text-slate-500 uppercase tracking-widest font-mono-tech">Parallel Expansion Asset Type</label>
+                        <input
+                          type="text"
+                          value={expansionType}
+                          onChange={(e) => setExpansionType(e.target.value)}
+                          className="h-10 rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-slate-800 focus:border-[#0EA5E9]/40"
+                          placeholder="e.g. CNC Mill parallel node"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="rounded-xl bg-sky-50 border border-sky-200/50 p-4 flex gap-3 items-start">
+                      <ArrowUpRight className="h-5 w-5 text-sky-500 shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-black text-sky-950 uppercase tracking-wide">Parallel Capacity Expansion Drill</h4>
+                        <p className="text-[10px] text-sky-700/90 mt-1 leading-relaxed">
+                          Project OEE relief and queue reduction. Simulates placing an additional machine cell in parallel at the 
+                          selected bottleneck stage to absorb overflow processing loads.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -450,6 +605,228 @@ export default function SimulationCenterPage() {
                 {(() => {
                   const isProduction = "adjust_cycle_time" in currentSelectedSim.parameters || "adjust_queue_length" in currentSelectedSim.parameters;
                   const isMachinery = "adjust_speed_rpm" in currentSelectedSim.parameters && !isProduction;
+                  const isFailure = "simulate_failure" in currentSelectedSim.parameters;
+                  const isMaintenance = "schedule_maintenance" in currentSelectedSim.parameters;
+                  const isCapacity = "capacity_expansion" in currentSelectedSim.parameters;
+
+                  if (isFailure) {
+                    const od = currentSelectedSim.results.oee_delta || 0;
+                    const dd = currentSelectedSim.results.downtime_delta_minutes || 0;
+                    const prop = currentSelectedSim.results.details || {};
+                    return (
+                      <div className="space-y-6">
+                        {/* Summary Badges */}
+                        <div className="grid gap-4 sm:grid-cols-2">
+                          <div className="rounded-xl border border-slate-100 bg-[#FFF5F5] p-4 text-center">
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block font-mono-tech">Overall Factory OEE Delta</span>
+                            <span className="text-2xl font-mono-tech font-black block mt-2 text-red-655">
+                              {od}%
+                            </span>
+                          </div>
+                          <div className="rounded-xl border border-slate-100 bg-[#FFF5F5] p-4 text-center">
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block font-mono-tech">Downtime Projections</span>
+                            <span className="text-2xl font-mono-tech font-black block mt-2 text-red-655">
+                              +{dd} min
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Split Comparison Cards Side-by-Side */}
+                        <div className="grid gap-6 md:grid-cols-2">
+                          {/* Left Column: Baseline */}
+                          <div className="bg-slate-50/40 p-5 rounded-xl border border-slate-100 space-y-4">
+                            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest font-mono-tech block border-b border-slate-200/50 pb-2">Nominal Factory State</span>
+                            <div className="space-y-3.5 text-xs text-slate-655 font-semibold">
+                              <div className="flex justify-between"><span>Machine Status:</span><strong className="text-emerald-650 font-mono">Active</strong></div>
+                              <div className="flex justify-between"><span>Downtime:</span><strong className="text-slate-800 font-mono">0.0 min</strong></div>
+                              <div className="flex justify-between"><span>Affected Nodes:</span><strong className="text-slate-800 font-mono">0</strong></div>
+                              <div className="flex justify-between border-t border-slate-150 pt-2 mt-2 font-bold">
+                                <span>Factory OEE:</span>
+                                <strong className="text-slate-800">92.4%</strong>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Right Column: Simulated */}
+                          <div className="bg-red-50/20 p-5 rounded-xl border border-red-100 space-y-4">
+                            <span className="text-[9px] font-bold text-red-655 uppercase tracking-widest font-mono-tech block border-b border-red-200/50 pb-2">Simulated Cascade Breakdown</span>
+                            <div className="space-y-3.5 text-xs text-slate-655 font-semibold font-bold">
+                              <div className="flex justify-between"><span>Machine Status:</span><strong className="text-red-655 font-mono">FAILED</strong></div>
+                              <div className="flex justify-between"><span>Downtime:</span><strong className="text-slate-850 font-mono">{currentSelectedSim.results.simulated.downtime_minutes} min</strong></div>
+                              <div className="flex justify-between"><span>Affected Nodes:</span><strong className="text-slate-850 font-mono">{currentSelectedSim.results.simulated.affected_nodes_count}</strong></div>
+                              <div className="flex justify-between border-t border-red-200/50 pt-2 mt-2 font-bold">
+                                <span>Factory OEE:</span>
+                                <strong className="text-red-655">{currentSelectedSim.results.simulated.overall_factory_oee_pct}%</strong>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Cascade details lists */}
+                        {prop.impacted_downstream && Object.keys(prop.impacted_downstream).length > 0 && (
+                          <div className="bg-slate-50 border border-slate-100 rounded-xl p-4.5 space-y-3">
+                            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest font-mono-tech block">Downstream Starvation Propagation</span>
+                            <div className="space-y-2 max-h-[150px] overflow-y-auto pr-1">
+                              {Object.entries(prop.impacted_downstream).map(([k, v]: any) => (
+                                <div key={k} className="flex justify-between items-start text-xs border-b border-slate-100 pb-1.5 last:border-0 last:pb-0">
+                                  <div>
+                                    <strong className="text-slate-800">{k}</strong>: <span className="text-slate-550">{v.status}</span>
+                                    <span className="text-[9px] text-slate-450 block italic mt-0.5">Rec: {v.suggested_action}</span>
+                                  </div>
+                                  <div className="text-right font-mono text-[10px] text-amber-600 font-bold">
+                                    Delay: +{v.starvation_delay_seconds}s | -{v.estimated_throughput_reduction_pct}%
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {prop.impacted_upstream && Object.keys(prop.impacted_upstream).length > 0 && (
+                          <div className="bg-slate-50 border border-slate-100 rounded-xl p-4.5 space-y-3">
+                            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest font-mono-tech block">Upstream Backlog Congestion</span>
+                            <div className="space-y-2 max-h-[150px] overflow-y-auto pr-1">
+                              {Object.entries(prop.impacted_upstream).map(([k, v]: any) => (
+                                <div key={k} className="flex justify-between items-start text-xs border-b border-slate-100 pb-1.5 last:border-0 last:pb-0">
+                                  <div>
+                                    <strong className="text-slate-800">{k}</strong>: <span className="text-slate-550">{v.status}</span>
+                                    <span className="text-[9px] text-slate-450 block italic mt-0.5">Rec: {v.suggested_action}</span>
+                                  </div>
+                                  <div className="text-right font-mono text-[10px] text-red-655 font-bold">
+                                    Backlog: +{v.queue_backlog_increase_units} units | Risk: {v.congestion_risk_pct}%
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+
+                  if (isMaintenance) {
+                    const rr = currentSelectedSim.results.risk_reduction_pct || 0;
+                    const ds = currentSelectedSim.results.downtime_saved_minutes || 0;
+                    const cs = currentSelectedSim.results.cost_savings_usd || 0;
+                    return (
+                      <div className="space-y-6">
+                        {/* Summary Badges */}
+                        <div className="grid gap-4 sm:grid-cols-3">
+                          <div className="rounded-xl border border-slate-100 bg-[#F0FFF4] p-3 text-center">
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block font-mono-tech">Failure Risk Reduction</span>
+                            <span className="text-xl font-mono-tech font-black block mt-1.5 text-emerald-650">
+                              {rr}%
+                            </span>
+                          </div>
+                          <div className="rounded-xl border border-slate-100 bg-[#F0FFF4] p-3 text-center">
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block font-mono-tech">Downtime Saved</span>
+                            <span className="text-xl font-mono-tech font-black block mt-1.5 text-emerald-650">
+                              {ds} min
+                            </span>
+                          </div>
+                          <div className="rounded-xl border border-slate-100 bg-[#F0FFF4] p-3 text-center">
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block font-mono-tech">Financial Savings</span>
+                            <span className="text-xl font-mono-tech font-black block mt-1.5 text-emerald-650">
+                              ${cs.toFixed(2)}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Split Comparison Cards Side-by-Side */}
+                        <div className="grid gap-6 md:grid-cols-2">
+                          {/* Left Column: Baseline */}
+                          <div className="bg-slate-50/40 p-5 rounded-xl border border-slate-100 space-y-4">
+                            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest font-mono-tech block border-b border-slate-200/50 pb-2">Deferred Maintenance (Emergency Breakdown)</span>
+                            <div className="space-y-3.5 text-xs text-slate-655">
+                              <div className="flex justify-between"><span>Downtime Required:</span><strong className="text-slate-800 font-mono">{currentSelectedSim.results.baseline.downtime_minutes} min</strong></div>
+                              <div className="flex justify-between"><span>Breakdown Cost:</span><strong className="text-slate-800 font-mono">${currentSelectedSim.results.baseline.maintenance_cost_usd}</strong></div>
+                              <div className="flex justify-between"><span>Incident Severity:</span><strong className="text-red-655 uppercase font-mono">{currentSelectedSim.results.baseline.priority}</strong></div>
+                              <div className="flex justify-between border-t border-slate-150 pt-2 mt-2 font-bold">
+                                <span>Failure Risk:</span>
+                                <strong className="text-slate-800">{currentSelectedSim.results.baseline.failure_risk_pct}%</strong>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Right Column: Simulated */}
+                          <div className="bg-emerald-50/20 p-5 rounded-xl border border-emerald-100 space-y-4">
+                            <span className="text-[9px] font-bold text-emerald-650 uppercase tracking-widest font-mono-tech block border-b border-emerald-250 pb-2">Scheduled Preventive Maintenance</span>
+                            <div className="space-y-3.5 text-xs text-slate-655">
+                              <div className="flex justify-between"><span>Downtime Required:</span><strong className="text-slate-800 font-mono">{currentSelectedSim.results.simulated.downtime_minutes} min</strong></div>
+                              <div className="flex justify-between"><span>Service Cost:</span><strong className="text-slate-800 font-mono">${currentSelectedSim.results.simulated.maintenance_cost_usd}</strong></div>
+                              <div className="flex justify-between"><span>Priority Status:</span><strong className="text-emerald-650 uppercase font-mono">{currentSelectedSim.results.simulated.priority}</strong></div>
+                              <div className="flex justify-between border-t border-emerald-250 pt-2 mt-2 font-bold">
+                                <span>Failure Risk:</span>
+                                <strong className="text-emerald-650">{currentSelectedSim.results.simulated.failure_risk_pct}%</strong>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (isCapacity) {
+                    const og = currentSelectedSim.results.oee_gain_pct || 0;
+                    const qr = currentSelectedSim.results.queue_reduction_units || 0;
+                    const ti = currentSelectedSim.results.throughput_increase_units || 0;
+                    return (
+                      <div className="space-y-6">
+                        {/* Summary Badges */}
+                        <div className="grid gap-4 sm:grid-cols-3">
+                          <div className="rounded-xl border border-slate-100 bg-[#EBF8FF] p-3 text-center">
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block font-mono-tech">Stage OEE Gain</span>
+                            <span className="text-xl font-mono-tech font-black block mt-1.5 text-sky-600">
+                              +{og}%
+                            </span>
+                          </div>
+                          <div className="rounded-xl border border-slate-100 bg-[#EBF8FF] p-3 text-center">
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block font-mono-tech">Queue Reduction</span>
+                            <span className="text-xl font-mono-tech font-black block mt-1.5 text-sky-600">
+                              {qr} units
+                            </span>
+                          </div>
+                          <div className="rounded-xl border border-slate-100 bg-[#EBF8FF] p-3 text-center">
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block font-mono-tech">Throughput Gain</span>
+                            <span className="text-xl font-mono-tech font-black block mt-1.5 text-sky-600">
+                              +{ti} units/wk
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Split Comparison Cards Side-by-Side */}
+                        <div className="grid gap-6 md:grid-cols-2">
+                          {/* Left Column: Baseline */}
+                          <div className="bg-slate-50/40 p-5 rounded-xl border border-slate-100 space-y-4">
+                            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest font-mono-tech block border-b border-slate-200/50 pb-2">Single Node Baseline</span>
+                            <div className="space-y-3.5 text-xs text-slate-655">
+                              <div className="flex justify-between"><span>Queue Length:</span><strong className="text-slate-800 font-mono">{currentSelectedSim.results.baseline.queue_length_units} units</strong></div>
+                              <div className="flex justify-between"><span>Cycle Time:</span><strong className="text-slate-800 font-mono">{currentSelectedSim.results.baseline.average_cycle_time_seconds}s</strong></div>
+                              <div className="flex justify-between"><span>Weekly Throughput:</span><strong className="text-slate-800 font-mono">{currentSelectedSim.results.baseline.weekly_throughput_units} units</strong></div>
+                              <div className="flex justify-between border-t border-slate-150 pt-2 mt-2 font-bold">
+                                <span>Stage OEE:</span>
+                                <strong className="text-slate-800">{currentSelectedSim.results.baseline.overall_stage_oee_pct}%</strong>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Right Column: Simulated */}
+                          <div className="bg-sky-50/20 p-5 rounded-xl border border-sky-100 space-y-4">
+                            <span className="text-[9px] font-bold text-sky-600 uppercase tracking-widest font-mono-tech block border-b border-sky-200/50 pb-2">Parallel Expansion Simulated</span>
+                            <div className="space-y-3.5 text-xs text-slate-655 font-semibold">
+                              <div className="flex justify-between"><span>Queue Length:</span><strong className="text-slate-800 font-mono">{currentSelectedSim.results.simulated.queue_length_units} units</strong></div>
+                              <div className="flex justify-between"><span>Cycle Time:</span><strong className="text-slate-800 font-mono">{currentSelectedSim.results.simulated.average_cycle_time_seconds}s</strong></div>
+                              <div className="flex justify-between"><span>Weekly Throughput:</span><strong className="text-slate-800 font-mono">{currentSelectedSim.results.simulated.weekly_throughput_units} units</strong></div>
+                              <div className="flex justify-between border-t border-sky-200/50 pt-2 mt-2 font-bold">
+                                <span>Stage OEE:</span>
+                                <strong className="text-sky-600 font-black">{currentSelectedSim.results.simulated.overall_stage_oee_pct}%</strong>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
 
                   if (isProduction) {
                     const rd = currentSelectedSim.results.risk_delta || 0;
@@ -653,7 +1030,10 @@ export default function SimulationCenterPage() {
                     const active = selectedSimId === sim.id;
                     const isProduction = "adjust_cycle_time" in sim.parameters || "adjust_queue_length" in sim.parameters;
                     const isMachinery = "adjust_speed_rpm" in sim.parameters && !isProduction;
-                    const isEnergy = !isProduction && !isMachinery;
+                    const isFailure = "simulate_failure" in sim.parameters;
+                    const isMaintenance = "schedule_maintenance" in sim.parameters;
+                    const isCapacity = "capacity_expansion" in sim.parameters;
+                    const isEnergy = !isProduction && !isMachinery && !isFailure && !isMaintenance && !isCapacity;
 
                     return (
                       <button
@@ -670,22 +1050,41 @@ export default function SimulationCenterPage() {
                             ? "bg-purple-50 text-purple-600 border-purple-100"
                             : isMachinery 
                               ? "bg-blue-50 text-[#0EA5E9] border-blue-100" 
-                              : "bg-yellow-50 text-yellow-600 border-yellow-100"
+                              : isFailure
+                                ? "bg-red-50 text-red-600 border-red-100 animate-pulse"
+                                : isMaintenance
+                                  ? "bg-emerald-50 text-emerald-600 border-emerald-100"
+                                  : isCapacity
+                                    ? "bg-sky-50 text-sky-600 border-sky-100"
+                                    : "bg-yellow-50 text-yellow-600 border-yellow-100"
                         }`}>
                           {isProduction && <Layers className="h-3.5 w-3.5" />}
                           {isMachinery && <Activity className="h-3.5 w-3.5" />}
+                          {isFailure && <AlertTriangle className="h-3.5 w-3.5" />}
+                          {isMaintenance && <Wrench className="h-3.5 w-3.5" />}
+                          {isCapacity && <ArrowUpRight className="h-3.5 w-3.5" />}
                           {isEnergy && <Zap className="h-3.5 w-3.5" />}
                         </span>
                         <div className="min-w-0 flex-1">
                           <div className={`text-xs font-bold line-clamp-1 ${active ? "text-slate-950" : "text-slate-750"}`}>{sim.name}</div>
                           <div className="text-[9px] font-bold text-slate-450 uppercase tracking-wider font-mono-tech mt-1">
                             {sim.created_at} | {
-                              isProduction ? "Production Domain" : isMachinery ? "Machinery Domain" : "Energy Domain"
+                              isProduction 
+                                ? "Production Domain" 
+                                : isMachinery 
+                                  ? "Machinery Domain" 
+                                  : isFailure
+                                    ? "Failure Domain"
+                                    : isMaintenance
+                                      ? "Maintenance Domain"
+                                      : isCapacity
+                                        ? "Capacity Domain"
+                                        : "Energy Domain"
                             }
                           </div>
                           
                           {sim.results && (
-                            <div className="mt-2.5 flex items-center gap-4 text-[9px] font-bold font-mono-tech">
+                            <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[9px] font-bold font-mono-tech">
                               {isProduction && (
                                 <>
                                   <span className={sim.results.risk_delta > 0 ? "text-red-655" : "text-emerald-600"}>
@@ -703,6 +1102,36 @@ export default function SimulationCenterPage() {
                                   </span>
                                   <span className={sim.results.health_score_delta < 0 ? "text-red-655" : "text-emerald-600"}>
                                     Health: {sim.results.health_score_delta > 0 ? "+" : ""}{sim.results.health_score_delta}pts
+                                  </span>
+                                </>
+                              )}
+                              {isFailure && (
+                                <>
+                                  <span className="text-red-600 font-bold">
+                                    OEE: {sim.results.oee_delta}%
+                                  </span>
+                                  <span className="text-red-600">
+                                    Downtime: +{sim.results.downtime_delta_minutes}m
+                                  </span>
+                                </>
+                              )}
+                              {isMaintenance && (
+                                <>
+                                  <span className="text-emerald-600">
+                                    Risk: {sim.results.risk_reduction_pct}%
+                                  </span>
+                                  <span className="text-emerald-650">
+                                    Savings: ${sim.results.cost_savings_usd.toFixed(0)}
+                                  </span>
+                                </>
+                              )}
+                              {isCapacity && (
+                                <>
+                                  <span className="text-sky-600">
+                                    OEE Gain: +{sim.results.oee_gain_pct}%
+                                  </span>
+                                  <span className="text-sky-600">
+                                    Throughput: +{sim.results.throughput_increase_units}
                                   </span>
                                 </>
                               )}

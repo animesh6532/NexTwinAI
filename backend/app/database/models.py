@@ -144,6 +144,12 @@ class AnomalyPrediction(Base):
     anomaly_detected = Column(Boolean, default=False, nullable=False)
     anomaly_score = Column(Float, nullable=False)
     method = Column(String(50), nullable=False)  # Isolation Forest, AutoEncoder, OCSVM
+    severity = Column(String(20), default="Info")  # Info, Warning, Critical, Emergency
+    anomaly_type = Column(String(50), default="Vibration")
+    cause = Column(Text, nullable=True)
+    confidence_score = Column(Float, default=1.0)
+    impact_estimation = Column(Text, nullable=True)
+    suggested_action = Column(Text, nullable=True)
     details = Column(JSON, nullable=True)
 
     # Relationships
@@ -156,15 +162,58 @@ class Alert(Base):
     machine_id = Column(String(50), ForeignKey("machines.id"), nullable=False)
     title = Column(String(100), nullable=False)
     message = Column(Text, nullable=False)
-    severity = Column(String(20), nullable=False)  # Info, Warning, Critical
+    severity = Column(String(20), nullable=False)  # Info, Warning, Critical, Emergency
     is_resolved = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
     resolved_at = Column(DateTime, nullable=True)
     resolved_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+    
+    # New detailed industrial fields
+    cause = Column(Text, nullable=True)
+    impact = Column(Text, nullable=True)
+    recommendation = Column(Text, nullable=True)
+    affected_machines = Column(JSON, nullable=True)  # JSON List of machine IDs
+    suggested_actions = Column(JSON, nullable=True)  # JSON List of recommended action items
 
     # Relationships
     machine = relationship("Machine", back_populates="alerts")
     resolver = relationship("User", back_populates="resolved_alerts", foreign_keys=[resolved_by])
+
+class MaintenanceLog(Base):
+    __tablename__ = "maintenance_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    machine_id = Column(String(50), ForeignKey("machines.id"), nullable=False)
+    action_taken = Column(Text, nullable=False)
+    cost = Column(Float, default=0.0)
+    downtime_minutes = Column(Float, default=0.0)
+    scheduled_date = Column(DateTime, default=datetime.utcnow)
+    completed_date = Column(DateTime, nullable=True)
+    status = Column(String(20), default="Scheduled")  # Scheduled, In Progress, Completed, Deferred
+    details = Column(JSON, nullable=True)
+
+class FactoryEvent(Base):
+    __tablename__ = "factory_events"
+
+    id = Column(Integer, primary_key=True, index=True)
+    event_type = Column(String(50), nullable=False)  # Failure, Anomaly, Energy Peak, Maintenance, Simulation
+    severity = Column(String(20), default="Info")  # Info, Warning, Critical, Emergency
+    title = Column(String(100), nullable=False)
+    message = Column(Text, nullable=False)
+    machine_id = Column(String(50), ForeignKey("machines.id"), nullable=True)
+    timestamp = Column(DateTime, default=datetime.utcnow, index=True)
+    details = Column(JSON, nullable=True)
+
+class CopilotConversation(Base):
+    __tablename__ = "copilot_conversations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    title = Column(String(150), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+    # Relationships
+    logs = relationship("CopilotLog", back_populates="conversation", cascade="all, delete-orphan")
 
 class Simulation(Base):
     __tablename__ = "simulations"
@@ -182,6 +231,7 @@ class CopilotLog(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    conversation_id = Column(Integer, ForeignKey("copilot_conversations.id"), nullable=True)
     prompt = Column(Text, nullable=False)
     response = Column(Text, nullable=False)
     sources = Column(JSON, nullable=True)
@@ -189,6 +239,7 @@ class CopilotLog(Base):
 
     # Relationships
     user = relationship("User", back_populates="copilot_logs")
+    conversation = relationship("CopilotConversation", back_populates="logs")
 
 class Report(Base):
     __tablename__ = "reports"
@@ -203,3 +254,4 @@ class Report(Base):
 
     # Relationships
     generator = relationship("User", back_populates="generated_reports")
+

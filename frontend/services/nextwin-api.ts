@@ -69,7 +69,9 @@ export const nextwinApi = {
   predictForecast: async (machineId: string, horizon: 30 | 90) => (
     await api.post<ForecastPrediction>(path("/predict/forecast"), { machine_id: machineId, horizon })
   ).data,
-  askCopilot: async (message: string) => (await api.post(path("/copilot/chat"), { prompt: message })).data,
+  askCopilot: async (message: string, conversationId?: number) => (await api.post(path("/copilot/chat"), { prompt: message, conversation_id: conversationId })).data,
+  copilotConversations: async () => (await api.get<any[]>(path("/copilot/conversations"))).data,
+  copilotConversationLogs: async (convId: number) => (await api.get<any[]>(path(`/copilot/conversations/${convId}/logs`))).data,
   resolveAlert: async (alertId: number) => (await api.put<Alert>(path(`/alerts/${alertId}/resolve`), { resolved_by: 1 })).data,
   createReport: async (payload: { title: string; report_type: string; parameters?: Record<string, unknown> }) => (
     await api.post<Report>(path("/reports"), { ...payload, generated_by: 1 })

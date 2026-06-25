@@ -24,9 +24,9 @@ import {
 
 function statusColor(status?: string) {
   const normalized = (status || "").toLowerCase();
-  if (normalized.includes("critical")) return "#EF4444";
+  if (normalized.includes("critical") || normalized.includes("emergency")) return "#EF4444";
   if (normalized.includes("warning")) return "#F59E0B";
-  if (normalized.includes("maintenance")) return "#64748B";
+  if (normalized.includes("maintenance")) return "#3B82F6";
   return "#10B981";
 }
 
@@ -257,6 +257,43 @@ export function MachineModelScene({
         </span>
       </div>
 
+      {/* Floating HUD Telemetry Overlay */}
+      {state && (
+        <div className="absolute left-4 bottom-4 z-10 p-4.5 rounded-2xl border border-slate-200/70 bg-white/95 backdrop-blur-md shadow-lg flex flex-col gap-3 min-w-[220px] pointer-events-none transition-all">
+          <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-2">
+            <span className="font-mono-tech text-[9px] font-black text-slate-400 uppercase tracking-widest">{state.machine_id} TELEMETRY</span>
+            <div className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
+              <span className="text-[8px] font-mono-tech text-blue-600 font-bold uppercase">HUD OVERLAY</span>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-2 text-[10px] font-semibold">
+            <div className="border border-slate-100/60 rounded-xl p-2 bg-slate-50/50">
+              <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider block">OEE Health</span>
+              <span className="font-mono-tech font-black text-slate-800 text-xs mt-0.5 block">{state.health_score}%</span>
+            </div>
+            <div className="border border-slate-100/60 rounded-xl p-2 bg-slate-50/50">
+              <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider block">Load Draw</span>
+              <span className="font-mono-tech font-black text-[#0EA5E9] text-xs mt-0.5 block">{state.energy_usage} kW</span>
+            </div>
+            <div className="border border-slate-100/60 rounded-xl p-2 bg-slate-50/50">
+              <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider block">Failure Risk</span>
+              <span className="font-mono-tech font-black text-amber-500 text-xs mt-0.5 block">{Math.round(state.failure_probability * 100)}%</span>
+            </div>
+            <div className="border border-slate-100/60 rounded-xl p-2 bg-slate-50/50">
+              <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider block">Anomaly Rating</span>
+              <span className="font-mono-tech font-black text-red-500 text-xs mt-0.5 block">{state.anomaly_score}</span>
+            </div>
+          </div>
+          
+          <div className="text-[9px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between border-t border-slate-100 pt-2">
+            <span>Machine Status:</span>
+            <span className="font-black" style={{ color: activeColor }}>{state.status.toUpperCase()}</span>
+          </div>
+        </div>
+      )}
+
       <Canvas camera={{ position: [0, 2, 5], fov: 45 }}>
         <ambientLight intensity={mode === "energy" ? 0.4 : 0.8} />
         <directionalLight position={[5, 10, 5]} intensity={1.3} />
@@ -283,18 +320,47 @@ function MachineInteractiveGeometry({
   const explodeOffset = mode === "exploded" ? 0.75 : 0;
   const mType = (type || "").toLowerCase();
 
-  // Animation ticks and rotating cogs
+  // Animation references
   const spindleRef = useRef<Mesh>(null);
   const pressRef = useRef<Mesh>(null);
   const latheRef = useRef<Mesh>(null);
-  const gearRef = useRef<Mesh>(null);
+  const toolPostRef = useRef<Group>(null);
+  const rollerRef1 = useRef<Mesh>(null);
+  const rollerRef2 = useRef<Mesh>(null);
+  const conveyorItemsRef = useRef<Group>(null);
+  const robotRef = useRef<Group>(null);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
-    if (spindleRef.current) spindleRef.current.rotation.y = t * 6; // CNC tool rotation
-    if (pressRef.current) pressRef.current.position.y = 0.8 + Math.sin(t * 3.5) * 0.4 - explodeOffset * 0.5; // Piston translation
-    if (latheRef.current) latheRef.current.rotation.x = t * 4; // Lathe chuck rotation
-    if (gearRef.current) gearRef.current.rotation.z = t * 2; // Swivel gear
+    
+    // CNC spindle cutter rotation
+    if (spindleRef.current) spindleRef.current.rotation.y = t * 6;
+    
+    // Hydraulic Press head vertical translation
+    if (pressRef.current) pressRef.current.position.y = 0.8 + Math.sin(t * 3.5) * 0.4 - explodeOffset * 0.5;
+    
+    // Lathe chuck rotation and tool post horizontal translation
+    if (latheRef.current) latheRef.current.rotation.x = t * 6;
+    if (toolPostRef.current) toolPostRef.current.position.x = 0.1 + Math.sin(t * 1.5) * 0.25;
+    
+    // Conveyor rollers rotation and item translations
+    if (rollerRef1.current) rollerRef1.current.rotation.x = t * 4;
+    if (rollerRef2.current) rollerRef2.current.rotation.x = t * 4;
+    if (conveyorItemsRef.current) {
+      conveyorItemsRef.current.children.forEach((child, idx) => {
+        const speed = 0.6;
+        const startX = -1.2 + idx * 0.8;
+        let currentX = startX + (t * speed) % 2.4;
+        if (currentX > 1.2) currentX -= 2.4;
+        child.position.x = currentX;
+      });
+    }
+
+    // Robot arm welding idle motion
+    if (robotRef.current) {
+      robotRef.current.rotation.y = Math.sin(t * 1.8) * 0.45;
+      robotRef.current.rotation.z = Math.cos(t * 1.2) * 0.15;
+    }
   });
 
   const isHealth = mode === "health";
@@ -326,201 +392,233 @@ function MachineInteractiveGeometry({
     emissiveIntensity: isAnomaly ? 1.0 : 0
   };
 
-  // 1. INDUSTRIAL ROBOT ARM
-  if (mType.includes("robot") || mType.includes("arm")) {
-    return (
-      <group>
-        <mesh position={[0, -0.4, 0]}>
-          <cylinderGeometry args={[1.0, 1.05, 0.25, 24]} />
-          <meshStandardMaterial {...baseMatProps} />
-        </mesh>
-        <mesh position={[0, 0.1 + explodeOffset * 0.3, 0]}>
-          <cylinderGeometry args={[0.42, 0.45, 0.7, 16]} />
-          <meshStandardMaterial {...baseMatProps} />
-        </mesh>
-        <mesh position={[0, 0.6 + explodeOffset * 0.6, 0.1]} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.22, 0.22, 0.35, 12]} />
-          <meshStandardMaterial {...jointMatProps} />
-        </mesh>
-        <mesh position={[0.2 * explodeOffset, 1.1 + explodeOffset * 0.9, 0.15 * explodeOffset]} rotation={[0, 0, -0.2]}>
-          <boxGeometry args={[0.22, 0.8, 0.22]} />
-          <meshStandardMaterial {...baseMatProps} />
-        </mesh>
-        <mesh position={[0.4 * explodeOffset, 1.55 + explodeOffset * 1.3, 0.3 * explodeOffset]}>
-          <sphereGeometry args={[0.18]} />
-          <meshStandardMaterial {...jointMatProps} />
-        </mesh>
-        <mesh position={[0.6 * explodeOffset, 1.85 + explodeOffset * 1.6, 0.4 * explodeOffset]} rotation={[0, 0, 0.3]}>
-          <boxGeometry args={[0.16, 0.7, 0.16]} />
-          <meshStandardMaterial {...baseMatProps} />
-        </mesh>
-        <group position={[0.2 - explodeOffset * 0.8, 2.2 + explodeOffset * 1.9, 0.1 - explodeOffset * 0.8]}>
-          <mesh>
-            <boxGeometry args={[0.3, 0.2, 0.3]} />
-            <meshStandardMaterial {...toolMatProps} />
+  // Render function helper based on type
+  const renderModelGeometry = () => {
+    // 1. ROBOTIC WELDER / ROBOT ARM
+    if (mType.includes("robot") || mType.includes("arm") || mType.includes("weld")) {
+      return (
+        <group ref={robotRef}>
+          <mesh position={[0, -0.4, 0]}>
+            <cylinderGeometry args={[1.0, 1.05, 0.25, 24]} />
+            <meshStandardMaterial {...baseMatProps} />
           </mesh>
-          <mesh position={[-0.1, 0.15, 0]}>
-            <boxGeometry args={[0.06, 0.12, 0.06]} />
-            <meshStandardMaterial {...toolMatProps} />
+          <mesh position={[0, 0.1 + explodeOffset * 0.3, 0]}>
+            <cylinderGeometry args={[0.42, 0.45, 0.7, 16]} />
+            <meshStandardMaterial {...baseMatProps} />
           </mesh>
-          <mesh position={[0.1, 0.15, 0]}>
-            <boxGeometry args={[0.06, 0.12, 0.06]} />
-            <meshStandardMaterial {...toolMatProps} />
+          <mesh position={[0, 0.6 + explodeOffset * 0.6, 0.1]} rotation={[Math.PI / 2, 0, 0]}>
+            <cylinderGeometry args={[0.22, 0.22, 0.35, 12]} />
+            <meshStandardMaterial {...jointMatProps} />
           </mesh>
-        </group>
-      </group>
-    );
-  }
-
-  // 2. CNC MACHINE
-  if (mType.includes("cnc") || mType.includes("mill") || mType.includes("machining")) {
-    return (
-      <group>
-        <mesh position={[0, -0.4, 0]}>
-          <boxGeometry args={[2.2, 0.3, 1.6]} />
-          <meshStandardMaterial {...baseMatProps} />
-        </mesh>
-        <mesh position={[-0.8 - explodeOffset * 0.4, 0.5, 0]}>
-          <boxGeometry args={[0.3, 1.4, 1.4]} />
-          <meshStandardMaterial {...baseMatProps} />
-        </mesh>
-        <mesh position={[0.1, -0.15 - explodeOffset * 0.3, 0]}>
-          <boxGeometry args={[1.3, 0.12, 1.0]} />
-          <meshStandardMaterial {...jointMatProps} />
-        </mesh>
-        <mesh position={[0.1, 0.05 - explodeOffset * 0.3, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.18, 0.18, 0.4, 16]} />
-          <meshStandardMaterial color="#BCCCDC" metalness={0.8} roughness={0.1} />
-        </mesh>
-        <mesh position={[0, 0.95 + explodeOffset * 0.6, 0]}>
-          <boxGeometry args={[0.5, 0.5, 0.5]} />
-          <meshStandardMaterial {...baseMatProps} />
-        </mesh>
-        <group position={[0, 0.58 + explodeOffset * 0.4, 0]} ref={spindleRef}>
-          <mesh>
-            <cylinderGeometry args={[0.12, 0.08, 0.25, 12]} />
-            <meshStandardMaterial {...toolMatProps} />
+          <mesh position={[0.2 * explodeOffset, 1.1 + explodeOffset * 0.9, 0.15 * explodeOffset]} rotation={[0, 0, -0.2]}>
+            <boxGeometry args={[0.22, 0.8, 0.22]} />
+            <meshStandardMaterial {...baseMatProps} />
           </mesh>
-          <mesh position={[0, -0.16, 0]}>
-            <cylinderGeometry args={[0.02, 0.06, 0.1, 8]} />
-            <meshStandardMaterial {...toolMatProps} />
+          <mesh position={[0.4 * explodeOffset, 1.55 + explodeOffset * 1.3, 0.3 * explodeOffset]}>
+            <sphereGeometry args={[0.18]} />
+            <meshStandardMaterial {...jointMatProps} />
           </mesh>
-        </group>
-      </group>
-    );
-  }
-
-  // 3. HYDRAULIC PRESS
-  if (mType.includes("press") || mType.includes("stamping")) {
-    return (
-      <group>
-        <mesh position={[0, -0.4, 0]}>
-          <boxGeometry args={[2.0, 0.35, 1.5]} />
-          <meshStandardMaterial {...baseMatProps} />
-        </mesh>
-        {[-0.8, 0.8].map((x, idx) => (
-          [-0.55, 0.55].map((z, jdx) => (
-            <mesh key={`${idx}-${jdx}`} position={[x + x * explodeOffset * 0.4, 0.4, z + z * explodeOffset * 0.4]}>
-              <cylinderGeometry args={[0.08, 0.08, 1.3, 12]} />
-              <meshStandardMaterial {...jointMatProps} />
+          <mesh position={[0.6 * explodeOffset, 1.85 + explodeOffset * 1.6, 0.4 * explodeOffset]} rotation={[0, 0, 0.3]}>
+            <boxGeometry args={[0.16, 0.7, 0.16]} />
+            <meshStandardMaterial {...baseMatProps} />
+          </mesh>
+          <group position={[0.2 - explodeOffset * 0.8, 2.2 + explodeOffset * 1.9, 0.1 - explodeOffset * 0.8]}>
+            <mesh>
+              <boxGeometry args={[0.3, 0.2, 0.3]} />
+              <meshStandardMaterial {...toolMatProps} />
             </mesh>
-          ))
-        ))}
-        <mesh position={[0, 1.15 + explodeOffset * 0.8, 0]}>
-          <boxGeometry args={[2.0, 0.35, 1.5]} />
-          <meshStandardMaterial {...baseMatProps} />
-        </mesh>
-        <mesh position={[0, 0.8 + explodeOffset * 0.6, 0]}>
-          <cylinderGeometry args={[0.35, 0.35, 0.45, 16]} />
-          <meshStandardMaterial {...baseMatProps} />
-        </mesh>
-        <group ref={pressRef}>
-          <mesh position={[0, 0.1, 0]}>
-            <boxGeometry args={[1.7, 0.18, 1.2]} />
+            <mesh position={[-0.1, 0.15, 0]}>
+              <boxGeometry args={[0.06, 0.12, 0.06]} />
+              <meshStandardMaterial {...toolMatProps} />
+            </mesh>
+            <mesh position={[0.1, 0.15, 0]}>
+              <boxGeometry args={[0.06, 0.12, 0.06]} />
+              <meshStandardMaterial {...toolMatProps} />
+            </mesh>
+          </group>
+        </group>
+      );
+    }
+
+    // 2. CNC MACHINE
+    if (mType.includes("cnc") || mType.includes("mill") || mType.includes("machining")) {
+      return (
+        <group>
+          <mesh position={[0, -0.4, 0]}>
+            <boxGeometry args={[2.2, 0.3, 1.6]} />
+            <meshStandardMaterial {...baseMatProps} />
+          </mesh>
+          <mesh position={[-0.8 - explodeOffset * 0.4, 0.5, 0]}>
+            <boxGeometry args={[0.3, 1.4, 1.4]} />
+            <meshStandardMaterial {...baseMatProps} />
+          </mesh>
+          <mesh position={[0.1, -0.15 - explodeOffset * 0.3, 0]}>
+            <boxGeometry args={[1.3, 0.12, 1.0]} />
+            <meshStandardMaterial {...jointMatProps} />
+          </mesh>
+          <mesh position={[0.1, 0.05 - explodeOffset * 0.3, 0]} rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.18, 0.18, 0.4, 16]} />
+            <meshStandardMaterial color="#BCCCDC" metalness={0.8} roughness={0.1} />
+          </mesh>
+          <mesh position={[0, 0.95 + explodeOffset * 0.6, 0]}>
+            <boxGeometry args={[0.5, 0.5, 0.5]} />
+            <meshStandardMaterial {...baseMatProps} />
+          </mesh>
+          <group position={[0, 0.58 + explodeOffset * 0.4, 0]} ref={spindleRef}>
+            <mesh>
+              <cylinderGeometry args={[0.12, 0.08, 0.25, 12]} />
+              <meshStandardMaterial {...toolMatProps} />
+            </mesh>
+            <mesh position={[0, -0.16, 0]}>
+              <cylinderGeometry args={[0.02, 0.06, 0.1, 8]} />
+              <meshStandardMaterial {...toolMatProps} />
+            </mesh>
+          </group>
+        </group>
+      );
+    }
+
+    // 3. HYDRAULIC PRESS
+    if (mType.includes("press") || mType.includes("stamping") || mType.includes("stamp")) {
+      return (
+        <group>
+          <mesh position={[0, -0.4, 0]}>
+            <boxGeometry args={[2.0, 0.35, 1.5]} />
+            <meshStandardMaterial {...baseMatProps} />
+          </mesh>
+          {[-0.8, 0.8].map((x, idx) => (
+            [-0.55, 0.55].map((z, jdx) => (
+              <mesh key={`${idx}-${jdx}`} position={[x + x * explodeOffset * 0.4, 0.4, z + z * explodeOffset * 0.4]}>
+                <cylinderGeometry args={[0.08, 0.08, 1.3, 12]} />
+                <meshStandardMaterial {...jointMatProps} />
+              </mesh>
+            ))
+          ))}
+          <mesh position={[0, 1.15 + explodeOffset * 0.8, 0]}>
+            <boxGeometry args={[2.0, 0.35, 1.5]} />
+            <meshStandardMaterial {...baseMatProps} />
+          </mesh>
+          <mesh position={[0, 0.8 + explodeOffset * 0.6, 0]}>
+            <cylinderGeometry args={[0.35, 0.35, 0.45, 16]} />
+            <meshStandardMaterial {...baseMatProps} />
+          </mesh>
+          <group ref={pressRef}>
+            <mesh position={[0, 0.1, 0]}>
+              <boxGeometry args={[1.7, 0.18, 1.2]} />
+              <meshStandardMaterial {...toolMatProps} />
+            </mesh>
+            <mesh position={[0, 0.4, 0]}>
+              <cylinderGeometry args={[0.15, 0.15, 0.5, 16]} />
+              <meshStandardMaterial color="#CBD5E1" metalness={0.9} roughness={0.1} />
+            </mesh>
+          </group>
+        </group>
+      );
+    }
+
+    // 4. CONVEYOR
+    if (mType.includes("conveyor") || mType.includes("belt") || mType.includes("feed")) {
+      return (
+        <group>
+          {/* Conveyor Bed */}
+          <mesh position={[0, -0.2, 0]}>
+            <boxGeometry args={[3.2, 0.25, 0.8]} />
+            <meshStandardMaterial {...baseMatProps} />
+          </mesh>
+          {/* Belt Top layer */}
+          <mesh position={[0, -0.06, 0]}>
+            <boxGeometry args={[3.0, 0.05, 0.76]} />
+            <meshStandardMaterial color="#1E293B" roughness={0.9} />
+          </mesh>
+          {/* Support Legs */}
+          {[-1.3, 0, 1.3].map((x, idx) => (
+            <group key={idx} position={[x, -0.65, 0]}>
+              <mesh position={[-0.2, 0, 0]}>
+                <cylinderGeometry args={[0.06, 0.06, 0.7, 12]} />
+                <meshStandardMaterial {...jointMatProps} />
+              </mesh>
+              <mesh position={[0.2, 0, 0]}>
+                <cylinderGeometry args={[0.06, 0.06, 0.7, 12]} />
+                <meshStandardMaterial {...jointMatProps} />
+              </mesh>
+            </group>
+          ))}
+          {/* Conveyor end rollers */}
+          <mesh position={[-1.55, -0.2, 0]} rotation={[Math.PI / 2, 0, 0]} ref={rollerRef1}>
+            <cylinderGeometry args={[0.13, 0.13, 0.78, 16]} />
             <meshStandardMaterial {...toolMatProps} />
           </mesh>
-          <mesh position={[0, 0.4, 0]}>
-            <cylinderGeometry args={[0.15, 0.15, 0.5, 16]} />
-            <meshStandardMaterial color="#CBD5E1" metalness={0.9} roughness={0.1} />
+          <mesh position={[1.55, -0.2, 0]} rotation={[Math.PI / 2, 0, 0]} ref={rollerRef2}>
+            <cylinderGeometry args={[0.13, 0.13, 0.78, 16]} />
+            <meshStandardMaterial {...toolMatProps} />
           </mesh>
+          {/* Conveyed payload objects moving */}
+          <group ref={conveyorItemsRef}>
+            <mesh position={[-1.0, 0.12, 0]}>
+              <boxGeometry args={[0.28, 0.28, 0.28]} />
+              <meshStandardMaterial color={systemColor} />
+            </mesh>
+            <mesh position={[0.0, 0.12, 0]}>
+              <boxGeometry args={[0.28, 0.28, 0.28]} />
+              <meshStandardMaterial color={systemColor} />
+            </mesh>
+            <mesh position={[1.0, 0.12, 0]}>
+              <boxGeometry args={[0.28, 0.28, 0.28]} />
+              <meshStandardMaterial color={systemColor} />
+            </mesh>
+          </group>
         </group>
-      </group>
-    );
-  }
+      );
+    }
 
-  // 4. AIR COMPRESSOR
-  if (mType.includes("compressor") || mType.includes("pump")) {
+    // 5. LATHE MACHINE (Explicit Lathe design and also default fallback)
     return (
       <group>
-        {[-0.6, 0.6].map((x) => (
-          <mesh key={x} position={[x, -0.48, 0]}>
-            <boxGeometry args={[0.2, 0.1, 1.1]} />
-            <meshStandardMaterial {...jointMatProps} />
-          </mesh>
-        ))}
-        <mesh position={[0, -0.15, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.65, 0.65, 1.8, 24]} />
+        <mesh position={[0, -0.45, 0]}>
+          <boxGeometry args={[2.5, 0.25, 0.9]} />
           <meshStandardMaterial {...baseMatProps} />
         </mesh>
-        <mesh position={[0.2, 0.65 + explodeOffset * 0.7, 0.1]}>
-          <boxGeometry args={[0.9, 0.45, 0.75]} />
+        <mesh position={[-0.9 - explodeOffset * 0.5, 0.05, 0]}>
+          <boxGeometry args={[0.7, 0.75, 0.8]} />
           <meshStandardMaterial {...baseMatProps} />
         </mesh>
-        {[-0.15, 0.15].map((x, idx) => (
-          <mesh key={idx} position={[0.2 + x, 0.45 + explodeOffset * 0.5, 0.1]}>
-            <cylinderGeometry args={[0.07, 0.07, 0.3]} />
-            <meshStandardMaterial {...jointMatProps} />
-          </mesh>
-        ))}
-        <group position={[-0.6 - explodeOffset * 0.6, 0.6 + explodeOffset * 0.3, 0.3]}>
-          <mesh rotation={[0, -Math.PI / 4, 0]}>
-            <cylinderGeometry args={[0.2, 0.2, 0.08, 16]} />
+        <group position={[-0.55 - explodeOffset * 0.3, 0.15, 0]} ref={latheRef}>
+          <mesh rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.28, 0.28, 0.16, 16]} />
             <meshStandardMaterial {...toolMatProps} />
           </mesh>
-          <mesh position={[0, 0, 0.05]} rotation={[0, 0, Math.PI / 3]}>
-            <boxGeometry args={[0.02, 0.15, 0.01]} />
-            <meshStandardMaterial color="#EF4444" />
+          <mesh position={[0.25, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.08, 0.08, 0.45, 12]} />
+            <meshStandardMaterial color="#CBD5E1" metalness={0.9} roughness={0.15} />
           </mesh>
         </group>
+        <group position={[0.1, -0.15, 0]} ref={toolPostRef}>
+          <mesh>
+            <boxGeometry args={[0.5, 0.35, 0.75]} />
+            <meshStandardMaterial {...jointMatProps} />
+          </mesh>
+          <mesh position={[0, 0.25, -0.15]}>
+            <boxGeometry args={[0.06, 0.18, 0.06]} />
+            <meshStandardMaterial {...toolMatProps} />
+          </mesh>
+        </group>
+        <mesh position={[0.95 + explodeOffset * 0.5, 0.0, 0]}>
+          <boxGeometry args={[0.45, 0.65, 0.6]} />
+          <meshStandardMaterial {...baseMatProps} />
+        </mesh>
       </group>
     );
-  }
+  };
 
-  // 5. LATHE MACHINE (Default fallback)
   return (
     <group>
-      <mesh position={[0, -0.4, 0]}>
-        <boxGeometry args={[2.4, 0.25, 0.9]} />
-        <meshStandardMaterial {...baseMatProps} />
+      {/* 3D Glowing Health Ring at the base of every model */}
+      <mesh position={[0, -0.68, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[1.35, 0.05, 8, 48]} />
+        <meshStandardMaterial color={systemColor} emissive={systemColor} emissiveIntensity={2.2} />
       </mesh>
-      <mesh position={[-0.9 - explodeOffset * 0.5, 0.1, 0]}>
-        <boxGeometry args={[0.6, 0.75, 0.8]} />
-        <meshStandardMaterial {...baseMatProps} />
-      </mesh>
-      <group position={[-0.55 - explodeOffset * 0.3, 0.2, 0]} ref={latheRef}>
-        <mesh rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.24, 0.24, 0.15, 16]} />
-          <meshStandardMaterial {...toolMatProps} />
-        </mesh>
-        <mesh position={[0.25, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.08, 0.08, 0.45, 12]} />
-          <meshStandardMaterial color="#CBD5E1" metalness={0.9} roughness={0.15} />
-        </mesh>
-      </group>
-      <group position={[0.1, -0.15, 0]}>
-        <mesh>
-          <boxGeometry args={[0.5, 0.25, 0.75]} />
-          <meshStandardMaterial {...jointMatProps} />
-        </mesh>
-        <mesh position={[0, 0.22, -0.15]}>
-          <boxGeometry args={[0.06, 0.18, 0.06]} />
-          <meshStandardMaterial {...toolMatProps} />
-        </mesh>
-      </group>
-      <mesh position={[0.9 + explodeOffset * 0.5, 0.05, 0]}>
-        <boxGeometry args={[0.4, 0.65, 0.6]} />
-        <meshStandardMaterial {...baseMatProps} />
-      </mesh>
+      
+      {renderModelGeometry()}
     </group>
   );
 }

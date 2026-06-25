@@ -35,16 +35,25 @@ class SimulationService:
             if "adjust_cycle_time" in params or "adjust_queue_length" in params or "adjust_defect_count" in params:
                 # 3. Production/Bottleneck simulation
                 results = self._simulate_production_scenario(db, params)
+            elif "simulate_failure" in params:
+                # 4. Failure propagation simulation
+                results = self._simulate_failure_scenario(db, params)
+            elif "schedule_maintenance" in params:
+                # 5. Maintenance scheduling simulation
+                results = self._simulate_maintenance_scheduling(db, params)
             else:
                 # 1. Machine speed/operational load simulation
                 results = self._simulate_machine_scenario(db, params)
+        elif "capacity_expansion" in params:
+            # 6. Capacity expansion simulation
+            results = self._simulate_capacity_expansion(db, params)
         elif "surface_area" in params or "glazing_area" in params:
             # 2. Building envelope energy efficiency simulation
             results = self._simulate_energy_scenario(db, params)
         else:
             raise ValueError(
-                "Unsupported simulation parameters. Include 'machine_id' with load/speed "
-                "or bottleneck adjustments, or building envelope variables for energy scenarios."
+                "Unsupported simulation parameters. Include 'machine_id' with load/speed, "
+                "failure simulation, maintenance scheduling, or building/capacity configurations."
             )
             
         # Log simulation to database
@@ -282,6 +291,118 @@ class SimulationService:
             "risk_delta": round(sim_pred["bottleneck_risk_score"] - base_pred["bottleneck_risk_score"], 2),
             "delay_delta": round(sim_pred["predicted_production_delay"] - base_pred["predicted_production_delay"], 2),
             "congestion_probability_delta": round(sim_pred["congestion_probability"] - base_pred["congestion_probability"], 4)
+        }
+
+    def _simulate_failure_scenario(self, db: Session, params: Dict[str, Any]) -> Dict[str, Any]:
+        """Runs what-if failure propagation simulation showing cascade bottlenecks"""
+        m_id = params.get("machine_id")
+        machine = db.query(Machine).filter(Machine.id == m_id).first()
+        if not machine:
+            raise ValueError(f"Target machine '{m_id}' not found.")
+            
+        from app.services.relationship_engine import relationship_engine
+        propagation = relationship_engine.simulate_failure_propagation(db, m_id)
+        
+        # Calculate OEE and delay impacts
+        oee_impact = propagation["failure_impact_analysis"]["overall_factory_oee_impact_pct"]
+        recovery_time = propagation["failure_impact_analysis"]["estimated_recovery_minutes"]
+        
+        return {
+            "target": f"Machine asset {m_id} Failure Impact",
+            "baseline": {
+                "machine_status": "Active",
+                "overall_factory_oee_pct": 92.4,
+                "downtime_minutes": 0.0,
+                "affected_nodes_count": 0,
+                "congestion_risk": "Nominal"
+            },
+            "simulated": {
+                "machine_status": "FAILED / OFFLINE",
+                "overall_factory_oee_pct": round(92.4 - oee_impact, 2),
+                "downtime_minutes": recovery_time,
+                "affected_nodes_count": len(propagation["affected_machines"]),
+                "congestion_risk": propagation["failure_impact_analysis"]["severity_level"]
+            },
+            "oee_delta": -round(oee_impact, 2),
+            "downtime_delta_minutes": recovery_time,
+            "details": propagation
+        }
+
+    def _simulate_capacity_expansion(self, db: Session, params: Dict[str, Any]) -> Dict[str, Any]:
+        """Simulates adding a machine cell in parallel to relieve bottleneck constraints"""
+        target_stage = params.get("target_stage", "M_004")
+        expansion_type = params.get("expansion_type", "CNC Mill parallel node")
+        
+        # Assume baseline queue length is high and causes a delay
+        baseline_queue = 8.5
+        baseline_cycle_time = 42.0
+        baseline_oee = 78.5
+        
+        # Adding a parallel asset halves cycle load and dramatically relieves queues
+        simulated_queue = 1.8
+        simulated_cycle_time = 24.5
+        simulated_oee = 87.2
+        
+        return {
+            "target": f"Stage {target_stage} Capacity Expansion",
+            "baseline": {
+                "queue_length_units": baseline_queue,
+                "average_cycle_time_seconds": baseline_cycle_time,
+                "overall_stage_oee_pct": baseline_oee,
+                "weekly_throughput_units": 15000
+            },
+            "simulated": {
+                "queue_length_units": simulated_queue,
+                "average_cycle_time_seconds": simulated_cycle_time,
+                "overall_stage_oee_pct": simulated_oee,
+                "weekly_throughput_units": 21500
+            },
+            "queue_reduction_units": -round(baseline_queue - simulated_queue, 1),
+            "throughput_increase_units": 6500,
+            "oee_gain_pct": round(simulated_oee - baseline_oee, 2)
+        }
+
+    def _simulate_maintenance_scheduling(self, db: Session, params: Dict[str, Any]) -> Dict[str, Any]:
+        """Simulates scheduling preventive maintenance now vs deferring it"""
+        m_id = params.get("machine_id")
+        machine = db.query(Machine).filter(Machine.id == m_id).first()
+        if not machine:
+            raise ValueError(f"Target machine '{m_id}' not found.")
+            
+        # Get machine current failure risk if exists
+        from app.database.models import HealthPrediction
+        last_hp = db.query(HealthPrediction).filter(HealthPrediction.machine_id == m_id).order_by(HealthPrediction.timestamp.desc()).first()
+        current_risk = last_hp.failure_risk if last_hp else 0.35
+        
+        # Deferred maintenance: failure risk escalates to breakdown hazard
+        deferred_risk = min(0.99, current_risk + 0.45)
+        deferred_downtime = 180.0  # catastrophic failure downtime
+        deferred_cost = 1250.0   # secondary damage cost
+        
+        # Scheduled maintenance: risk resets to nominal, planned cost/downtime
+        scheduled_risk = 0.02
+        scheduled_downtime = 45.0  # standard service window
+        scheduled_cost = 350.0   # standard cost
+        
+        return {
+            "target": f"Preventive Maintenance Schedule on {m_id}",
+            "baseline": {
+                "scenario_name": "Deferred Maintenance (Emergency Breakdown)",
+                "failure_risk_pct": round(deferred_risk * 100, 1),
+                "downtime_minutes": deferred_downtime,
+                "maintenance_cost_usd": deferred_cost,
+                "priority": "Critical"
+            },
+            "simulated": {
+                "scenario_name": "Scheduled Maintenance (Planned Prevention)",
+                "failure_risk_pct": round(scheduled_risk * 100, 1),
+                "downtime_minutes": scheduled_downtime,
+                "maintenance_cost_usd": scheduled_cost,
+                "priority": "Low"
+            },
+            "risk_reduction_pct": -round((deferred_risk - scheduled_risk) * 100, 1),
+            "downtime_saved_minutes": round(deferred_downtime - scheduled_downtime, 1),
+            "cost_savings_usd": round(deferred_cost - scheduled_cost, 2)
         }
 
 simulation_service = SimulationService()

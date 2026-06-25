@@ -35,6 +35,8 @@ from app.api.copilot import router as copilot_router
 from app.api.digital_twin import router as digital_twin_router
 from app.api.forecasting import router as forecasting_router
 from app.api.models_api import router as models_status_router
+from app.api.websocket import router as ws_router
+
 
 # Setup system logging
 setup_logging()
@@ -151,3 +153,4 @@ app.include_router(copilot_router, prefix=settings.API_V1_STR, tags=["AI Copilot
 app.include_router(digital_twin_router, prefix=settings.API_V1_STR, tags=["Digital Twin"])
 app.include_router(forecasting_router, prefix=settings.API_V1_STR, tags=["Time-Series Forecasting"])
 app.include_router(models_status_router, prefix=settings.API_V1_STR, tags=["Models Status Monitoring"])
+app.include_router(ws_router, prefix=settings.API_V1_STR, tags=["WebSocket Live Telemetry"])
